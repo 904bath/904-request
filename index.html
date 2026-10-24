@@ -1324,9 +1324,11 @@ body{overflow:auto!important;background:var(--bg)}
 :root[data-theme="dark"]{--bg:#121315;--surface:#1B1C1F;--surface2:#232428;--line:#34363B;--fg:#EEEEEA;--muted:#9C9EA3;--accent:#EEEEEA;--accent-fg:#141518;--ink:#EEEEEA;--grid:rgba(238,238,234,.06);color-scheme:dark}
 body{background-color:var(--bg);color:var(--fg);
   background-image:repeating-linear-gradient(45deg,transparent 0 46px,var(--grid) 46px 47.5px),repeating-linear-gradient(-45deg,transparent 0 46px,var(--grid) 46px 47.5px);background-attachment:fixed}
-.hero{position:relative;background:#FFFFFF;border-bottom:3px solid #141518;display:flex;flex-direction:column;
-  padding-top:env(safe-area-inset-top,0px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.hero-img{width:min(560px,100%);margin:0 auto;aspect-ratio:16/9;max-width:100%;max-height:300px;background:#FFFFFF url(hero.png) center/cover no-repeat;border-bottom:1.5px solid #141518}
+.hero{position:relative;background:#FFFFFF;border-bottom:3px solid #141518;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
+.hero-in{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.hero-img{width:100%;display:grid;place-items:center;background:#FFFFFF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cg stroke='%23141518' stroke-width='3' fill='none'%3E%3Cpath d='M0 0L240 240M240 0L0 240'/%3E%3Cpath stroke-dasharray='7 7' d='M120 0L240 120M0 120L120 240M120 0L0 120M240 120L120 240'/%3E%3C/g%3E%3C/svg%3E") center/240px 240px repeat;border-bottom:1.5px solid #141518;padding:clamp(18px,4vw,40px) 0}
+.hero-img img{width:min(620px,90%);height:auto;display:block}
+body{margin:0}
 .hero-in{position:relative;z-index:1;width:min(560px,100%);margin:0 auto;padding-block:16px 22px;display:grid;gap:8px;color:#141518}
 .hero-eyebrow{font:800 11px var(--brand);letter-spacing:.22em;color:#141518}
 .hero h1{margin:0;font:900 28px/1.2 var(--font);letter-spacing:-.02em;text-wrap:balance;color:#141518}
@@ -1382,9 +1384,8 @@ body{background-color:var(--bg);color:var(--fg);
 @media (prefers-reduced-motion:reduce){.opt{transition:none}}
 </style></head><body>
 <header class="hero" role="banner">
-  <div class="hero-img" role="img" aria-label="90.4 Bath Interior Design"></div>
+  <div class="hero-img"><img src="logo-t.png" alt="90.4 Bath Interior Design"></div>
   <div class="hero-in">
-    <h1>욕실 타일 견적 요청</h1>
     <p>시공할 곳과 공정을 순서대로 눌러 주세요.<br>보내면 904에 바로 도착하고, 단가를 넣어 견적서로 회신드려요.</p>
     <ol class="hero-steps"><li><b>1</b>업체 정보</li><li><b>2</b>구역·공정</li><li><b>3</b>기간·현장</li><li><b>4</b>보내기</li></ol>
   </div>
@@ -1817,6 +1818,7 @@ const SEND_TO = "https://formsubmit.co/ajax/904bath@gmail.com";
     return h.replace(/<div class="zsrow"><span class="zsl2">구역<\/span>[\s\S]*?<\/span><\/div>/, ""); };
   const _sum = sqSummary;
   sqSummary = function(k){ if (k === "etc" && D.proc.etc?.note) return esc(D.proc.etc.note); return lblText(_sum(k)).replace(/(^|· )(904에 맡김|직접 처리)/, "$1폐기물 $2").replace(/^(외주|우리)( · )?/, "").replace(/^업체가 해놓음/, "철거 해 둔 상태") || "기본"; }; }
+newSq = k => newProc(k); // 업체용: 돔 매립등 등 미리 체크된 값 없이 시작
 SQ_OPT.demo = [["폐기물", "one", ["904에 맡김", "직접 처리"]]]; // 업체가 보는 이름 (캘린더 값: 철거에 포함 / 따로)
 const WASTE = {"904에 맡김": "철거에 포함", "직접 처리": "따로"};
 SQ_NOTE.etc = ["기타 내용", "예: 욕실 문틀 교체, 실리콘 전체 재시공, 환풍기 위치 변경"]; // 기타는 직접 적기
