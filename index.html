@@ -2,7 +2,7 @@
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>904 견적 요청</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&family=Poppins:wght@600;800&display=swap">
 <style>
 :root{
   --font:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
@@ -1316,13 +1316,84 @@ body{overflow:auto!important;background:var(--bg)}
 .vdone h2{margin:0;font:800 20px var(--font)}
 .vdone p{margin:0;font:400 14px/1.6 var(--font);color:var(--muted)}
 #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:9}
+
+/* ===== 업체용 디자인: 흑백 로고 톤 · 마름모 격자 배경 · 굵은 외곽선 카드 ===== */
+:root{--bg:#F1F1EE;--surface:#FFFFFF;--surface2:#F6F6F3;--line:#D9D9D3;--fg:#141518;--muted:#6A6C70;--accent:#141518;--accent-fg:#FFFFFF;--ink:#141518;--sun:#D2452B;
+  --grid:rgba(20,21,24,.07);--brand:"Poppins","Noto Sans KR",system-ui,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#121315;--surface:#1B1C1F;--surface2:#232428;--line:#34363B;--fg:#EEEEEA;--muted:#9C9EA3;--accent:#EEEEEA;--accent-fg:#141518;--ink:#EEEEEA;--grid:rgba(238,238,234,.06);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121315;--surface:#1B1C1F;--surface2:#232428;--line:#34363B;--fg:#EEEEEA;--muted:#9C9EA3;--accent:#EEEEEA;--accent-fg:#141518;--ink:#EEEEEA;--grid:rgba(238,238,234,.06);color-scheme:dark}
+body{background-color:var(--bg);color:var(--fg);
+  background-image:repeating-linear-gradient(45deg,transparent 0 46px,var(--grid) 46px 47.5px),repeating-linear-gradient(-45deg,transparent 0 46px,var(--grid) 46px 47.5px);background-attachment:fixed}
+.hero{position:relative;background:#FFFFFF;border-bottom:3px solid #141518;display:flex;flex-direction:column;
+  padding-top:env(safe-area-inset-top,0px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.hero-img{width:min(560px,100%);margin:0 auto;aspect-ratio:16/9;max-width:100%;max-height:300px;background:#FFFFFF url(hero.png) center/cover no-repeat;border-bottom:1.5px solid #141518}
+.hero-in{position:relative;z-index:1;width:min(560px,100%);margin:0 auto;padding-block:16px 22px;display:grid;gap:8px;color:#141518}
+.hero-eyebrow{font:800 11px var(--brand);letter-spacing:.22em;color:#141518}
+.hero h1{margin:0;font:900 28px/1.2 var(--font);letter-spacing:-.02em;text-wrap:balance;color:#141518}
+.hero p{margin:0;font:500 14px/1.6 var(--font);color:#3B3D42}
+.hero-steps{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.hero-steps li{display:flex;align-items:center;gap:6px;font:700 12px var(--font);color:#141518;background:#FFFFFF;border:1.5px solid #141518;border-radius:999px;padding:4px 10px 4px 4px}
+.hero-steps b{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#141518;color:#FFFFFF;font:800 11px var(--brand)}
+#dlg{background:transparent!important;border:0!important;margin:0 auto!important;width:min(560px,100%)}
+.dl-b{padding:22px max(16px,env(safe-area-inset-right,0px)) 130px max(16px,env(safe-area-inset-left,0px))!important;gap:18px}
+@media (min-width:600px){.dl-b{padding-left:0!important;padding-right:0!important}}
+#dForm{display:flex;flex-direction:column;gap:18px;counter-reset:sec}
+.fold-open{counter-increment:sec;background:var(--surface);border:1.5px solid var(--ink)!important;border-radius:16px;padding:16px 14px 14px;box-shadow:4px 4px 0 var(--ink);gap:14px}
+.fold-open>.fld{font:800 17px/1.3 var(--font);color:var(--fg);letter-spacing:-.01em;gap:10px}
+.fold-open>.fld::before{content:counter(sec,decimal-leading-zero);display:block;font:800 11px var(--brand);letter-spacing:.18em;color:var(--muted);margin-bottom:-6px}
+.fold-open>.fld .hint{font:500 12px var(--font);color:var(--muted);letter-spacing:0}
+.fold-open .fld .fld{font:600 12.5px var(--font)}
+.fold{background:var(--surface);border:1.5px solid var(--ink);border-radius:14px;box-shadow:3px 3px 0 var(--ink)}
+.fold .fe{color:var(--fg);text-decoration:underline}
+.sitebox{background:var(--surface2);border-color:var(--line);border-radius:12px}
+.sitebox input,.fold-open textarea,#fZone{border:1.5px solid var(--line)!important;border-radius:10px;background:var(--surface)!important;color:var(--fg);font:500 15px var(--font);padding:11px 12px}
+.sitebox input:focus,.fold-open textarea:focus,#fZone:focus{border-color:var(--ink)!important;outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--ink) 14%,transparent)}
+.slh{font:700 12.5px var(--font);color:var(--fg)}
+.opt{border:1.5px solid var(--line);background:var(--surface);color:var(--fg);font:600 13px var(--font);padding:7px 13px;transition:border-color .12s,background .12s,transform .08s}
+.opt:hover{border-color:var(--ink)}
+.opt:active{transform:translateY(1px)}
+.opt[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--accent-fg);font-weight:700}
+.opt.addchip{border-style:dashed}
+.zscard{background:var(--surface2);border:1.5px solid var(--line);border-radius:12px}
+.zscard>b{font:800 15px var(--font)}
+.sqcard{border:2px solid var(--ink);border-radius:14px;background:var(--surface)}
+.sqh b{font:800 16px var(--font)}
+.sqdone{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px}
+.sqdone .fe{color:var(--fg);text-decoration:underline}
+.sqn{background:var(--ink);color:var(--accent-fg);border-color:var(--ink)}
+.mcal{border:1.5px solid var(--line);border-radius:14px}
+.mc.in{background:color-mix(in srgb,var(--ink) 10%,transparent)}
+.mc.s,.mc.e{background:var(--ink);color:var(--accent-fg)!important}
+.seg{border:1.5px solid var(--ink);border-radius:10px}
+.seg button{font:600 13px var(--font);padding:8px 14px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--accent-fg)}
+.btn{background:var(--ink);color:var(--accent-fg);border-radius:12px;font:800 15px var(--font)}
+.btn.sm{font-size:13px;border-radius:10px}
+.btn.ghost{background:var(--surface);color:var(--fg);border:1.5px solid var(--ink)}
+.req{color:var(--sun)}
+.vnote{margin:0;font:500 12.5px/1.6 var(--font);color:var(--muted);text-align:center}
+.vbar{background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1.5px solid var(--ink)}
+.vbar .in span{font:600 12.5px/1.4 var(--font)}
+#vSend{height:48px;padding:0 22px;box-shadow:3px 3px 0 color-mix(in srgb,var(--ink) 35%,transparent)}
+.vdone{background:var(--surface);border:1.5px solid var(--ink);border-radius:18px;box-shadow:5px 5px 0 var(--ink);margin:28px max(16px,env(safe-area-inset-left,0px)) 40px;max-width:520px}
+@media (min-width:560px){.vdone{margin:28px auto 40px}}
+.vdone-logo{width:150px;height:auto;margin:0 auto;display:block}
+.vdone h2{font:900 22px var(--font)}
+@media (prefers-reduced-motion:reduce){.opt{transition:none}}
 </style></head><body>
+<header class="hero" role="banner">
+  <div class="hero-img" role="img" aria-label="90.4 Bath Interior Design"></div>
+  <div class="hero-in">
+    <h1>욕실 타일 견적 요청</h1>
+    <p>시공할 곳과 공정을 순서대로 눌러 주세요.<br>보내면 904에 바로 도착하고, 단가를 넣어 견적서로 회신드려요.</p>
+    <ol class="hero-steps"><li><b>1</b>업체 정보</li><li><b>2</b>구역·공정</li><li><b>3</b>기간·현장</li><li><b>4</b>보내기</li></ol>
+  </div>
+</header>
 <div id="dlg">
-  <div class="dl-h"><span class="brand"><img src="logo.png" alt="90.4"><b>견적 요청</b></span><span class="hint">904 · 욕실 타일</span></div>
-  <div class="dl-b"><p class="vintro">904 캘린더에서 쓰는 것과 같은 칸이에요. 시공할 곳과 공정을 눌러 고르고 아래 <b>견적 요청 보내기</b>를 누르면 904로 바로 전달돼요. 현장 사진은 카톡으로 따로 보내 주세요.</p>
-  <form id="dForm" style="display:flex;flex-direction:column;gap:16px" onsubmit="return false"></form></div>
+  <div class="dl-b"><form id="dForm" onsubmit="return false"></form>
+  <p class="vnote">현장 사진이나 도면은 카톡으로 따로 보내 주시면 더 정확하게 견적드릴 수 있어요.</p></div>
 </div>
-<div class="vdone" id="done" hidden><h2>견적 요청을 보냈어요</h2><p>904에서 확인하고 적어 주신 연락처로 견적서를 보내 드릴게요.</p><div><button type="button" class="btn ghost" id="again">다른 현장 요청하기</button></div></div>
+<div class="vdone" id="done" hidden><img src="logo.png" alt="" class="vdone-logo"><h2>견적 요청을 보냈어요</h2><p>904에서 확인하고 적어 주신 연락처로 견적서를 보내 드릴게요.</p><div><button type="button" class="btn ghost" id="again">다른 현장 요청하기</button></div></div>
 <div class="vbar"><div class="in"><span id="vMiss"></span><button type="button" class="btn" id="vSend">견적 요청 보내기</button></div></div>
 <div class="toast" id="toast" hidden></div>
 <script>
@@ -1378,7 +1449,7 @@ const ZS_DEMO = ["올철거", "벽만 철거", "바닥만 철거", "욕조 자�
 // 300각 = 바닥용, 300×600 = 벽용 · 욕실·주방은 벽 타일 + 모자이크, 베란다·현관·세탁실은 바닥 타일
 const zsSizes = r => /주방/.test(r) ? ["300×600", "600각", "800각", "600×1200", "모자이크", "기타"] : isBathRoom(r) ? ["300×600", "600각", "600×1200", "모자이크", "기타"]
   : /베란다|현관|세탁실/.test(r) ? ["300각", "600각", "600×1200", "기타"] : ["300각", "300×600", "600각", "600×1200", "모자이크", "기타"];
-const ZS_METHOD = ["에폭시", "본드", "드라이", "떠발이"];
+const ZS_METHOD = ["에폭시", "본드", "드라이"];
 // 600각·600×1200은 벽(욕실·주방) 시공 때 무거워서 본드·떠발이 안 됨
 const zsWall = r => isBathRoom(r) || /주방/.test(r);
 const zsFloor = r => /베란다|현관|세탁실/.test(r); // 바닥: 공법 없음
@@ -1492,7 +1563,7 @@ function areaHTML(ro){
   const dis = ro ? "disabled" : ""; const R = D.rooms || [];
   const Z = zonesFor(); const all = [...Z, ...R.filter(r => !Z.includes(r))];
   return `<div class="fld">시공 구역 <span class="hint">${R.length ? `${R.length}곳 · 누르면 빼거나 넣어요` : "시공할 곳을 모두 눌러 주세요"}</span>
-    <div class="clirow">${all.map(z => { const on = R.includes(z); return `<button type="button" class="opt cli" data-zone="${esc(z)}" aria-pressed="${on}" ${dis}>${on ? "✓ " : ""}${esc(z)}</button>`; }).join("")}${ro || D._zoneAdd ? "" : `<button type="button" class="opt cli addchip" data-zoneopen="1">+ 추가</button>`}</div>
+    <div class="clirow">${all.map(z => { const on = R.includes(z); return `<button type="button" class="opt cli" data-zone="${esc(z)}" aria-pressed="${on}" ${dis}>${on ? "✓ " : ""}${esc(z)}</button>`; }).join("")}${ro || Z.every(z => R.includes(z)) ? "" : `<button type="button" class="opt cli addchip" data-zoneall="1">전체 시공</button>`}${ro || D._zoneAdd ? "" : `<button type="button" class="opt cli addchip" data-zoneopen="1">+ 추가</button>`}</div>
     ${scopeHTML(ro)}
     ${bathOwner(effColor()) ? "" : zoneSpecHTML(ro)}
     ${ro || !D._zoneAdd ? "" : `<span class="row" style="flex-wrap:nowrap"><input id="fZone" placeholder="다른 구역 (예: 드레스룸, 공용욕실)" autocomplete="off" style="flex:1;min-width:0"><button type="button" class="btn ghost sm" data-zoneadd="1">추가</button></span>`}</div>`;
@@ -1742,10 +1813,19 @@ const SEND_TO = "https://formsubmit.co/ajax/904bath@gmail.com";
   sqStepHTML = function(k, i, ro){ let h = _step(k, i, ro);
     h = h.replace(/<div class="zsrow"><span class="zsl2">누가<\/span><span class="zsopts">[\s\S]*?<\/span><\/div>/, () => {
       if (k !== "demo") return ""; const cl = !!D.proc.demo?.opt?.업체철거;
-      return `<div class="zsrow"><span class="zsl2">철거</span><span class="zsopts"><button type="button" class="opt" data-sqby="demo|out" aria-pressed="${!cl}">${!cl ? "✓ " : ""}904에 맡김</button><button type="button" class="opt" data-sqby="demo|client" aria-pressed="${cl}">${cl ? "✓ " : ""}이미 철거해 둠</button></span></div>`; });
+      return `<div class="zsrow"><span class="zsl2">철거</span><span class="zsopts"><button type="button" class="opt" data-sqby="demo|out" aria-pressed="${!cl}">${!cl ? "✓ " : ""}철거해야 함</button><button type="button" class="opt" data-sqby="demo|client" aria-pressed="${cl}">${cl ? "✓ " : ""}철거 해 둔 상태</button></span></div>`; });
     return h.replace(/<div class="zsrow"><span class="zsl2">구역<\/span>[\s\S]*?<\/span><\/div>/, ""); };
   const _sum = sqSummary;
-  sqSummary = function(k){ return _sum(k).replace(/^(외주|우리)( · )?/, "").replace(/^업체가 해놓음/, "이미 철거해 둠") || "기본"; }; }
+  sqSummary = function(k){ if (k === "etc" && D.proc.etc?.note) return esc(D.proc.etc.note); return lblText(_sum(k)).replace(/(^|· )(904에 맡김|직접 처리)/, "$1폐기물 $2").replace(/^(외주|우리)( · )?/, "").replace(/^업체가 해놓음/, "철거 해 둔 상태") || "기본"; }; }
+SQ_OPT.demo = [["폐기물", "one", ["904에 맡김", "직접 처리"]]]; // 업체가 보는 이름 (캘린더 값: 철거에 포함 / 따로)
+const WASTE = {"904에 맡김": "철거에 포함", "직접 처리": "따로"};
+SQ_NOTE.etc = ["기타 내용", "예: 욕실 문틀 교체, 실리콘 전체 재시공, 환풍기 위치 변경"]; // 기타는 직접 적기
+// 조적·폼 이름: 업체가 보기 쉽게 (저장 값은 캘린더와 같음)
+const LBL = {"하프 조적": "조적 (하프)", "풀 조적": "조적 (풀)", "하프 폼": "폼세라믹 (하프)", "풀 폼": "폼세라믹 (풀)"};
+const LBL2 = {"하프 조적": "조적 하프", "풀 조적": "조적 풀", "하프 폼": "폼세라믹 하프", "풀 폼": "폼세라믹 풀"};
+const lblText = s => String(s).replace(/하프 조적|풀 조적|하프 폼|풀 폼/g, m => LBL2[m]);
+{ const _o = zsOptsHTML; zsOptsHTML = function(r, ro){ return _o(r, ro).replace(/(data-zsv="[^"]*"[^>]*>(?:✓ )?)(하프 조적|풀 조적|하프 폼|풀 폼)</g, (m, a, b) => a + LBL[b] + "<"); };
+  const _fa = foldArea; foldArea = function(){ return lblText(_fa()); }; }
 foldProc = function(){ const ks = sqSel(); return ks.length ? ks.map(k => esc(KIND_LABEL[k])).join(" · ") : `<span class="mut">공정 없음</span>`; };
 const matOf = e => ({by: e.mat?.by === "ours" ? "ours" : "client", note: e.mat?.note || ""});
 
@@ -1783,7 +1863,7 @@ function renderDlg(){
     ${fold("proc", "공정", foldProc(), () => seqHTML(false))}
     ${fold("date", "기간", foldDate(), () => miniCalHTML(false), !!D._dateSet)}
     ${fold("site", "현장 정보", foldSite(), siteHTMLV, false)}
-    ${fold("memo", "요청사항", D.memo ? esc(String(D.memo).replace(/\s+/g, " ").slice(0, 40)) : "없음", () => `<label class="fld">요청사항<textarea id="fMemo" placeholder="예: 엘리베이터 9~17시만 사용 가능 · 현장 사진은 카톡으로 보낼게요">${esc(D.memo || "")}</textarea></label>`, false)}`;
+    ${fold("memo", "특이사항", D.memo ? esc(String(D.memo).replace(/\s+/g, " ").slice(0, 40)) : "없음", () => `<label class="fld">특이사항<textarea id="fMemo" placeholder="예) 부분공사라 사람이 살고 있어요">${esc(D.memo || "")}</textarea></label>`, false)}`;
   const m = missing(); $("#vMiss").textContent = m.length ? `아직 비어 있어요: ${m.join(", ")}` : "다 적었어요. 아래 버튼을 눌러 보내 주세요";
 }
 function missing(){ const m = []; if (!D.company) m.push("업체명"); if (!D.phone) m.push("연락처"); if (!(D.rooms || []).length) m.push("시공 구역"); if (!D.addr) m.push("주소"); return m; }
@@ -1806,6 +1886,7 @@ document.addEventListener("click", ev => {
     else if (n === "졸리컷"){ const a = Array.isArray(o.졸리컷) ? o.졸리컷 : []; o.졸리컷 = a.includes(v) ? a.filter(s => s !== v) : [...a, v]; }
     else o[n] = o[n] === v ? true : v;
     zsNorm(r, x); renderDlg(); return; }
+  if (d.zoneall){ readForm(); D.rooms = [...new Set([...(D.rooms || []), ...zonesFor()])]; renderDlg(); return; }
   if (d.zoneopen){ readForm(); D._zoneAdd = true; renderDlg(); setTimeout(() => $("#fZone")?.focus(), 30); return; }
   if (d.zone || d.zoneadd){ if (d.zoneadd) D._zoneAdd = false; readForm(); const n = (d.zone || $("#fZone")?.value || "").trim(); if (!n){ $("#fZone")?.focus(); return; }
     if (d.zone && (D.rooms || []).includes(n)){ D.rooms = D.rooms.filter(x => x !== n);
@@ -1832,13 +1913,13 @@ function buildText(){
   L.push(`업체: ${[D.company, D.person, D.phone].filter(Boolean).join(" · ")}`);
   L.push(`현장: ${D.addr || ""}`); L.push(`비번: ${D.nopw ? "없음" : D.pw || "-"}`);
   L.push(`기간: ${md(D.start)}(${WD[wdOf(D.start)]})${e !== D.start ? ` ~ ${md(e)}(${WD[wdOf(e)]}) · ${diff(D.start, e) + 1}일` : " 하루"}${D._dateSet ? "" : " (아직 안 정함)"}`);
-  L.push(""); L.push("시공 구역"); for (const r of D.rooms || []){ const t = zsText(r); L.push(`■ ${r}${t ? ": " + t : ""}`); }
-  const ks = sqSel(); if (ks.length){ L.push(""); L.push("공정"); ks.forEach((k, i) => { L.push(`${i + 1}. ${KIND_LABEL[k]}: ${plain(sqSummary(k))}`); const n = D.proc[k].note; if (n) L.push(`   메모: ${n}`); }); }
+  L.push(""); L.push("시공 구역"); for (const r of D.rooms || []){ const t = lblText(zsText(r)); L.push(`■ ${r}${t ? ": " + t : ""}`); }
+  const ks = sqSel(); if (ks.length){ L.push(""); L.push("공정"); ks.forEach((k, i) => { L.push(`${i + 1}. ${KIND_LABEL[k]}: ${plain(sqSummary(k))}`); const n = D.proc[k].note; if (n && k !== "etc") L.push(`   메모: ${n}`); }); }
   const mt = matOf(D); L.push(""); L.push(`자재: ${mt.by === "ours" ? "904가 준비" + (mt.note ? ` (${mt.note})` : "") : "업체가 준비"}`);
-  if (D.memo) L.push(`요청사항: ${D.memo}`);
+  if (D.memo) L.push(`특이사항: ${D.memo}`);
   return L.join("\n");
 }
-function payload(){ const proc = {}; for (const k of sqSel()){ const p = D.proc[k]; proc[k] = {by: p.by, opt: p.opt || {}, rooms: p.rooms || [], note: p.note || "", coats: p.coats, meji: p.meji}; }
+function payload(){ const proc = {}; for (const k of sqSel()){ const p = D.proc[k]; proc[k] = {by: p.by, opt: {...(p.opt || {})}, rooms: p.rooms || [], note: p.note || "", coats: p.coats, meji: p.meji}; if (proc[k].opt.폐기물) proc[k].opt.폐기물 = WASTE[proc[k].opt.폐기물] || proc[k].opt.폐기물; }
   return {v: 2, company: D.company, person: D.person, phone: D.phone, addr: D.addr, pw: D.pw, nopw: !!D.nopw, mat: matOf(D), memo: D.memo || "",
     start: D._dateSet ? D.start : "", end: D._dateSet ? evEnd(D) : "", rooms: D.rooms || [], zoneSpec: Object.fromEntries((D.rooms || []).map(r => [r, zsClean(r, (D.zoneSpec || {})[r])])), proc}; }
 let sending = false;
