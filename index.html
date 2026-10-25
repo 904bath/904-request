@@ -1382,6 +1382,8 @@ body{margin:0}
 .vdone-logo{width:150px;height:auto;margin:0 auto;display:block}
 .vdone h2{font:900 22px var(--font)}
 @media (prefers-reduced-motion:reduce){.opt{transition:none}}
+.cosaved{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.cosaved b{font:700 15px var(--font)}.cosaved span{flex:1;min-width:0;color:var(--muted);font-size:13px}
+.conote{margin:0;font:400 12.5px/1.5 var(--font);color:var(--muted)}.conote b{color:var(--fg)}
 </style></head><body>
 <header class="hero" role="banner">
   <div class="hero-img"><img src="logo-t.png" alt="90.4 Bath Interior Design"></div>
@@ -1394,7 +1396,7 @@ body{margin:0}
   <div class="dl-b"><form id="dForm" onsubmit="return false"></form>
   <p class="vnote">현장 사진이나 도면은 카톡으로 따로 보내 주시면 더 정확하게 견적드릴 수 있어요.</p></div>
 </div>
-<div class="vdone" id="done" hidden><img src="logo.png" alt="" class="vdone-logo"><h2>견적 요청을 보냈어요</h2><p>904에서 확인하고 적어 주신 연락처로 견적서를 보내 드릴게요.</p><div><button type="button" class="btn ghost" id="again">다른 현장 요청하기</button></div></div>
+<div class="vdone" id="done" hidden><img src="logo.png" alt="" class="vdone-logo"><h2>견적 요청을 보냈어요</h2><p>904에서 확인하고 견적서를 보내 드릴게요. 업체 정보는 이 기기에 기억해 둬서 다음엔 다시 안 적으셔도 돼요.</p><div><button type="button" class="btn ghost" id="again">다른 현장 요청하기</button></div></div>
 <div class="vbar"><div class="in"><span id="vMiss"></span><button type="button" class="btn" id="vSend">견적 요청 보내기</button></div></div>
 <div class="toast" id="toast" hidden></div>
 <script>
@@ -1840,18 +1842,28 @@ function siteHTMLV(){
       ${mt.by === "ours" ? `<input id="fMatNote" value="${esc(mt.note)}" placeholder="원하시는 자재 (예: 300×600 무광 화이트)">` : ""}</div>
   </div></div>`;
 }
+// 업체 정보는 처음 한 번만: 보낸 뒤 이 기기에 기억해 두고, 다음부터는 업체명만 확인
+const COKEY = "904.co";
+function coSaved(){ try { return JSON.parse(localStorage.getItem(COKEY) || "null"); } catch(_){ return null; } }
+function coRemember(){ try { localStorage.setItem(COKEY, JSON.stringify({company: D.company, person: D.person, phone: D.phone, email: D.email || ""})); } catch(_){} }
 function coHTML(){
+  const sv = coSaved(), same = sv && sv.company === D.company && !D._coEdit;
+  if (same) return `<div class="fld">요청 업체<div class="sitebox">
+    <div class="cosaved"><b>${esc(D.company)}</b><span>${esc([D.person, D.phone, D.email].filter(Boolean).join(" · ") || "연락처는 지난번에 받았어요")}</span><button type="button" class="lnk" data-coedit="1">바꾸기</button></div></div></div>`;
   return `<div class="fld">요청 업체<div class="sitebox">
     <label class="sl"><span class="slh">업체명 <b class="req">필수</b></span><input id="fCo" value="${esc(D.company || "")}" placeholder="예: 한빛인테리어" autocomplete="organization"></label>
+    <p class="conote">연락처·메일은 <b>처음 한 번만</b> 적어 주시면 돼요. 이미 904와 거래 중이면 비워 두셔도 돼요.</p>
     <div class="row" style="flex-wrap:nowrap;gap:8px"><label class="sl" style="flex:1;min-width:0"><span class="slh">담당자</span><input id="fPerson" value="${esc(D.person || "")}" placeholder="예: 김실장" autocomplete="name"></label>
-      <label class="sl" style="flex:1.3;min-width:0"><span class="slh">연락처 <b class="req">필수</b></span><input id="fPhone" value="${esc(D.phone || "")}" placeholder="010-0000-0000" inputmode="tel" autocomplete="tel"></label></div>
+      <label class="sl" style="flex:1.3;min-width:0"><span class="slh">연락처</span><input id="fPhone" value="${esc(D.phone || "")}" placeholder="010-0000-0000" inputmode="tel" autocomplete="tel"></label></div>
+    <label class="sl"><span class="slh">메일 <small class="hint">견적서를 메일로 보내 드려요</small></span><input id="fEmail" type="email" value="${esc(D.email || "")}" placeholder="name@example.com" inputmode="email" autocomplete="email"></label>
   </div></div>`;
 }
+document.addEventListener("click", e => { const t = e.target.closest("[data-coedit]"); if (!t) return; readForm(); D._coEdit = true; (D._open = D._open || new Set()).add("co"); saveDraft(); renderDlg(); });
 const foldCo = () => `${D.company ? esc(D.company) : `<span class="ng">업체명 없음</span>`}${D.phone ? " · " + esc(D.phone) : ""}`;
 
 function readForm(){
   const v = id => $("#" + id)?.value.trim();
-  if ($("#fCo")) D.company = v("fCo"); if ($("#fPerson")) D.person = v("fPerson"); if ($("#fPhone")) D.phone = v("fPhone");
+  if ($("#fCo")) D.company = v("fCo"); if ($("#fPerson")) D.person = v("fPerson"); if ($("#fPhone")) D.phone = v("fPhone"); if ($("#fEmail")) D.email = v("fEmail");
   if ($("#fAddr")) D.addr = v("fAddr"); if ($("#fPw")) D.pw = v("fPw");
   if ($("#fMatNote")) D.mat = {...matOf(D), note: v("fMatNote")};
   if ($("#fMemo")) D.memo = $("#fMemo").value;
@@ -1860,7 +1872,7 @@ function readForm(){
 }
 function renderDlg(){
   $("#dForm").innerHTML = `
-    ${fold("co", "요청 업체", foldCo(), coHTML, false)}
+    ${fold("co", "요청 업체", foldCo(), coHTML, !!(D.company && coSaved()?.company === D.company))}
     ${fold("area", "시공 구역", foldArea(), () => areaHTML(false))}
     ${fold("proc", "공정", foldProc(), () => seqHTML(false))}
     ${fold("date", "기간", foldDate(), () => miniCalHTML(false), !!D._dateSet)}
@@ -1868,7 +1880,7 @@ function renderDlg(){
     ${fold("memo", "특이사항", D.memo ? esc(String(D.memo).replace(/\s+/g, " ").slice(0, 40)) : "없음", () => `<label class="fld">특이사항<textarea id="fMemo" placeholder="예) 부분공사라 사람이 살고 있어요">${esc(D.memo || "")}</textarea></label>`, false)}`;
   const m = missing(); $("#vMiss").textContent = m.length ? `아직 비어 있어요: ${m.join(", ")}` : "다 적었어요. 아래 버튼을 눌러 보내 주세요";
 }
-function missing(){ const m = []; if (!D.company) m.push("업체명"); if (!D.phone) m.push("연락처"); if (!(D.rooms || []).length) m.push("시공 구역"); if (!D.addr) m.push("주소"); return m; }
+function missing(){ const m = []; if (!D.company) m.push("업체명"); if (!(D.rooms || []).length) m.push("시공 구역"); if (!D.addr) m.push("주소"); return m; }
 
 /* 구역 고르기 (캘린더 새 일정 창과 같은 동작) */
 document.addEventListener("click", ev => {
@@ -1905,14 +1917,14 @@ document.addEventListener("input", ev => { if (ev.target.closest("#dlg") && D){ 
 /* 임시 저장 (이 기기만) */
 const DKEY = "904req.v2";
 function saveDraft(){ try { const {_open, _sqDone, ...rest} = D; localStorage.setItem(DKEY, JSON.stringify({...rest, _open: [..._open || []], _sqDone: [...(_sqDone || [])]})); } catch(_){} }
-function blankD(){ const k = todayK(); return {start: k, end: k, off: [], rooms: [], zoneSpec: {}, proc: {}, plan: {}, _open: new Set(), company: "", person: "", phone: "", addr: "", pw: "", nopw: false, mat: {by: "client", note: ""}, memo: ""}; }
+function blankD(){ const k = todayK(); return {start: k, end: k, off: [], rooms: [], zoneSpec: {}, proc: {}, plan: {}, _open: new Set(), ...(() => { const c = coSaved() || {}; return {company: c.company || "", person: c.person || "", phone: c.phone || "", email: c.email || ""}; })(), addr: "", pw: "", nopw: false, mat: {by: "client", note: ""}, memo: ""}; }
 function loadD(){ try { const x = JSON.parse(localStorage.getItem(DKEY) || "null"); if (x && x.rooms){ x._open = new Set(x._open || []); x._sqDone = new Set(x._sqDone || []); x.off = x.off || []; x.plan = x.plan || {}; return x; } } catch(_){} return blankD(); }
 
 /* 보내기 */
 const plain = h => { const e = document.createElement("div"); e.innerHTML = h; return e.textContent.replace(/\s+/g, " ").trim(); };
 function buildText(){
   const L = ["[904 타일 견적 요청]"], e = evEnd(D);
-  L.push(`업체: ${[D.company, D.person, D.phone].filter(Boolean).join(" · ")}`);
+  L.push(`업체: ${[D.company, D.person, D.phone, D.email].filter(Boolean).join(" · ")}`);
   L.push(`현장: ${D.addr || ""}`); L.push(`비번: ${D.nopw ? "없음" : D.pw || "-"}`);
   L.push(`기간: ${md(D.start)}(${WD[wdOf(D.start)]})${e !== D.start ? ` ~ ${md(e)}(${WD[wdOf(e)]}) · ${diff(D.start, e) + 1}일` : " 하루"}${D._dateSet ? "" : " (아직 안 정함)"}`);
   L.push(""); L.push("시공 구역"); for (const r of D.rooms || []){ const t = lblText(zsText(r)); L.push(`■ ${r}${t ? ": " + t : ""}`); }
@@ -1922,7 +1934,7 @@ function buildText(){
   return L.join("\n");
 }
 function payload(){ const proc = {}; for (const k of sqSel()){ const p = D.proc[k]; proc[k] = {by: p.by, opt: {...(p.opt || {})}, rooms: p.rooms || [], note: p.note || "", coats: p.coats, meji: p.meji}; if (proc[k].opt.폐기물) proc[k].opt.폐기물 = WASTE[proc[k].opt.폐기물] || proc[k].opt.폐기물; }
-  return {v: 2, company: D.company, person: D.person, phone: D.phone, addr: D.addr, pw: D.pw, nopw: !!D.nopw, mat: matOf(D), memo: D.memo || "",
+  return {v: 2, company: D.company, person: D.person, phone: D.phone, email: D.email || "", addr: D.addr, pw: D.pw, nopw: !!D.nopw, mat: matOf(D), memo: D.memo || "",
     start: D._dateSet ? D.start : "", end: D._dateSet ? evEnd(D) : "", rooms: D.rooms || [], zoneSpec: Object.fromEntries((D.rooms || []).map(r => [r, zsClean(r, (D.zoneSpec || {})[r])])), proc}; }
 let sending = false;
 async function send(){
@@ -1930,9 +1942,9 @@ async function send(){
   if (sending) return; sending = true; const b = $("#vSend"); b.disabled = true; b.textContent = "보내는 중…";
   try {
     const r = await fetch(SEND_TO, {method: "POST", headers: {"Content-Type": "application/json", "Accept": "application/json"},
-      body: JSON.stringify({_subject: `[견적 요청] ${D.company} · ${D.addr}`, _template: "box", _captcha: "false", 업체: D.company, 연락처: D.phone, 요청서: buildText(), data: JSON.stringify(payload())})});
+      body: JSON.stringify({_subject: `[견적 요청] ${D.company} · ${D.addr}`, _template: "box", _captcha: "false", 업체: D.company, 연락처: D.phone || "", 메일: D.email || "", 요청서: buildText(), data: JSON.stringify(payload())})});
     const j = await r.json().catch(() => ({})); if (!r.ok || j.success === false || j.success === "false") throw new Error(j.message || r.status);
-    try { localStorage.removeItem(DKEY); } catch(_){}
+    coRemember(); try { localStorage.removeItem(DKEY); } catch(_){}
     $("#dlg").hidden = true; $("#done").hidden = false; window.scrollTo({top: 0});
   } catch(_){ toast("보내지 못했어요. 잠시 뒤 다시 눌러 주세요"); }
   sending = false; b.disabled = false; b.textContent = "견적 요청 보내기";
