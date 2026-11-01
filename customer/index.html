@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>904 욕실 견적</title>
+<meta name="description" content="우리 집 욕실을 3D로 미리 보고 견적을 요청하세요 — 90.4 BATH INTERIOR DESIGN">
+<link rel="icon" href="../logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&family=Poppins:wght@600;800&display=swap">
+<style>
+:root{
+  --font:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --num:"Poppins","Noto Sans KR",sans-serif;
+  --bg:#F2F1EC; --surface:#FFFFFF; --surface2:#F7F6F2; --line:#E4E2DA;
+  --fg:#16171B; --muted:#7A7C85; --accent:#2F66F5; --accent-fg:#fff; --lime:#D7F55A; --ink:#16171B;
+  --view:#E9E7E0;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#111215; --surface:#1A1B20; --surface2:#22232A; --line:#2C2D35; --fg:#F1F1EE; --muted:#9A9CA6; --accent:#5B86FF; --view:#1E1F25; --ink:#F1F1EE;
+}}
+:root[data-theme="dark"]{ --bg:#111215; --surface:#1A1B20; --surface2:#22232A; --line:#2C2D35; --fg:#F1F1EE; --muted:#9A9CA6; --accent:#5B86FF; --view:#1E1F25; --ink:#F1F1EE; }
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);-webkit-font-smoothing:antialiased}
+button,input,textarea,select{font:inherit;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+
+/* 헤더 */
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 0 6px}
+.top img{height:34px;display:block}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .top img{filter:invert(1)} }
+.top a{font-size:13px;color:var(--muted);text-decoration:none;font-weight:700}
+.hero{padding:18px 0 22px}
+.hero .tag{display:inline-block;background:var(--ink);color:var(--bg);font:800 11px/1 var(--num);letter-spacing:.12em;padding:7px 10px;border-radius:99px}
+.hero h1{font-size:clamp(28px,6.4vw,52px);line-height:1.12;letter-spacing:-.035em;margin:14px 0 10px;font-weight:900}
+.hero h1 em{font-style:normal;background:linear-gradient(transparent 58%,var(--lime) 58%);padding:0 2px}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .hero h1 em{color:var(--lime);background:none} }
+.hero p{margin:0;color:var(--muted);font-size:15px;line-height:1.6;max-width:560px}
+
+/* 레이아웃 */
+.grid{display:grid;grid-template-columns:1fr;gap:16px;padding-bottom:40px}
+@media (min-width:900px){ .grid{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:start} .stage{position:sticky;top:12px} }
+.stage{position:sticky;top:0;z-index:5;background:var(--bg);padding-top:6px;margin:0 -16px;padding-left:16px;padding-right:16px}
+@media (min-width:900px){ .stage{margin:0;padding:0} }
+.view{position:relative;border-radius:20px;overflow:hidden;background:var(--view);height:min(42vh,400px);box-shadow:0 1px 0 var(--line) inset}
+@media (min-width:900px){ .view{height:min(78vh,640px)} }
+.view canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+.view canvas:active{cursor:grabbing}
+.vtabs{position:absolute;left:10px;top:10px;display:flex;gap:6px;z-index:2}
+.vtab{border:0;border-radius:99px;padding:8px 13px;font-weight:800;font-size:13px;background:rgba(255,255,255,.82);color:#16171B;backdrop-filter:blur(8px);cursor:pointer}
+.vtab[aria-pressed="true"]{background:#16171B;color:#fff}
+.vtab .x{opacity:.5;font-weight:700;margin-left:2px}
+.vbtns{position:absolute;right:10px;top:10px;display:flex;gap:6px;z-index:2}
+.ibtn{border:0;border-radius:99px;height:34px;padding:0 12px;font-weight:700;font-size:12px;background:rgba(255,255,255,.82);color:#16171B;backdrop-filter:blur(8px);cursor:pointer}
+.chips{position:absolute;left:10px;right:10px;bottom:10px;display:flex;flex-wrap:wrap;gap:5px;z-index:2;pointer-events:none}
+.chip{background:rgba(22,23,27,.78);color:#fff;font-size:11.5px;font-weight:700;padding:5px 9px;border-radius:99px;backdrop-filter:blur(6px)}
+.chip b{font-family:var(--num);font-weight:800}
+.hint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(22,23,27,.72);color:#fff;font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:99px;pointer-events:none;transition:opacity .5s;z-index:2;white-space:nowrap}
+.pop{position:absolute;left:50%;top:54px;transform:translate(-50%,-8px);background:var(--lime);color:#16171B;font-weight:900;font-size:14px;padding:9px 15px;border-radius:99px;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:3;white-space:nowrap}
+.pop.on{opacity:1;transform:translate(-50%,0)}
+.nogl{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;color:var(--muted);font-size:14px;line-height:1.6}
+.note{font-size:12px;color:var(--muted);margin:8px 2px 4px;line-height:1.5}
+
+/* 옵션 패널 */
+.panel{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--surface);border-radius:20px;padding:18px 16px;border:1px solid var(--line)}
+.card h2{margin:0 0 4px;font-size:18px;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
+.card h2 .n{font:800 12px/1 var(--num);background:var(--ink);color:var(--bg);width:24px;height:24px;border-radius:50%;display:grid;place-items:center;flex:none}
+.card .sub{color:var(--muted);font-size:13px;margin:0 0 12px}
+.q{padding:12px 0;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:0}
+.ql{font-weight:800;font-size:14px;margin-bottom:9px;display:flex;justify-content:space-between;gap:8px}
+.ql small{font-weight:500;color:var(--muted);font-size:12px}
+.opts{display:flex;flex-wrap:wrap;gap:7px}
+.opt{border:1.5px solid var(--line);background:var(--surface2);border-radius:14px;padding:10px 13px;cursor:pointer;text-align:left;font-weight:800;font-size:14px;line-height:1.25;min-height:44px;transition:border-color .15s,background .15s}
+.opt small{display:block;font-weight:500;font-size:11.5px;color:var(--muted);margin-top:2px}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface));color:var(--fg)}
+.opt[aria-pressed="true"] small{color:var(--accent)}
+.opt:disabled{opacity:.38;cursor:not-allowed}
+.opt .big{font-family:var(--num);font-weight:800;letter-spacing:-.01em}
+.sw{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--line);cursor:pointer;position:relative;padding:0}
+.sw[aria-pressed="true"]{outline:2.5px solid var(--accent);outline-offset:2px}
+.swl{font-size:12px;color:var(--muted);margin-top:7px;font-weight:600}
+.bathpick{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bathpick .opt{min-height:64px}
+.dis{font-size:12px;color:var(--muted);margin-top:7px}
+
+/* 폼 */
+.f{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.f span{font-weight:800;font-size:13.5px}
+.f span i{font-style:normal;color:var(--accent)}
+.f input,.f textarea,.f select{border:1.5px solid var(--line);background:var(--surface2);border-radius:12px;padding:12px 13px;font-size:16px;outline:none;width:100%}
+.f input:focus,.f textarea:focus,.f select:focus{border-color:var(--accent)}
+.f textarea{min-height:84px;resize:vertical}
+.agree{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--muted);line-height:1.5;margin:4px 0 14px;cursor:pointer}
+.agree input{width:20px;height:20px;margin:0;flex:none;accent-color:var(--accent)}
+.send{width:100%;border:0;border-radius:16px;background:var(--ink);color:var(--bg);font-weight:900;font-size:17px;padding:17px;cursor:pointer;letter-spacing:-.01em}
+.send:disabled{opacity:.5;cursor:wait}
+.sum{background:var(--surface2);border-radius:14px;padding:12px 13px;font-size:13px;line-height:1.65;margin-bottom:14px;white-space:pre-wrap;word-break:keep-all}
+.err{color:#E5484D;font-size:13px;font-weight:700;margin:-4px 0 10px;min-height:1px}
+
+.done{text-align:center;padding:40px 18px}
+.done h2{justify-content:center;font-size:24px}
+.done p{color:var(--muted);line-height:1.6}
+footer{padding:24px 0 40px;color:var(--muted);font-size:12px;text-align:center;line-height:1.7}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:12px;font-weight:700;font-size:14px;z-index:50;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><img src="../logo-t.png" alt="90.4 BATH INTERIOR DESIGN"><a href="#form">견적 요청 ↓</a></div>
+  <section class="hero">
+    <span class="tag">3D BATH PREVIEW</span>
+    <h1>우리 집 욕실,<br><em>미리 보고</em> 견적 받기</h1>
+    <p>타일 크기, 젠다이, 욕조, 파티션을 골라 보세요. 고르는 대로 3D 욕실이 바로 바뀌어요. 마음에 들면 그대로 견적을 요청하시면 됩니다.</p>
+  </section>
+
+  <div class="grid">
+    <div class="stage">
+      <div class="view" id="view">
+        <div class="vtabs" id="vtabs"></div>
+        <div class="vbtns"><button type="button" class="ibtn" id="reset">정면으로</button></div>
+        <div class="pop" id="pop"></div>
+        <div class="hint" id="hint">손가락으로 돌려 보세요 ↻</div>
+        <div class="chips" id="chips"></div>
+      </div>
+      <p class="note">3D는 이해를 돕기 위한 예시예요. 실제 욕실 크기·배치에 맞춰 시공합니다.</p>
+    </div>
+
+    <div class="panel" id="panel">
+      <div class="card">
+        <h2><span class="n">1</span>어떤 욕실인가요?</h2>
+        <p class="sub">둘 다 하시면 둘 다 눌러 주세요. 욕실마다 따로 고를 수 있어요.</p>
+        <div class="bathpick" id="bathpick"></div>
+      </div>
+      <div class="card" id="specCard"></div>
+      <div class="card" id="form">
+        <h2><span class="n">3</span>견적 받을 연락처</h2>
+        <p class="sub">확인하고 904에서 직접 연락드려요.</p>
+        <label class="f"><span>이름 <i>*</i></span><input id="fName" autocomplete="name" placeholder="홍길동"></label>
+        <label class="f"><span>연락처 <i>*</i></span><input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="010-0000-0000"></label>
+        <label class="f"><span>지역 <i>*</i></span><input id="fAddr" autocomplete="address-level2" placeholder="예) 서울 강서구 ○○아파트"></label>
+        <label class="f"><span>희망 시기</span><select id="fWhen"><option>아직 미정</option><option>1개월 안</option><option>1~3개월 안</option><option>3개월 이후</option></select></label>
+        <label class="f"><span>더 알려주실 것</span><textarea id="fMemo" placeholder="욕실 크기, 원하는 분위기, 지금 상태(누수·곰팡이 등)를 편하게 적어 주세요"></textarea></label>
+        <div class="ql">요청 내용</div>
+        <div class="sum" id="sum"></div>
+        <label class="agree"><input type="checkbox" id="fAgree"><span>견적 상담을 위해 이름·연락처·지역을 받는 데 동의해요. 상담 외 용도로 쓰지 않아요.</span></label>
+        <div class="err" id="err"></div>
+        <button type="button" class="send" id="send">견적 요청 보내기</button>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>90.4 BATH INTERIOR DESIGN WITH TILO X 楚越<br>구공사(90.4BATH)</footer>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ───────── 선택지 ───────── */
+const COLORS = {
+  white:["화이트","#F4F3EF"], ivory:["아이보리","#ECE5D6"], beige:["베이지","#D9CDB8"], lgray:["라이트그레이","#D5D6D4"],
+  gray:["그레이","#A7A9A8"], concrete:["콘크리트","#8E8C86"], charcoal:["차콜","#4A4B4E"], green:["세이지","#AEB9A3"]
+};
+const WALL_SIZES = [["300×600","300×600","36 · 가장 많이 써요"],["600각","600×600","큰 타일 · 깔끔"],["600×1200","600×1200","대형 · 줄눈 최소"]];
+const FLOOR_SIZES = [["300각","300×300","기본 · 미끄럼 덜함"],["600각","600×600","벽과 통일감"],["모자이크","모자이크","포인트 · 미끄럼 방지"]];
+// [값, 라벨, 설명] — 메일에는 시공팀 용어로 같이 적음
+const Q = {
+  work:{label:"공사 방식", items:[["철거 후 시공","다 뜯고 새로","기존 타일 철거"],["덧방","덧방","기존 타일 위에 붙이기"],["모름","잘 모르겠어요","보고 정해 드려요"]]},
+  jendai:{label:"젠다이", tip:"세면대·변기 뒤 선반", items:[["없음","없음",""],["하프","짧게","변기 뒤만"],["풀","길게","벽 한 면 전체"]]},
+  tub:{label:"욕조", items:[["없음","없음","샤워만"],["치마 타일","타일 욕조","앞면 타일 마감"],["플라스틱","일반 욕조","매립 욕조"]]},
+  partition:{label:"샤워 파티션", tip:"샤워 공간 나누는 벽", items:[["없음","없음",""],["하프","반벽 + 유리","허리 높이 타일벽"],["풀","전체 벽","천장까지 타일벽"]]}
+};
+const BATHS = [["외욕실","거실 쪽 욕실"],["내욕실","안방 욕실"]];
+const blankSpec = () => ({work:"철거 후 시공", wall:"300×600", wallColor:"white", floor:"300각", floorColor:"gray", jendai:"없음", tub:"없음", partition:"없음", corner:false, window:false});
+const KEY = "904-customer-v1";
+let S = { on:{외욕실:true, 내욕실:false}, active:"외욕실", spec:{외욕실:blankSpec(), 내욕실:blankSpec()} };
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && s.spec) S = Object.assign(S, s); } catch(_){}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(_){} };
+const sp = () => S.spec[S.active];
+const bigWall = x => x.wall === "600각" || x.wall === "600×1200";
+
+/* ───────── 3D ───────── */
+const W = 1.7, D = 2.3, H = 2.3, JD = 0.2, JH = 1.0, TUBD = 0.75, PZ = -0.25;
+const view = $("#view");
+let renderer, scene, camera, controls, root, pmrem, ok = true;
+try {
+  renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer.setClearColor(0x000000, 0);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  view.prepend(renderer.domElement);
+} catch(e){ ok = false; view.insertAdjacentHTML("beforeend", `<div class="nogl">이 기기에선 3D 미리보기가 안 열려요.<br>선택은 그대로 하실 수 있어요.</div>`); }
+
+if (ok){
+  scene = new THREE.Scene();
+  pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  camera = new THREE.PerspectiveCamera(48, 1, 0.05, 50);
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true; controls.dampingFactor = 0.08; controls.enablePan = false;
+  controls.minDistance = 2.2; controls.maxDistance = 5.2;
+  controls.minPolarAngle = 0.85; controls.maxPolarAngle = 1.58;
+  controls.minAzimuthAngle = -0.95; controls.maxAzimuthAngle = 0.95;
+  controls.addEventListener("start", () => { $("#hint").style.opacity = 0; });
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xd8d2c6, 0.55));
+  const key = new THREE.PointLight(0xfff4e6, 7, 6, 1.6); key.position.set(0.1, H - 0.15, 0.2); key.castShadow = true;
+  key.shadow.mapSize.set(1024, 1024); key.shadow.bias = -0.002; key.shadow.radius = 4; scene.add(key);
+  const fill = new THREE.DirectionalLight(0xffffff, 0.6); fill.position.set(1.5, 2.5, 4); scene.add(fill);
+  resetCam();
+  new ResizeObserver(resize).observe(view); resize();
+}
+function resetCam(){ if (!ok) return; camera.position.set(0.35, 2.0, D/2 + 2.9); controls.target.set(-0.05, 0.85, -0.3); controls.update(); }
+function resize(){ const r = view.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / Math.max(1, r.height); camera.fov = camera.aspect < 0.9 ? 62 : 48; camera.updateProjectionMatrix(); }
+
+/* 타일 텍스처: 한 장(시트)에 타일 여러 개 + 줄눈 + 살짝 다른 톤 */
+const TILE = { // [가로m, 세로m, 시트 가로 장수, 세로 장수]
+  "300×600":[0.6,0.3,2,4], "600각":[0.6,0.6,2,2], "600×1200":[0.6,1.2,2,1], "300각":[0.3,0.3,4,4], "모자이크":[0.048,0.048,8,8]
+};
+const texCache = new Map();
+function sheet(size, hex){
+  const k = size + hex; if (texCache.has(k)) return texCache.get(k);
+  const [tw, th, nx, ny] = TILE[size];
+  const ppm = size === "모자이크" ? 1100 : 520, grout = Math.max(3, Math.round(0.003 * ppm));
+  const cw = Math.round(tw * nx * ppm), ch = Math.round(th * ny * ppm);
+  const c = document.createElement("canvas"); c.width = cw; c.height = ch; const g = c.getContext("2d");
+  const base = new THREE.Color(hex), dark = base.getHSL({h:0,s:0,l:0}).l < 0.45;
+  const gr = base.clone().offsetHSL(0, -0.06, dark ? 0.16 : -0.24);
+  g.fillStyle = "#" + gr.getHexString(); g.fillRect(0, 0, cw, ch);
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const pw = cw / nx, ph = ch / ny;
+  for (let y = 0; y < ny; y++) for (let x = 0; x < nx; x++){
+    const shift = size === "300×600" && y % 2 ? 0 : 0; // 일자 시공
+    const col = base.clone().offsetHSL(0, 0, (rnd() - 0.5) * (size === "모자이크" ? 0.07 : 0.025));
+    const x0 = x * pw + shift + grout / 2, y0 = y * ph + grout / 2;
+    const grd = g.createLinearGradient(x0, y0, x0 + pw, y0 + ph);
+    grd.addColorStop(0, "#" + col.clone().offsetHSL(0, 0, 0.015).getHexString()); grd.addColorStop(1, "#" + col.clone().offsetHSL(0, 0, -0.015).getHexString());
+    g.fillStyle = grd; g.fillRect(x0, y0, pw - grout, ph - grout);
+    if (size !== "모자이크"){ // 은은한 결
+      g.globalAlpha = 0.05; g.strokeStyle = dark ? "#fff" : "#000"; g.lineWidth = 1;
+      for (let i = 0; i < 3; i++){ g.beginPath(); g.moveTo(x0 + rnd() * pw, y0); g.bezierCurveTo(x0 + rnd() * pw, y0 + ph * .3, x0 + rnd() * pw, y0 + ph * .7, x0 + rnd() * pw, y0 + ph - grout); g.stroke(); }
+      g.globalAlpha = 1;
+    }
+  }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.anisotropy = ok ? renderer.capabilities.getMaxAnisotropy() : 1;
+  const out = {tex:t, w:tw * nx, h:th * ny}; texCache.set(k, out); return out;
+}
+function tileMat(size, hex, w, h, glossy = 0.28){
+  const s = sheet(size, hex), t = s.tex.clone(); t.needsUpdate = true;
+  t.repeat.set(w / s.w, h / s.h);
+  return new THREE.MeshStandardMaterial({map:t, roughness:glossy, metalness:0, envMapIntensity:0.55});
+}
+const plane = (w, h, mat) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat); m.receiveShadow = true; return m; };
+// 타일 박스 (아래 중심 기준) · faces: 보이는 면만
+function tiledBox(w, h, d, size, hex, faces = ["front","top","left","right","back"]){
+  const g = new THREE.Group();
+  const add = (pw, ph, pos, rot) => { const m = plane(pw, ph, tileMat(size, hex, pw, ph)); m.position.set(...pos); m.rotation.set(...rot); m.castShadow = true; g.add(m); };
+  if (faces.includes("front")) add(w, h, [0, h/2, d/2], [0, 0, 0]);
+  if (faces.includes("back")) add(w, h, [0, h/2, -d/2], [0, Math.PI, 0]);
+  if (faces.includes("right")) add(d, h, [w/2, h/2, 0], [0, Math.PI/2, 0]);
+  if (faces.includes("left")) add(d, h, [-w/2, h/2, 0], [0, -Math.PI/2, 0]);
+  if (faces.includes("top")) add(w, d, [0, h, 0], [-Math.PI/2, 0, 0]);
+  return g;
+}
+const porcelain = new THREE.MeshStandardMaterial({color:0xfbfbf8, roughness:0.12, metalness:0, envMapIntensity:0.9});
+const chrome = new THREE.MeshStandardMaterial({color:0xe6e9ed, roughness:0.22, metalness:0.85, envMapIntensity:1.5});
+const wood = new THREE.MeshStandardMaterial({color:0xC9AE8B, roughness:0.6});
+const mesh = (geo, mat, cast = true) => { const m = new THREE.Mesh(geo, mat); m.castShadow = cast; m.receiveShadow = true; return m; };
+
+function build(x){
+  const all = new THREE.Group(), parts = {};
+  const part = k => (parts[k] = parts[k] || new THREE.Group());
+  const wc = COLORS[x.wallColor][1], fc = COLORS[x.floorColor][1];
+  const tub = x.tub !== "없음", jd = x.jendai !== "없음";
+  // 방
+  const room = part("room");
+  const back = plane(W, H, tileMat(x.wall, wc, W, H)); back.position.set(0, H/2, -D/2); room.add(back);
+  const lw = plane(D, H, tileMat(x.wall, wc, D, H)); lw.rotation.y = Math.PI/2; lw.position.set(-W/2, H/2, 0); room.add(lw);
+  const rw = plane(D, H, tileMat(x.wall, wc, D, H)); rw.rotation.y = -Math.PI/2; rw.position.set(W/2, H/2, 0); room.add(rw);
+  const fl = plane(W, D, tileMat(x.floor, fc, W, D, 0.45)); fl.rotation.x = -Math.PI/2; room.add(fl);
+  const ce = plane(W, D, new THREE.MeshStandardMaterial({color:0xf3f3f1, roughness:0.9})); ce.rotation.x = Math.PI/2; ce.position.y = H; room.add(ce);
+  const lamp = mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.02, 40), new THREE.MeshStandardMaterial({color:0xffffff, emissive:0xfff3dd, emissiveIntensity:1.4}), false); lamp.position.set(0.1, H - 0.01, 0.2); room.add(lamp);
+  const drain = mesh(new THREE.BoxGeometry(0.12, 0.004, 0.12), chrome, false); drain.position.set(tub ? 0.35 : -0.35, 0.002, tub ? -D/2 + TUBD + 0.15 : -0.75); room.add(drain);
+
+  // 욕조
+  const zBack = -D/2 + (tub ? TUBD : 0);
+  if (tub){
+    const g = part("tub"), th = 0.55;
+    if (x.tub === "치마 타일"){
+      const skirt = tiledBox(W, th, TUBD, x.wall, wc, ["front","top"]); skirt.position.set(0, 0, -D/2 + TUBD/2); g.add(skirt);
+      const shell = mesh(new THREE.BoxGeometry(W - 0.14, 0.03, TUBD - 0.14), porcelain); shell.position.set(0, th + 0.004, -D/2 + TUBD/2); g.add(shell);
+    } else {
+      const body = mesh(new THREE.BoxGeometry(W, th, TUBD), porcelain); body.position.set(0, th/2, -D/2 + TUBD/2); g.add(body);
+    }
+    const inner = mesh(new THREE.BoxGeometry(W - 0.22, 0.012, TUBD - 0.22), new THREE.MeshStandardMaterial({color:0xe8eef0, roughness:0.05, envMapIntensity:1.2}), false);
+    inner.position.set(0, th + 0.022, -D/2 + TUBD/2); g.add(inner);
+    const sp = mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.18, 16), chrome); sp.rotation.x = Math.PI/2; sp.position.set(0, th + 0.12, -D/2 + 0.09); g.add(sp);
+  }
+  // 젠다이 (왼쪽 벽)
+  const jz0 = x.jendai === "풀" ? zBack : -0.18, jz1 = x.jendai === "풀" ? D/2 : 0.48;
+  if (jd){
+    const len = jz1 - jz0, faces = x.jendai === "풀" ? ["top","right"] : ["top","right","front","back"];
+    const j = tiledBox(JD, JH, len, x.wall, wc, faces); j.position.set(-W/2 + JD/2, 0, (jz0 + jz1)/2); part("jendai").add(j);
+    const bottle = mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.18, 20), new THREE.MeshStandardMaterial({color:0x2b2d31, roughness:0.4}));
+    bottle.position.set(-W/2 + 0.1, JH + 0.09, jz0 + 0.12); part("jendai").add(bottle);
+    const plant = mesh(new THREE.SphereGeometry(0.07, 18, 14), new THREE.MeshStandardMaterial({color:0x6f8f5e, roughness:0.8}));
+    plant.position.set(-W/2 + 0.1, JH + 0.07, jz0 + 0.3); part("jendai").add(plant);
+  }
+  const wallAt = z => -W/2 + (jd && z >= jz0 - 0.01 && z <= jz1 + 0.01 ? JD : 0);
+  // 변기
+  { const g = part("toilet"), z = 0.15, wx = wallAt(z);
+    const tank = mesh(new THREE.BoxGeometry(0.18, 0.38, 0.42), porcelain); tank.position.set(wx + 0.09, 0.62, z);
+    const base = mesh(new THREE.CylinderGeometry(0.14, 0.17, 0.4, 32), porcelain); base.scale.set(1.35, 1, 1); base.position.set(wx + 0.38, 0.2, z);
+    const seat = mesh(new THREE.CylinderGeometry(0.19, 0.18, 0.04, 32), porcelain); seat.scale.set(1.3, 1, 1); seat.position.set(wx + 0.4, 0.42, z);
+    const lid = mesh(new THREE.BoxGeometry(0.06, 0.03, 0.12), chrome); lid.position.set(wx + 0.12, 0.82, z);
+    g.add(tank, base, seat, lid); }
+  // 세면대 + 거울
+  { const g = part("vanity"), z = 0.78, wx = wallAt(z);
+    const cab = mesh(new THREE.BoxGeometry(0.46, 0.42, 0.62), wood); cab.position.set(wx + 0.23, 0.6, z);
+    const top = mesh(new THREE.BoxGeometry(0.48, 0.06, 0.64), porcelain); top.position.set(wx + 0.24, 0.84, z);
+    const bowl = mesh(new THREE.CylinderGeometry(0.17, 0.15, 0.02, 32), new THREE.MeshStandardMaterial({color:0xeef1f1, roughness:0.05})); bowl.position.set(wx + 0.27, 0.875, z);
+    const tap = mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.2, 12), chrome); tap.position.set(wx + 0.06, 0.95, z);
+    const spout = mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.12, 12), chrome); spout.rotation.z = Math.PI/2; spout.position.set(wx + 0.11, 1.04, z);
+    const mir = mesh(new THREE.BoxGeometry(0.02, 0.75, 0.55), new THREE.MeshStandardMaterial({color:0xc4ced6, roughness:0.08, metalness:0.25, emissive:0x8c99a3, emissiveIntensity:0.35}), false); mir.position.set(-W/2 + 0.012, 1.55, z);
+    if (jd && x.jendai === "풀") mir.position.y = 1.62;
+    g.add(cab, top, bowl, tap, spout, mir); }
+  // 파티션 (욕조 없을 때)
+  if (!tub && x.partition !== "없음"){
+    const g = part("partition"), x0 = wallAt(PZ), x1 = -W/2 + 0.95, len = x1 - x0, ph = x.partition === "하프" ? 1.1 : H;
+    const p = tiledBox(len, ph, 0.1, x.wall, wc, x.partition === "하프" ? ["front","back","top","right"] : ["front","back","right"]);
+    p.position.set(x0 + len/2, 0, PZ); g.add(p);
+    if (x.partition === "하프"){
+      const glass = mesh(new THREE.BoxGeometry(len, 0.95, 0.01), new THREE.MeshPhysicalMaterial({color:0xdff3f0, roughness:0.02, transmission:0.92, thickness:0.01, transparent:true, opacity:0.35}), false);
+      glass.position.set(x0 + len/2, 1.1 + 0.475, PZ); g.add(glass);
+      const cap = mesh(new THREE.BoxGeometry(len, 0.015, 0.03), chrome); cap.position.set(x0 + len/2, 2.05, PZ); g.add(cap);
+    }
+  }
+  // 샤워기
+  { const g = part("shower"), sx = -W/2 + 0.42, sz = -D/2 + 0.03;
+    const rail = mesh(new THREE.CylinderGeometry(0.012, 0.012, 1.1, 12), chrome); rail.position.set(sx, 1.45, sz);
+    const head = mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.015, 32), chrome); head.position.set(sx, 2.02, sz + 0.14);
+    const arm = mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.16, 10), chrome); arm.rotation.x = Math.PI/2; arm.position.set(sx, 2.02, sz + 0.07);
+    const valve = mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.05, 20), chrome); valve.rotation.x = Math.PI/2; valve.position.set(sx, tub ? 0.8 : 1.0, sz + 0.02);
+    g.add(rail, head, arm, valve); }
+  // 코너선반 (600각 이상 벽, 샤워 쪽 뒤 오른쪽 모서리)
+  if (x.corner && bigWall(x)){
+    const g = part("corner");
+    for (const y of [1.15, 1.45]){
+      const shp = new THREE.Shape(); shp.moveTo(0, 0); shp.lineTo(0.24, 0); shp.lineTo(0, 0.24); shp.lineTo(0, 0);
+      const geo = new THREE.ExtrudeGeometry(shp, {depth:0.025, bevelEnabled:false}); geo.rotateX(Math.PI/2);
+      const m = mesh(geo, new THREE.MeshStandardMaterial({color:COLORS[x.wallColor][1], roughness:0.3}));
+      m.scale.set(-1, 1, 1); m.position.set(W/2, y, -D/2); g.add(m);
+    }
+  }
+  // 창문 (오른쪽 벽)
+  if (x.window){
+    const g = part("window"), z = -0.35, ww = 0.8, wh = 0.6, y0 = 1.35;
+    const sill = tiledBox(0.1, 0.04, ww + 0.06, x.wall, wc, ["top","left","front","back"]); sill.position.set(W/2 - 0.05, y0 - 0.04, z); g.add(sill);
+    const glass = mesh(new THREE.PlaneGeometry(ww, wh), new THREE.MeshStandardMaterial({color:0xeaf3ff, emissive:0xdfeeff, emissiveIntensity:0.9, roughness:0.2}), false);
+    glass.rotation.y = -Math.PI/2; glass.position.set(W/2 - 0.004, y0 + wh/2, z); g.add(glass);
+    const fr = new THREE.MeshStandardMaterial({color:0xffffff, roughness:0.4});
+    for (const [w, h, dy, dz] of [[ww + 0.06, 0.04, wh, 0],[ww + 0.06, 0.04, 0, 0],[0.04, wh, wh/2, -ww/2 - 0.01],[0.04, wh, wh/2, ww/2 + 0.01],[0.03, wh, wh/2, 0]]){
+      const b = mesh(new THREE.BoxGeometry(0.04, h, w === ww + 0.06 ? w : 0.04), fr, false); b.position.set(W/2 - 0.02, y0 + dy, z + dz); g.add(b);
+    }
+    const sunL = new THREE.PointLight(0xdfeeff, 1.2, 2.5); sunL.position.set(W/2 - 0.3, y0 + 0.3, z); g.add(sunL);
+  }
+  for (const g of Object.values(parts)) all.add(g);
+  return {all, parts};
+}
+
+let built = null, prevSpec = null, anims = [];
+const sig = (x, k) => { // 파트별로 바뀌었는지 판단
+  const t = x.wall + x.wallColor;
+  return ({room:x.wall + x.wallColor + x.floor + x.floorColor + x.tub, tub:x.tub + t, jendai:x.jendai + t + x.tub, partition:x.partition + t + x.jendai + x.tub,
+    corner:String(x.corner && bigWall(x)) + x.wallColor, window:String(x.window) + t, toilet:x.jendai, vanity:x.jendai, shower:x.tub})[k];
+};
+function render3D(popKey){
+  if (!ok) return;
+  const x = sp();
+  const nb = build(x);
+  if (built) scene.remove(built.all);
+  scene.add(nb.all);
+  // 새로 생기거나 바뀐 것 → 쑥 올라오는 효과
+  if (prevSpec && prevSpec.__bath === S.active){
+    for (const [k, g] of Object.entries(nb.parts)){
+      if (k === "room") continue;
+      const was = built && built.parts[k];
+      if (!was || sig(prevSpec, k) !== sig(x, k)){ if (!["toilet","vanity","shower"].includes(k) || !was) { g.scale.set(1, 0.001, 1); anims.push({g, t0:performance.now(), dur:520}); } }
+    }
+  }
+  built = nb; prevSpec = Object.assign({__bath:S.active}, x);
+}
+const easeOutBack = t => { const c1 = 1.5, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
+let visible = true;
+if (ok){
+  new IntersectionObserver(e => { visible = e[0].isIntersecting; }).observe(view);
+  renderer.setAnimationLoop(now => {
+    if (!visible) return;
+    anims = anims.filter(a => { const t = Math.min(1, (now - a.t0) / a.dur); a.g.scale.y = Math.max(0.001, easeOutBack(t)); return t < 1; });
+    controls.update(); renderer.render(scene, camera);
+  });
+}
+
+/* ───────── 화면 ───────── */
+function pop(txt){ const p = $("#pop"); p.textContent = txt; p.classList.add("on"); clearTimeout(pop.t); pop.t = setTimeout(() => p.classList.remove("on"), 1300); }
+function toast(t){ const e = $("#toast"); e.textContent = t; e.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => e.classList.remove("on"), 2200); }
+const lab = (k, v) => (Q[k]?.items.find(i => i[0] === v) || [, v])[1];
+
+function renderTabs(){
+  const on = BATHS.filter(([b]) => S.on[b]);
+  $("#vtabs").innerHTML = on.length > 1 ? on.map(([b]) => `<button type="button" class="vtab" data-tab="${b}" aria-pressed="${S.active === b}">${b}</button>`).join("") : "";
+  $("#bathpick").innerHTML = BATHS.map(([b, d]) => `<button type="button" class="opt" data-bath="${b}" aria-pressed="${!!S.on[b]}">${S.on[b] ? "✓ " : ""}${b}<small>${d}</small></button>`).join("");
+}
+function renderChips(){
+  const x = sp(), c = [];
+  c.push(`벽 <b>${x.wall === "300×600" ? "36" : x.wall}</b>`, `바닥 <b>${x.floor}</b>`);
+  if (x.jendai !== "없음") c.push(`젠다이 ${lab("jendai", x.jendai)}`);
+  if (x.tub !== "없음") c.push(lab("tub", x.tub));
+  if (x.tub === "없음" && x.partition !== "없음") c.push(`파티션 ${lab("partition", x.partition)}`);
+  if (x.corner && bigWall(x)) c.push("코너선반");
+  if (x.window) c.push("창문");
+  $("#chips").innerHTML = c.map(t => `<span class="chip">${t}</span>`).join("");
+}
+function opt(k, v, label, small, on, dis){ return `<button type="button" class="opt" data-k="${k}" data-v="${esc(v)}" aria-pressed="${on}" ${dis ? "disabled" : ""}>${label}${small ? `<small>${small}</small>` : ""}</button>`; }
+function qBlock(k){
+  const x = sp(), q = Q[k], dis = k === "partition" && x.tub !== "없음";
+  return `<div class="q"><div class="ql">${q.label}${q.tip ? `<small>${q.tip}</small>` : ""}</div><div class="opts">${q.items.map(([v, l, s]) => opt(k, v, l, s, x[k] === v, dis)).join("")}</div>${dis ? `<div class="dis">욕조가 있으면 파티션 대신 욕조로 샤워 공간을 써요.</div>` : ""}</div>`;
+}
+function sizeBlock(k, label, list){
+  const x = sp();
+  return `<div class="q"><div class="ql">${label} 크기</div><div class="opts">${list.map(([v, big, s]) => opt(k, v, `<span class="big">${big}</span>`, s, x[k] === v)).join("")}</div></div>`;
+}
+function colorBlock(k, label){
+  const x = sp();
+  return `<div class="q"><div class="ql">${label} 색<small>${COLORS[x[k]][0]}</small></div><div class="opts">${Object.entries(COLORS).map(([c, [n, hex]]) => `<button type="button" class="sw" data-k="${k}" data-v="${c}" aria-pressed="${x[k] === c}" title="${n}" aria-label="${n}" style="background:${hex}"></button>`).join("")}</div></div>`;
+}
+function renderSpec(){
+  const x = sp(), on = BATHS.filter(([b]) => S.on[b]).map(([b]) => b);
+  const tabs = on.length > 1 ? `<div class="opts" style="margin-bottom:6px">${on.map(b => `<button type="button" class="opt" data-tab="${b}" aria-pressed="${S.active === b}">${b}</button>`).join("")}${S.active === on[1] ? `<button type="button" class="opt" data-copy="1"><small style="margin:0">${on[0]}이랑 똑같이</small></button>` : ""}</div>` : "";
+  $("#specCard").innerHTML = `<h2><span class="n">2</span>${esc(S.active)} 꾸미기</h2><p class="sub">누르면 위 3D에 바로 보여요.</p>${tabs}
+    ${qBlock("work")}
+    ${sizeBlock("wall", "벽 타일", WALL_SIZES)}${colorBlock("wallColor", "벽 타일")}
+    ${sizeBlock("floor", "바닥 타일", FLOOR_SIZES)}${colorBlock("floorColor", "바닥 타일")}
+    ${qBlock("jendai")}${qBlock("tub")}${qBlock("partition")}
+    <div class="q"><div class="ql">추가</div><div class="opts">
+      ${opt("corner", "t", "코너선반", bigWall(x) ? "샤워 쪽 모서리 선반" : "600각 이상 벽 타일만 돼요", x.corner && bigWall(x), !bigWall(x))}
+      ${opt("window", "t", "창문 있음", "창틀까지 타일 마감", x.window)}
+    </div></div>`;
+}
+function summaryText(){
+  const lines = [];
+  for (const [b] of BATHS){ if (!S.on[b]) continue; const x = S.spec[b];
+    const parts = [x.work === "모름" ? "공사 방식 상담" : x.work, `벽 ${x.wall}(${COLORS[x.wallColor][0]})`, `바닥 ${x.floor}(${COLORS[x.floorColor][0]})`];
+    if (x.jendai !== "없음") parts.push(`젠다이 ${x.jendai === "하프" ? "하프(변기 뒤)" : "풀(벽 전체)"}`);
+    if (x.tub !== "없음") parts.push(`욕조 ${x.tub}`);
+    if (x.tub === "없음" && x.partition !== "없음") parts.push(`파티션 ${x.partition === "하프" ? "하프+유리" : "풀(천장까지)"}`);
+    if (x.corner && bigWall(x)) parts.push("코너선반"); if (x.window) parts.push("창틀");
+    lines.push(`■ ${b}: ${parts.join(" · ")}`);
+  }
+  return lines.join("\n") || "욕실을 하나 이상 골라 주세요.";
+}
+function renderAll(popKey){ renderTabs(); renderSpec(); renderChips(); $("#sum").textContent = summaryText(); render3D(popKey); save(); }
+
+document.addEventListener("click", e => {
+  const t = e.target.closest("button"); if (!t) return;
+  if (t.dataset.tab){ S.active = t.dataset.tab; renderAll(); return; }
+  if (t.dataset.bath){ const b = t.dataset.bath; const n = BATHS.filter(([x]) => S.on[x]).length;
+    if (S.on[b] && n === 1){ toast("욕실은 하나 이상 골라 주세요"); return; }
+    S.on[b] = !S.on[b]; if (S.on[b]) S.active = b; else if (S.active === b) S.active = BATHS.find(([x]) => S.on[x])[0];
+    renderAll(); return; }
+  if (t.dataset.copy){ const first = BATHS.find(([x]) => S.on[x])[0]; S.spec[S.active] = Object.assign({}, S.spec[first]); renderAll(); pop(`${first}이랑 똑같이 맞췄어요`); return; }
+  const k = t.dataset.k; if (!k) return;
+  const x = sp(), v = t.dataset.v;
+  if (k === "corner" || k === "window") x[k] = !x[k]; else x[k] = v;
+  if (k === "tub" && v !== "없음" && x.partition !== "없음") x.partition = "없음";
+  const msg = {
+    jendai: v === "없음" ? "젠다이 뺐어요" : `젠다이 ${lab("jendai", v)} 추가!`,
+    tub: v === "없음" ? "욕조 뺐어요" : `${lab("tub", v)} 추가!`,
+    partition: v === "없음" ? "파티션 뺐어요" : `파티션 ${lab("partition", v)} 추가!`,
+    corner: x.corner ? "코너선반 추가!" : "코너선반 뺐어요", window: x.window ? "창문 추가!" : "창문 뺐어요",
+    wall: `벽 ${v === "300×600" ? "300×600 (36)" : v}`, floor: `바닥 ${v}`, wallColor: `벽 ${COLORS[v]?.[0]}`, floorColor: `바닥 ${COLORS[v]?.[0]}`,
+    work: lab("work", v)
+  }[k];
+  renderAll(); if (msg) pop(msg);
+});
+$("#reset").addEventListener("click", resetCam);
+setTimeout(() => { $("#hint").style.opacity = 0; }, 4000);
+
+/* ───────── 보내기 ───────── */
+const SEND_TO = "https://formsubmit.co/ajax/904bath@gmail.com";
+let sending = false;
+$("#send").addEventListener("click", async () => {
+  if (sending) return;
+  const name = $("#fName").value.trim(), phone = $("#fPhone").value.trim(), addr = $("#fAddr").value.trim();
+  const err = !name ? "이름을 적어 주세요" : !/\d{3,}.*\d{3,}/.test(phone) ? "연락처를 확인해 주세요" : !addr ? "지역을 적어 주세요" : !$("#fAgree").checked ? "개인정보 수집에 동의해 주세요" : "";
+  $("#err").textContent = err; if (err) return;
+  sending = true; const b = $("#send"); b.disabled = true; b.textContent = "보내는 중…";
+  try {
+    const r = await fetch(SEND_TO, {method:"POST", headers:{"Content-Type":"application/json", "Accept":"application/json"},
+      body: JSON.stringify({_subject:`[소비자 견적요청] ${name} · ${addr}`, _template:"box", _captcha:"false",
+        구분:"소비자(3D 견적요청)", 이름:name, 연락처:phone, 지역:addr, 희망시기:$("#fWhen").value, 요청내용:summaryText(), 메모:$("#fMemo").value.trim(),
+        data: JSON.stringify({type:"customer", name, phone, addr, when:$("#fWhen").value, memo:$("#fMemo").value.trim(), baths:BATHS.filter(([x]) => S.on[x]).map(([x]) => ({bath:x, ...S.spec[x]}))})})});
+    const j = await r.json().catch(() => ({})); if (!r.ok || j.success === false || j.success === "false") throw new Error(j.message || r.status);
+    $("#form").innerHTML = `<div class="done"><h2>견적 요청을 보냈어요 ✓</h2><p>${esc(name)}님, 확인하고 904에서 직접 연락드릴게요.<br>현장 사진이 있으면 연락드릴 때 같이 보내 주세요.</p></div>`;
+    $("#form").scrollIntoView({behavior:"smooth", block:"center"});
+  } catch(_){ toast("보내지 못했어요. 잠시 뒤 다시 눌러 주세요"); b.disabled = false; b.textContent = "견적 요청 보내기"; }
+  sending = false;
+});
+
+renderAll();
+</script>
+</body></html>
