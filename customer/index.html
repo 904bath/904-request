@@ -136,9 +136,9 @@ footer{padding:24px 0 40px;color:var(--muted);font-size:12px;text-align:center;l
 <div class="wrap">
   <div class="top"><img src="../logo-t.png" alt="90.4 BATH INTERIOR DESIGN"><a href="#form">견적 요청 ↓</a></div>
   <section class="hero">
-    <span class="tag">904 REAL CASES</span>
+    <span class="tag">REAL BATH PHOTOS</span>
     <h1>우리 집 욕실,<br><em>미리 보고</em> 견적 받기</h1>
-    <p>시공할 곳을 고르고 타일, 젠다이, 욕조, 파티션부터 변기·세면대·수전·욕실장까지 골라 보세요. 고르는 대로 904가 실제로 시공한 비슷한 욕실 사진을 보여드려요.</p>
+    <p>시공할 곳을 고르고 타일, 젠다이, 욕조, 파티션부터 변기·세면대·수전·욕실장까지 골라 보세요. 고르는 대로 비슷한 실제 욕실 사진을 보여드려요.</p>
   </section>
 
   <div class="grid">
@@ -151,7 +151,7 @@ footer{padding:24px 0 40px;color:var(--muted);font-size:12px;text-align:center;l
         <div class="hint" id="hint" hidden></div>
         <div class="chips" id="chips"></div>
       </div>
-      <p class="note" id="caseNote">고른 내용과 가장 비슷한 904 실제 시공 사진을 보여드려요.</p>
+      <p class="note" id="caseNote">고른 내용과 가장 비슷한 욕실 사진을 보여드려요.</p>
     </div>
 
     <div class="panel">
@@ -846,7 +846,7 @@ const TAGL = {size:v => `벽 ${v === "300×600" ? "36" : v}`, jendai:v => v ? `�
 function matches(r){ const w = want(r), k = zoneKind(r);
   return CASES.filter(c => c.zone === k).map(c => { let sc = 0; const diff = [];
     for (const [t, wt] of Object.entries(W8)){ if (!(t in (c.tags || {}))) continue; const a = c.tags[t] ?? null, b = w[t] ?? null; if (a === b) sc += wt; else if (wt >= 2) diff.push(TAGL[t](a)); }
-    return {c, sc, diff}; }).sort((a, b) => b.sc - a.sc); }
+    return {c, sc: sc + (c.ref ? 0 : 0.5), diff}; }).sort((a, b) => b.sc - a.sc); }
 function renderCase(){
   const el = $("#case"); if (!el) return; const r = S.active, m = matches(r);
   const key = r + JSON.stringify(want(r)); if (key !== caseKey){ caseKey = key; caseIdx = 0; }
@@ -855,7 +855,7 @@ function renderCase(){
   el.innerHTML = `<img src="${esc(it.c.src)}" alt="${esc(it.c.title || "904 시공 사례")}" loading="lazy">
     <div class="cap">${it.diff.length ? it.diff.slice(0, 3).map(d => `<span class="diff">이 사진: ${esc(d)}</span>`).join("") : `<span>고른 내용과 거의 같아요</span>`}</div>
     ${m.length > 1 ? `<div class="nav"><button type="button" class="ibtn" data-case="-1">‹</button><button type="button" class="ibtn" data-case="1">${i + 1}/${m.length} ›</button></div>` : ""}`;
-  $("#caseNote").textContent = it.c.title ? `904 시공 사례 · ${it.c.title}` : "904가 실제로 시공한 사진이에요.";
+  $("#caseNote").innerHTML = it.c.ref ? `참고 사진 · 고른 내용과 비슷한 욕실이에요 · 사진 <a href="${esc(it.c.credit || "https://unsplash.com")}" target="_blank" rel="noopener" style="color:inherit">Unsplash</a>` : esc(it.c.title ? `904 시공 사례 · ${it.c.title}` : "904가 실제로 시공한 사진이에요.");
 }
 
 function renderMat(){ $("#matOpts").innerHTML = ob(`data-mat="904"`, S.mat === "904", "904가 골라서 준비", "추천해 드려요") + ob(`data-mat="own"`, S.mat === "own", "직접 고른 자재 있음", "적어 주세요"); $("#matNoteWrap").hidden = S.mat !== "own"; }
