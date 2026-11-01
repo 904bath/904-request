@@ -10,8 +10,7 @@
   --font:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
   --num:"Poppins","Noto Sans KR",sans-serif;
   --bg:#F2F1EC; --surface:#FFFFFF; --surface2:#F7F6F2; --line:#E4E2DA;
-  --fg:#16171B; --muted:#7A7C85; --accent:#2F66F5; --accent-fg:#fff; --lime:#D7F55A; --ink:#16171B;
-  --view:#E9E7E0;
+  --fg:#16171B; --muted:#7A7C85; --accent:#2F66F5; --lime:#D7F55A; --ink:#16171B; --view:#E9E7E0;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --bg:#111215; --surface:#1A1B20; --surface2:#22232A; --line:#2C2D35; --fg:#F1F1EE; --muted:#9A9CA6; --accent:#5B86FF; --view:#1E1F25; --ink:#F1F1EE;
@@ -21,8 +20,6 @@
 html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);-webkit-font-smoothing:antialiased}
 button,input,textarea,select{font:inherit;color:inherit}
 .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
-
-/* 헤더 */
 .top{display:flex;align-items:center;justify-content:space-between;padding:14px 0 6px}
 .top img{height:34px;display:block}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .top img{filter:invert(1)} }
@@ -34,68 +31,82 @@ button,input,textarea,select{font:inherit;color:inherit}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .hero h1 em{color:var(--lime);background:none} }
 .hero p{margin:0;color:var(--muted);font-size:15px;line-height:1.6;max-width:560px}
 
-/* 레이아웃 */
 .grid{display:grid;grid-template-columns:1fr;gap:16px;padding-bottom:40px}
-@media (min-width:900px){ .grid{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:start} .stage{position:sticky;top:12px} }
+@media (min-width:900px){ .grid{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:start} }
 .stage{position:sticky;top:0;z-index:5;background:var(--bg);padding-top:6px;margin:0 -16px;padding-left:16px;padding-right:16px}
-@media (min-width:900px){ .stage{margin:0;padding:0} }
-.view{position:relative;border-radius:20px;overflow:hidden;background:var(--view);height:min(42vh,400px);box-shadow:0 1px 0 var(--line) inset}
+@media (min-width:900px){ .stage{margin:0;padding:0;top:12px} }
+.view{position:relative;border-radius:20px;overflow:hidden;background:var(--view);height:min(40vh,380px)}
 @media (min-width:900px){ .view{height:min(78vh,640px)} }
 .view canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
 .view canvas:active{cursor:grabbing}
-.vtabs{position:absolute;left:10px;top:10px;display:flex;gap:6px;z-index:2}
-.vtab{border:0;border-radius:99px;padding:8px 13px;font-weight:800;font-size:13px;background:rgba(255,255,255,.82);color:#16171B;backdrop-filter:blur(8px);cursor:pointer}
+.vtabs{position:absolute;left:10px;top:10px;right:110px;display:flex;gap:6px;z-index:2;overflow-x:auto;scrollbar-width:none}
+.vtabs::-webkit-scrollbar{display:none}
+.vtab{border:0;border-radius:99px;padding:8px 12px;font-weight:800;font-size:12.5px;background:rgba(255,255,255,.84);color:#16171B;backdrop-filter:blur(8px);cursor:pointer;white-space:nowrap;flex:none}
 .vtab[aria-pressed="true"]{background:#16171B;color:#fff}
-.vtab .x{opacity:.5;font-weight:700;margin-left:2px}
 .vbtns{position:absolute;right:10px;top:10px;display:flex;gap:6px;z-index:2}
-.ibtn{border:0;border-radius:99px;height:34px;padding:0 12px;font-weight:700;font-size:12px;background:rgba(255,255,255,.82);color:#16171B;backdrop-filter:blur(8px);cursor:pointer}
-.chips{position:absolute;left:10px;right:10px;bottom:10px;display:flex;flex-wrap:wrap;gap:5px;z-index:2;pointer-events:none}
-.chip{background:rgba(22,23,27,.78);color:#fff;font-size:11.5px;font-weight:700;padding:5px 9px;border-radius:99px;backdrop-filter:blur(6px)}
-.chip b{font-family:var(--num);font-weight:800}
+.ibtn{border:0;border-radius:99px;height:34px;padding:0 12px;font-weight:700;font-size:12px;background:rgba(255,255,255,.84);color:#16171B;backdrop-filter:blur(8px);cursor:pointer}
+.chips{position:absolute;left:10px;right:10px;bottom:10px;display:flex;flex-wrap:wrap;gap:5px;z-index:2;pointer-events:none;max-height:58px;overflow:hidden}
+.chip{background:rgba(22,23,27,.78);color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:99px;backdrop-filter:blur(6px)}
 .hint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(22,23,27,.72);color:#fff;font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:99px;pointer-events:none;transition:opacity .5s;z-index:2;white-space:nowrap}
-.pop{position:absolute;left:50%;top:54px;transform:translate(-50%,-8px);background:var(--lime);color:#16171B;font-weight:900;font-size:14px;padding:9px 15px;border-radius:99px;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:3;white-space:nowrap}
+.pop{position:absolute;left:50%;top:52px;transform:translate(-50%,-8px);background:var(--lime);color:#16171B;font-weight:900;font-size:14px;padding:9px 15px;border-radius:99px;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:3;white-space:nowrap}
 .pop.on{opacity:1;transform:translate(-50%,0)}
 .nogl{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;color:var(--muted);font-size:14px;line-height:1.6}
-.note{font-size:12px;color:var(--muted);margin:8px 2px 4px;line-height:1.5}
+.note{font-size:11.5px;color:var(--muted);margin:6px 2px 4px;line-height:1.5}
 
-/* 옵션 패널 */
 .panel{display:flex;flex-direction:column;gap:12px}
 .card{background:var(--surface);border-radius:20px;padding:18px 16px;border:1px solid var(--line)}
 .card h2{margin:0 0 4px;font-size:18px;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
 .card h2 .n{font:800 12px/1 var(--num);background:var(--ink);color:var(--bg);width:24px;height:24px;border-radius:50%;display:grid;place-items:center;flex:none}
-.card .sub{color:var(--muted);font-size:13px;margin:0 0 12px}
-.q{padding:12px 0;border-top:1px solid var(--line)}
-.q:first-of-type{border-top:0}
-.ql{font-weight:800;font-size:14px;margin-bottom:9px;display:flex;justify-content:space-between;gap:8px}
-.ql small{font-weight:500;color:var(--muted);font-size:12px}
+.card .sub{color:var(--muted);font-size:13px;margin:0 0 12px;line-height:1.5}
+.q{padding:13px 0;border-top:1px solid var(--line)}
+.q.first{border-top:0;padding-top:4px}
+.ql{font-weight:800;font-size:14px;margin-bottom:9px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.ql small{font-weight:500;color:var(--muted);font-size:12px;text-align:right}
+.qs{margin:9px 0 0 12px;padding-left:10px;border-left:2px solid var(--line)}
+.qs .ql{font-size:12.5px;margin-bottom:7px}
 .opts{display:flex;flex-wrap:wrap;gap:7px}
-.opt{border:1.5px solid var(--line);background:var(--surface2);border-radius:14px;padding:10px 13px;cursor:pointer;text-align:left;font-weight:800;font-size:14px;line-height:1.25;min-height:44px;transition:border-color .15s,background .15s}
-.opt small{display:block;font-weight:500;font-size:11.5px;color:var(--muted);margin-top:2px}
-.opt[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface));color:var(--fg)}
+.opt{border:1.5px solid var(--line);background:var(--surface2);border-radius:14px;padding:9px 12px;cursor:pointer;text-align:left;font-weight:800;font-size:13.5px;line-height:1.25;min-height:42px;transition:border-color .15s,background .15s}
+.opt small{display:block;font-weight:500;font-size:11px;color:var(--muted);margin-top:2px}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface))}
 .opt[aria-pressed="true"] small{color:var(--accent)}
 .opt:disabled{opacity:.38;cursor:not-allowed}
-.opt .big{font-family:var(--num);font-weight:800;letter-spacing:-.01em}
-.sw{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--line);cursor:pointer;position:relative;padding:0}
+.opt .big{font-family:var(--num);font-weight:800}
+.opt.add::before{content:"+ ";color:var(--muted)}
+.opt.add[aria-pressed="true"]::before{content:"✓ ";color:var(--accent)}
+.sw{width:40px;height:40px;border-radius:12px;border:1.5px solid var(--line);cursor:pointer;padding:0}
 .sw[aria-pressed="true"]{outline:2.5px solid var(--accent);outline-offset:2px}
-.swl{font-size:12px;color:var(--muted);margin-top:7px;font-weight:600}
-.bathpick{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.bathpick .opt{min-height:64px}
-.dis{font-size:12px;color:var(--muted);margin-top:7px}
-
-/* 폼 */
+.dis{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.5}
+.dim{display:flex;align-items:center;gap:6px;margin-top:9px;font-size:14px;font-weight:700}
+.dim input{width:74px;border:1.5px solid var(--line);background:var(--surface2);border-radius:10px;padding:9px 10px;font-size:16px;font-family:var(--num);text-align:center;outline:none}
+.dim input:focus{border-color:var(--accent)}
+.dim span.a{font-weight:500;color:var(--muted);font-size:12px;margin-left:4px}
+.zpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:7px}
+.ztabs{display:flex;gap:6px;overflow-x:auto;margin:0 -16px 6px;padding:0 16px 4px;scrollbar-width:none}
+.ztabs::-webkit-scrollbar{display:none}
+.ztab{border:0;border-radius:99px;padding:9px 13px;font-weight:800;font-size:13px;background:var(--surface2);cursor:pointer;white-space:nowrap;flex:none}
+.ztab[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.proc{border:1.5px solid var(--line);border-radius:16px;margin-top:9px;overflow:hidden}
+.proc>button{width:100%;display:flex;align-items:center;gap:10px;padding:13px 14px;background:var(--surface2);border:0;cursor:pointer;text-align:left}
+.proc>button b{font-size:14.5px}
+.proc>button span{color:var(--muted);font-size:12px;margin-left:auto;text-align:right}
+.proc>button i{font-style:normal;width:22px;height:22px;border-radius:7px;border:1.5px solid var(--line);display:grid;place-items:center;font-size:13px;flex:none;background:var(--surface)}
+.proc.on{border-color:var(--accent)}
+.proc.on>button i{background:var(--accent);border-color:var(--accent);color:#fff}
+.proc .pin{padding:4px 14px 14px}
+.auto{background:var(--surface2);border-radius:12px;padding:10px 12px;font-size:12.5px;line-height:1.6;color:var(--muted)}
+.auto b{color:var(--fg)}
 .f{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
 .f span{font-weight:800;font-size:13.5px}
 .f span i{font-style:normal;color:var(--accent)}
 .f input,.f textarea,.f select{border:1.5px solid var(--line);background:var(--surface2);border-radius:12px;padding:12px 13px;font-size:16px;outline:none;width:100%}
 .f input:focus,.f textarea:focus,.f select:focus{border-color:var(--accent)}
-.f textarea{min-height:84px;resize:vertical}
+.f textarea{min-height:80px;resize:vertical}
 .agree{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--muted);line-height:1.5;margin:4px 0 14px;cursor:pointer}
 .agree input{width:20px;height:20px;margin:0;flex:none;accent-color:var(--accent)}
-.send{width:100%;border:0;border-radius:16px;background:var(--ink);color:var(--bg);font-weight:900;font-size:17px;padding:17px;cursor:pointer;letter-spacing:-.01em}
+.send{width:100%;border:0;border-radius:16px;background:var(--ink);color:var(--bg);font-weight:900;font-size:17px;padding:17px;cursor:pointer}
 .send:disabled{opacity:.5;cursor:wait}
-.sum{background:var(--surface2);border-radius:14px;padding:12px 13px;font-size:13px;line-height:1.65;margin-bottom:14px;white-space:pre-wrap;word-break:keep-all}
-.err{color:#E5484D;font-size:13px;font-weight:700;margin:-4px 0 10px;min-height:1px}
-
+.sum{background:var(--surface2);border-radius:14px;padding:12px 13px;font-size:12.5px;line-height:1.7;margin-bottom:14px;white-space:pre-wrap;word-break:keep-all}
+.err{color:#E5484D;font-size:13px;font-weight:700;margin:-4px 0 10px}
 .done{text-align:center;padding:40px 18px}
 .done h2{justify-content:center;font-size:24px}
 .done p{color:var(--muted);line-height:1.6}
@@ -111,7 +122,7 @@ footer{padding:24px 0 40px;color:var(--muted);font-size:12px;text-align:center;l
   <section class="hero">
     <span class="tag">3D BATH PREVIEW</span>
     <h1>우리 집 욕실,<br><em>미리 보고</em> 견적 받기</h1>
-    <p>타일 크기, 젠다이, 욕조, 파티션을 골라 보세요. 고르는 대로 3D 욕실이 바로 바뀌어요. 마음에 들면 그대로 견적을 요청하시면 됩니다.</p>
+    <p>시공할 곳을 고르고 타일, 젠다이, 욕조, 파티션을 골라 보세요. 고르는 대로 3D가 바로 바뀌어요. 마음에 들면 그대로 견적을 요청하시면 됩니다.</p>
   </section>
 
   <div class="grid">
@@ -123,27 +134,30 @@ footer{padding:24px 0 40px;color:var(--muted);font-size:12px;text-align:center;l
         <div class="hint" id="hint">손가락으로 돌려 보세요 ↻</div>
         <div class="chips" id="chips"></div>
       </div>
-      <p class="note">3D는 이해를 돕기 위한 예시예요. 실제 욕실 크기·배치에 맞춰 시공합니다.</p>
+      <p class="note">3D는 이해를 돕기 위한 예시예요. 실제 크기·배치에 맞춰 시공합니다.</p>
     </div>
 
-    <div class="panel" id="panel">
+    <div class="panel">
       <div class="card">
-        <h2><span class="n">1</span>어떤 욕실인가요?</h2>
-        <p class="sub">둘 다 하시면 둘 다 눌러 주세요. 욕실마다 따로 고를 수 있어요.</p>
-        <div class="bathpick" id="bathpick"></div>
+        <h2><span class="n">1</span>시공할 곳</h2>
+        <p class="sub">시공할 곳을 모두 눌러 주세요. 곳마다 따로 고를 수 있어요.</p>
+        <div class="zpick" id="zpick"></div>
       </div>
       <div class="card" id="specCard"></div>
+      <div class="card" id="procCard"></div>
       <div class="card" id="form">
-        <h2><span class="n">3</span>견적 받을 연락처</h2>
+        <h2><span class="n">4</span>견적 받을 연락처</h2>
         <p class="sub">확인하고 904에서 직접 연락드려요.</p>
         <label class="f"><span>이름 <i>*</i></span><input id="fName" autocomplete="name" placeholder="홍길동"></label>
         <label class="f"><span>연락처 <i>*</i></span><input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="010-0000-0000"></label>
-        <label class="f"><span>지역 <i>*</i></span><input id="fAddr" autocomplete="address-level2" placeholder="예) 서울 강서구 ○○아파트"></label>
+        <label class="f"><span>현장 주소 <i>*</i></span><input id="fAddr" autocomplete="street-address" placeholder="예) 수성구 범어동 ○○아파트 101동"></label>
         <label class="f"><span>희망 시기</span><select id="fWhen"><option>아직 미정</option><option>1개월 안</option><option>1~3개월 안</option><option>3개월 이후</option></select></label>
-        <label class="f"><span>더 알려주실 것</span><textarea id="fMemo" placeholder="욕실 크기, 원하는 분위기, 지금 상태(누수·곰팡이 등)를 편하게 적어 주세요"></textarea></label>
+        <div class="f"><span>자재</span><div class="opts" id="matOpts"></div></div>
+        <label class="f" id="matNoteWrap" hidden><span>원하시는 자재</span><input id="fMatNote" placeholder="예) 300×600 무광 화이트, 대림 양변기"></label>
+        <label class="f"><span>더 알려주실 것</span><textarea id="fMemo" placeholder="원하는 분위기, 지금 상태(누수·곰팡이 등)를 편하게 적어 주세요"></textarea></label>
         <div class="ql">요청 내용</div>
         <div class="sum" id="sum"></div>
-        <label class="agree"><input type="checkbox" id="fAgree"><span>견적 상담을 위해 이름·연락처·지역을 받는 데 동의해요. 상담 외 용도로 쓰지 않아요.</span></label>
+        <label class="agree"><input type="checkbox" id="fAgree"><span>견적 상담을 위해 이름·연락처·주소를 받는 데 동의해요. 상담 외 용도로 쓰지 않아요.</span></label>
         <div class="err" id="err"></div>
         <button type="button" class="send" id="send">견적 요청 보내기</button>
       </div>
@@ -159,355 +173,654 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
 const $ = s => document.querySelector(s);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const z1 = n => Math.round(n * 10) / 10;
 
-/* ───────── 선택지 ───────── */
-const COLORS = {
-  white:["화이트","#F4F3EF"], ivory:["아이보리","#ECE5D6"], beige:["베이지","#D9CDB8"], lgray:["라이트그레이","#D5D6D4"],
-  gray:["그레이","#A7A9A8"], concrete:["콘크리트","#8E8C86"], charcoal:["차콜","#4A4B4E"], green:["세이지","#AEB9A3"]
-};
-const WALL_SIZES = [["300×600","300×600","36 · 가장 많이 써요"],["600각","600×600","큰 타일 · 깔끔"],["600×1200","600×1200","대형 · 줄눈 최소"]];
-const FLOOR_SIZES = [["300각","300×300","기본 · 미끄럼 덜함"],["600각","600×600","벽과 통일감"],["모자이크","모자이크","포인트 · 미끄럼 방지"]];
-// [값, 라벨, 설명] — 메일에는 시공팀 용어로 같이 적음
-const Q = {
-  work:{label:"공사 방식", items:[["철거 후 시공","다 뜯고 새로","기존 타일 철거"],["덧방","덧방","기존 타일 위에 붙이기"],["모름","잘 모르겠어요","보고 정해 드려요"]]},
-  jendai:{label:"젠다이", tip:"세면대·변기 뒤 선반", items:[["없음","없음",""],["하프","짧게","변기 뒤만"],["풀","길게","벽 한 면 전체"]]},
-  tub:{label:"욕조", items:[["없음","없음","샤워만"],["치마 타일","타일 욕조","앞면 타일 마감"],["플라스틱","일반 욕조","매립 욕조"]]},
-  partition:{label:"샤워 파티션", tip:"샤워 공간 나누는 벽", items:[["없음","없음",""],["하프","반벽 + 유리","허리 높이 타일벽"],["풀","전체 벽","천장까지 타일벽"]]}
-};
-const BATHS = [["외욕실","거실 쪽 욕실"],["내욕실","안방 욕실"]];
-const blankSpec = () => ({work:"철거 후 시공", wall:"300×600", wallColor:"white", floor:"300각", floorColor:"gray", jendai:"없음", tub:"없음", partition:"없음", corner:false, window:false});
-const KEY = "904-customer-v1";
-let S = { on:{외욕실:true, 내욕실:false}, active:"외욕실", spec:{외욕실:blankSpec(), 내욕실:blankSpec()} };
-try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && s.spec) S = Object.assign(S, s); } catch(_){}
+/* ═══════════ 선택지 (업체용 견적요청과 같은 항목·이름) ═══════════ */
+const ZONES = ["외욕실","내욕실","주방","현관","안방베란다","거실베란다","세탁실"];
+const ZDESC = {외욕실:"거실 쪽 욕실", 내욕실:"안방 욕실", 주방:"벽 타일", 현관:"바닥", 안방베란다:"바닥", 거실베란다:"바닥", 세탁실:"바닥"};
+const isBath = r => /욕실/.test(r), isKitchen = r => /주방/.test(r), isFloorZ = r => /베란다|현관|세탁실/.test(r);
+const hasWork = r => isBath(r) || /베란다|세탁실/.test(r);
+const kindOf = r => isBath(r) ? (/내욕실/.test(r) ? "inBath" : "outBath") : /현관/.test(r) ? "entry" : /세탁실/.test(r) ? "laundry" : /거실베란다/.test(r) ? "livVer" : /베란다/.test(r) ? "bedVer" : "";
+const ZDIM_STD = {
+  outBath:{20:[1.5,2.0],30:[1.6,2.3],40:[1.8,2.5],50:[2.0,2.6]}, inBath:{20:[1.3,1.8],30:[1.5,2.1],40:[2.0,2.8],50:[2.3,3.2]},
+  entry:{20:[1.2,1.0],30:[1.5,1.2],40:[2.0,1.5],50:[2.4,1.8]}, laundry:{20:[1.3,2.0],30:[1.5,2.5],40:[1.8,3.0],50:[2.0,3.2]},
+  bedVer:{20:[1.2,3.0],30:[1.3,3.5],40:[1.5,4.0],50:[1.6,4.5]}, livVer:{20:[1.4,4.5],30:[1.5,5.5],40:[1.6,6.5],50:[1.7,7.5]}};
+const ZH = 2.3, PY = 3.3058;
+const SIZES = r => isKitchen(r) ? ["300×600","600각","800각","600×1200","모자이크","기타"] : isBath(r) ? ["300×600","600각","600×1200","모자이크","기타"] : ["300각","600각","600×1200","기타"];
+const SIZE_NOTE = {"300×600":"36 · 가장 많이 써요","600각":"600×600","800각":"800×800","600×1200":"대형 · 줄눈 최소","모자이크":"작은 조각","300각":"300×300","기타":"상담 때 정해요"};
+const FLOOR_SIZES = ["300각","600각","모자이크"];
+const METHODS = ["에폭시","본드","드라이"];
+const METHOD_NOTE = {에폭시:"접착력 가장 강함", 본드:"가벼운 타일", 드라이:"드라이픽스"};
+const heavy = (r, s) => (isBath(r) || isKitchen(r)) && ["600각","800각","600×1200"].includes(s);
+const methodsFor = (r, x) => METHODS.filter(m => !(x.size === "600×1200" && m === "드라이") && !(heavy(r, x.size) && m === "본드"));
+const SCOPE = ["욕조 자리","한 벽","두 벽","바닥만","벽만"];
+const DM_ITEMS = ["벽 철거","바닥 철거","욕조 철거","도기 철거"], DM_ALL = "전체 철거";
+const dmIt = a => (a || []).includes(DM_ALL) ? [...DM_ITEMS] : (a || []).filter(v => DM_ITEMS.includes(v));
+const OPT_BATH = [["젠다이",["하프 조적","풀 조적","기존 젠다이"],"세면대·변기 뒤 선반"],["욕조",["치마 타일","플라스틱"],""],["파티션",["하프 조적","풀 조적","하프 폼","풀 폼"],"샤워 공간 나누는 벽"],["파티션 선반",[],"파티션 위·옆 선반"],["시다지",[],"바닥 구배 바탕"],["비드벽",[],"변기·세면대 사이 낮은 벽"],["창틀",[],"창틀 타일 마감"],["싯기",["타일 싯기","대리석 싯기"],"선반 윗면 마감"],["코너선반",[],"샤워 모서리 선반"],["졸리컷",null,"모서리 45° 마감"]];
+const JOLLY = ["젠다이","파티션","비드벽","창틀"];
+const SUBL = {"하프 조적":"조적 (하프)","풀 조적":"조적 (풀)","하프 폼":"폼세라믹 (하프)","풀 폼":"폼세라믹 (풀)"};
+const SUBN = {"하프 조적":"허리 높이 · 벽돌","풀 조적":"천장까지 · 벽돌","하프 조적@젠다이":"변기·세면대 뒤","풀 조적@젠다이":"샤워 쪽까지 벽 전체","하프 폼@파티션":"허리 높이 + 유리 · 가벼운 판","하프 조적@파티션":"허리 높이 + 유리 · 벽돌","하프 폼":"허리 높이 · 가벼운 판","풀 폼":"천장까지 · 가벼운 판","기존 젠다이":"있는 것 살리기","치마 타일":"앞면 타일 마감","플라스틱":"일반 매립 욕조","타일 싯기":"타일로","대리석 싯기":"대리석으로"};
+const floorDemo = x => x.work === "철거 후 시공" && dmIt(x.demo).includes("바닥 철거");
+function optList(r, x){
+  if (isBath(r)) return OPT_BATH.filter(([n]) => (n !== "시다지" || floorDemo(x)) && (n !== "졸리컷" || (x.size !== "300×600" && x.size !== "모자이크" && JOLLY.some(j => x.opts?.[j]))) && (n !== "파티션 선반" || x.opts?.파티션) && (n !== "코너선반" || x.size === "600각" || x.size === "600×1200"));
+  if (/베란다|세탁실/.test(r)) return [["걸레받이", x.size === "300각" ? ["300각","300×600"] : [], "벽 아래 띠"],["단(시다지)",[],"턱·단차"],["샷시 아래",[],"창 아래 벽"]];
+  if (/현관/.test(r)) return [["걸레받이",[],"벽 아래 띠"],["단(시다지)",[],"현관 턱"]];
+  return [];
+}
+const KQTY = ["600각 10장 이하","600각 20장 이하"];
+const COLORS = {white:["화이트","#F4F3EF"], ivory:["아이보리","#ECE5D6"], beige:["베이지","#D9CDB8"], lgray:["라이트그레이","#D5D6D4"], gray:["그레이","#A7A9A8"], concrete:["콘크리트","#8E8C86"], charcoal:["차콜","#4A4B4E"], green:["세이지","#AEB9A3"]};
+
+// 공정 (업체용과 같은 순서·이름)
+const PROCS = [["prot","보양"],["demo","철거"],["plumb","설비"],["wp","방수"],["tile","타일"],["sani","도기 세팅"],["dome","돔천장"],["etc","기타"]];
+const PLUMB = ["배관 설치","배관 이동","벽배관 이동","수전 위치 변경","니플 연장"];
+const SANI = ["양변기","세면대","수전","샤워기","악세사리","욕조","거울장·수납장","간접등"];
+
+function blank(r){
+  const k = kindOf(r), std = ZDIM_STD[k], d = std ? {pk:"30", w:std[30][0], l:std[30][1]} : null;
+  const x = {dim:d, size: isBath(r) || isKitchen(r) ? "300×600" : "300각", method:"", opts:{}, color: isFloorZ(r) ? "gray" : "white", fcolor:"gray"};
+  if (hasWork(r)){ x.work = "철거 후 시공"; if (isBath(r)) x.demo = [DM_ALL]; }
+  if (isBath(r)){ x.fsize = "300각"; x.heat = ""; x.scope = []; x.scopeNote = ""; }
+  if (isKitchen(r)) x.qty = "";
+  return x;
+}
+const blankProc = () => ({prot:{on:false, 범위:"욕실만"}, demo:{on:false, done:false, 폐기물:"904에 맡김", note:""}, plumb:{on:false, by:{}, note:""}, wp:{on:false}, tile:{on:true, 메지:"일반 메지"}, sani:{on:false, 항목:[]}, dome:{on:false, 천장:"SMC 돔", 매립등:"2인치", 환풍기:false}, etc:{on:false, note:""}});
+const KEY = "904-customer-v2";
+let S = {rooms:["외욕실"], active:"외욕실", spec:{외욕실:blank("외욕실")}, proc:blankProc(), mat:"904", open:null};
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && s.spec && s.rooms?.length) S = Object.assign(S, s, {proc:Object.assign(blankProc(), s.proc || {})}); } catch(_){}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(_){} };
-const sp = () => S.spec[S.active];
-const bigWall = x => x.wall === "600각" || x.wall === "600×1200";
+const X = () => S.spec[S.active];
+// 고른 값 중 더는 안 맞는 것 정리 (업체용 zsNorm과 같은 규칙)
+function norm(r, x){
+  if (x.method && !methodsFor(r, x).includes(x.method)) x.method = "";
+  const ok = new Set(optList(r, x).map(([n]) => n)), o = x.opts;
+  for (const k of Object.keys(o)) if (!ok.has(k)) delete o[k];
+  if (Array.isArray(o.졸리컷)) o.졸리컷 = o.졸리컷.filter(j => o[j]);
+  if (o.걸레받이 && o.걸레받이 !== true && x.size !== "300각") o.걸레받이 = true;
+}
+// 방수 자동 (업체용 wpDefault): 바닥 철거 → 액방·도막 1차·2차 · 욕조 자리 → 도막만 · 덧방 → 안 함
+function wpFor(r){ const x = S.spec[r]; if (!x || !isBath(r)) return null;
+  if (x.work === "덧방") return {v:[], why:"덧방이라 방수 없음"};
+  const it = dmIt(x.demo);
+  if (x.work === "철거 후 시공" && it.includes("바닥 철거")) return {v:["액방","도막 1차","도막 2차"], why:"바닥 철거라 방수 기본"};
+  if (it.includes("욕조 철거") || (x.scope || []).includes("욕조 자리")) return {v:["도막 1차","도막 2차"], why:"욕조 자리는 방수층이 남아 도막만"};
+  return {v:[], why:"바닥을 안 뜯으면 방수 없음"}; }
 
-/* ───────── 3D ───────── */
-const W = 1.7, D = 2.3, H = 2.3, JD = 0.2, JH = 1.0, TUBD = 0.75, PZ = -0.25;
+/* ═══════════ 3D ═══════════ */
 const view = $("#view");
-let renderer, scene, camera, controls, root, pmrem, ok = true;
+let renderer, scene, camera, controls, ok = true;
 try {
   renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
   renderer.setClearColor(0x000000, 0);
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+  renderer.toneMapping = THREE.AgXToneMapping; renderer.toneMappingExposure = 1.25;
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   view.prepend(renderer.domElement);
 } catch(e){ ok = false; view.insertAdjacentHTML("beforeend", `<div class="nogl">이 기기에선 3D 미리보기가 안 열려요.<br>선택은 그대로 하실 수 있어요.</div>`); }
-
+let keyLight;
 if (ok){
   scene = new THREE.Scene();
-  pmrem = new THREE.PMREMGenerator(renderer);
-  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  camera = new THREE.PerspectiveCamera(48, 1, 0.05, 50);
+  scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+  camera = new THREE.PerspectiveCamera(48, 1, 0.05, 60);
   controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true; controls.dampingFactor = 0.08; controls.enablePan = false;
-  controls.minDistance = 2.2; controls.maxDistance = 5.2;
-  controls.minPolarAngle = 0.85; controls.maxPolarAngle = 1.58;
-  controls.minAzimuthAngle = -0.95; controls.maxAzimuthAngle = 0.95;
+  controls.minPolarAngle = 0.8; controls.maxPolarAngle = 1.58; controls.minAzimuthAngle = -1.0; controls.maxAzimuthAngle = 1.0;
   controls.addEventListener("start", () => { $("#hint").style.opacity = 0; });
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xd8d2c6, 0.55));
-  const key = new THREE.PointLight(0xfff4e6, 7, 6, 1.6); key.position.set(0.1, H - 0.15, 0.2); key.castShadow = true;
-  key.shadow.mapSize.set(1024, 1024); key.shadow.bias = -0.002; key.shadow.radius = 4; scene.add(key);
-  const fill = new THREE.DirectionalLight(0xffffff, 0.6); fill.position.set(1.5, 2.5, 4); scene.add(fill);
-  resetCam();
+  scene.add(new THREE.HemisphereLight(0xfffaf2, 0xcfc8bc, 0.7));
+  keyLight = new THREE.PointLight(0xfff4e6, 7, 9, 1.6); keyLight.castShadow = true;
+  keyLight.shadow.mapSize.set(1024, 1024); keyLight.shadow.bias = -0.002; keyLight.shadow.radius = 4; scene.add(keyLight);
+  const fill = new THREE.DirectionalLight(0xfff6ea, 0.45); fill.position.set(0.5, 2.2, 5); scene.add(fill);
   new ResizeObserver(resize).observe(view); resize();
 }
-function resetCam(){ if (!ok) return; camera.position.set(0.35, 2.0, D/2 + 2.9); controls.target.set(-0.05, 0.85, -0.3); controls.update(); }
+let room = {W:1.6, D:2.3};
+function resetCam(){ if (!ok) return; const {W, D} = room, m = Math.max(W * (camera.aspect < 0.9 ? 0.62 : 0.45), D * 0.8);
+  camera.position.set(0.15, 1.75, D/2 + 0.9 + m * 1.25); controls.target.set(0, 0.95, -D * 0.15);
+  controls.minDistance = 1.4; controls.maxDistance = 3 + m * 2; controls.update(); }
 function resize(){ const r = view.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / Math.max(1, r.height); camera.fov = camera.aspect < 0.9 ? 62 : 48; camera.updateProjectionMatrix(); }
 
-/* 타일 텍스처: 한 장(시트)에 타일 여러 개 + 줄눈 + 살짝 다른 톤 */
-const TILE = { // [가로m, 세로m, 시트 가로 장수, 세로 장수]
-  "300×600":[0.6,0.3,2,4], "600각":[0.6,0.6,2,2], "600×1200":[0.6,1.2,2,1], "300각":[0.3,0.3,4,4], "모자이크":[0.048,0.048,8,8]
-};
+const TILE = {"300×600":[0.6,0.3,2,4], "600각":[0.6,0.6,2,2], "800각":[0.8,0.8,2,2], "600×1200":[0.6,1.2,2,1], "300각":[0.3,0.3,4,4], "모자이크":[0.048,0.048,8,8], "기타":[0.4,0.4,3,3]};
 const texCache = new Map();
 function sheet(size, hex){
   const k = size + hex; if (texCache.has(k)) return texCache.get(k);
-  const [tw, th, nx, ny] = TILE[size];
+  const [tw, th, nx, ny] = TILE[size] || TILE["기타"];
   const ppm = size === "모자이크" ? 1100 : 520, grout = Math.max(3, Math.round(0.003 * ppm));
   const cw = Math.round(tw * nx * ppm), ch = Math.round(th * ny * ppm);
   const c = document.createElement("canvas"); c.width = cw; c.height = ch; const g = c.getContext("2d");
   const base = new THREE.Color(hex), dark = base.getHSL({h:0,s:0,l:0}).l < 0.45;
-  const gr = base.clone().offsetHSL(0, -0.06, dark ? 0.16 : -0.24);
-  g.fillStyle = "#" + gr.getHexString(); g.fillRect(0, 0, cw, ch);
+  g.fillStyle = "#" + base.clone().offsetHSL(0, -0.04, dark ? 0.12 : -0.13).getHexString(); g.fillRect(0, 0, cw, ch);
   let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
   const pw = cw / nx, ph = ch / ny;
   for (let y = 0; y < ny; y++) for (let x = 0; x < nx; x++){
-    const shift = size === "300×600" && y % 2 ? 0 : 0; // 일자 시공
     const col = base.clone().offsetHSL(0, 0, (rnd() - 0.5) * (size === "모자이크" ? 0.07 : 0.025));
-    const x0 = x * pw + shift + grout / 2, y0 = y * ph + grout / 2;
+    const x0 = x * pw + grout / 2, y0 = y * ph + grout / 2;
     const grd = g.createLinearGradient(x0, y0, x0 + pw, y0 + ph);
     grd.addColorStop(0, "#" + col.clone().offsetHSL(0, 0, 0.015).getHexString()); grd.addColorStop(1, "#" + col.clone().offsetHSL(0, 0, -0.015).getHexString());
     g.fillStyle = grd; g.fillRect(x0, y0, pw - grout, ph - grout);
-    if (size !== "모자이크"){ // 은은한 결
-      g.globalAlpha = 0.05; g.strokeStyle = dark ? "#fff" : "#000"; g.lineWidth = 1;
+    if (size !== "모자이크"){ g.globalAlpha = 0.05; g.strokeStyle = dark ? "#fff" : "#000";
       for (let i = 0; i < 3; i++){ g.beginPath(); g.moveTo(x0 + rnd() * pw, y0); g.bezierCurveTo(x0 + rnd() * pw, y0 + ph * .3, x0 + rnd() * pw, y0 + ph * .7, x0 + rnd() * pw, y0 + ph - grout); g.stroke(); }
-      g.globalAlpha = 1;
-    }
+      g.globalAlpha = 1; }
   }
-  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  t.anisotropy = ok ? renderer.capabilities.getMaxAnisotropy() : 1;
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = ok ? renderer.capabilities.getMaxAnisotropy() : 1;
   const out = {tex:t, w:tw * nx, h:th * ny}; texCache.set(k, out); return out;
 }
-function tileMat(size, hex, w, h, glossy = 0.28){
-  const s = sheet(size, hex), t = s.tex.clone(); t.needsUpdate = true;
-  t.repeat.set(w / s.w, h / s.h);
-  return new THREE.MeshStandardMaterial({map:t, roughness:glossy, metalness:0, envMapIntensity:0.55});
+let marbleTex = null;
+function marble(){ if (marbleTex) return marbleTex;
+  const c = document.createElement("canvas"); c.width = 512; c.height = 512; const g = c.getContext("2d");
+  g.fillStyle = "#F3F1EC"; g.fillRect(0, 0, 512, 512); let s = 3; const r = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < 14; i++){ g.strokeStyle = `rgba(110,110,120,${0.08 + r() * 0.18})`; g.lineWidth = 0.6 + r() * 2.2; g.beginPath(); let x = r() * 512, y = 0; g.moveTo(x, y);
+    while (y < 512){ x += (r() - 0.5) * 60; y += 20 + r() * 40; g.lineTo(x, y); } g.stroke(); }
+  marbleTex = new THREE.CanvasTexture(c); marbleTex.colorSpace = THREE.SRGBColorSpace; marbleTex.wrapS = marbleTex.wrapT = THREE.RepeatWrapping; return marbleTex; }
+const mapCache = new Map();
+// 타일 모서리 살짝 둥글고 줄눈은 들어간 높이맵 → 노멀맵·거칠기맵 (크기별로 한 번만)
+function tileMaps(size){
+  if (mapCache.has(size)) return mapCache.get(size);
+  const [tw, th, nx, ny] = TILE[size] || TILE["기타"], ppm = size === "모자이크" ? 700 : 300;
+  const cw = Math.round(tw * nx * ppm), ch = Math.round(th * ny * ppm), pw = cw / nx, ph = ch / ny;
+  const gr = Math.max(1.5, 0.0015 * ppm), bev = Math.max(2, (size === "모자이크" ? 0.002 : 0.004) * ppm);
+  const Hm = new Float32Array(cw * ch);
+  for (let y = 0; y < ch; y++){ const ly = y % ph, dy = Math.min(ly, ph - ly) - gr;
+    for (let x = 0; x < cw; x++){ const lx = x % pw, dx = Math.min(lx, pw - lx) - gr, d = Math.min(dx, dy);
+      Hm[y * cw + x] = d <= 0 ? 0 : d >= bev ? 1 : Math.sin(d / bev * Math.PI / 2); } }
+  const nc = document.createElement("canvas"); nc.width = cw; nc.height = ch; const ng = nc.getContext("2d"), nd = ng.createImageData(cw, ch);
+  const rc = document.createElement("canvas"); rc.width = cw; rc.height = ch; const rg = rc.getContext("2d"), rd = rg.createImageData(cw, ch);
+  const k = 2.2;
+  for (let y = 0; y < ch; y++) for (let x = 0; x < cw; x++){
+    const i = y * cw + x, hL = Hm[y * cw + Math.max(0, x - 1)], hR = Hm[y * cw + Math.min(cw - 1, x + 1)], hU = Hm[Math.max(0, y - 1) * cw + x], hD = Hm[Math.min(ch - 1, y + 1) * cw + x];
+    let a = (hL - hR) * k, b = (hD - hU) * k, c = 1; const l = Math.hypot(a, b, c); a /= l; b /= l; c /= l;
+    nd.data[i*4] = (a * 0.5 + 0.5) * 255; nd.data[i*4+1] = (b * 0.5 + 0.5) * 255; nd.data[i*4+2] = (c * 0.5 + 0.5) * 255; nd.data[i*4+3] = 255;
+    const rv = (0.42 + (1 - Hm[i]) * 0.58) * 255; rd.data[i*4] = rd.data[i*4+1] = rd.data[i*4+2] = rv; rd.data[i*4+3] = 255; }
+  ng.putImageData(nd, 0, 0); rg.putImageData(rd, 0, 0);
+  const mk = cv => { const t = new THREE.CanvasTexture(cv); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = ok ? renderer.capabilities.getMaxAnisotropy() : 1; return t; };
+  const out = {n: mk(nc), r: mk(rc)}; mapCache.set(size, out); return out;
 }
+function tileMat(size, hex, w, h, rough = 0.5){
+  const s = sheet(size, hex), m = tileMaps(size), rep = [w / s.w, h / s.h];
+  const cl = t => { const c = t.clone(); c.needsUpdate = true; c.repeat.set(...rep); return c; };
+  return new THREE.MeshStandardMaterial({map:cl(s.tex), normalMap:cl(m.n), normalScale:new THREE.Vector2(0.9, 0.9), roughnessMap:cl(m.r), roughness:rough, envMapIntensity:0.75});
+}
+// 둥근 모서리 박스 (가운데 기준)
+function rbox(w, h, d, r, mat, cast = true){
+  r = Math.min(r, w / 2 - 0.001, h / 2 - 0.001, d / 2 - 0.001);
+  const s = new THREE.Shape(), x = -w/2 + r, y = -h/2 + r, W2 = w - 2*r, H2 = h - 2*r;
+  s.moveTo(x, y); s.lineTo(x + W2, y); s.lineTo(x + W2, y + H2); s.lineTo(x, y + H2); s.lineTo(x, y);
+  const g = new THREE.ExtrudeGeometry(s, {depth: Math.max(0.001, d - 2*r), bevelEnabled:true, bevelSize:r, bevelThickness:r, bevelSegments:4, curveSegments:6});
+  g.translate(0, 0, -(d - 2*r) / 2); g.computeVertexNormals();
+  const m = new THREE.Mesh(g, mat); m.castShadow = cast; m.receiveShadow = true; return m; }
+const at = (o, x, y, z) => { o.position.set(x, y, z); return o; };
+// 가짜 AO: 구석·바닥 이음·기구 아래 그림자
+let aoLin = null, aoRad = null;
+function aoTex(radial){
+  if (radial ? aoRad : aoLin) return radial ? aoRad : aoLin;
+  const c = document.createElement("canvas"); c.width = c.height = 128; const g = c.getContext("2d");
+  const gr = radial ? g.createRadialGradient(64, 64, 4, 64, 64, 64) : g.createLinearGradient(0, 128, 0, 0);
+  gr.addColorStop(0, "rgba(0,0,0,1)"); gr.addColorStop(radial ? 0.45 : 0.25, "rgba(0,0,0,.45)"); gr.addColorStop(1, "rgba(0,0,0,0)");
+  g.fillStyle = gr; g.fillRect(0, 0, 128, 128); const t = new THREE.CanvasTexture(c);
+  if (radial) aoRad = t; else aoLin = t; return t; }
+function ao(w, h, opacity, radial = false){
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({map:aoTex(radial), transparent:true, opacity, depthWrite:false, polygonOffset:true, polygonOffsetFactor:-2}));
+  m.renderOrder = 2; return m; }
+// 바닥 위, 벽에 붙은 쪽이 진하게
+function floorAO(g, W, D, wd = 0.28, op = 0.32){
+  const b = ao(W, wd, op); b.rotation.x = -Math.PI/2; b.position.set(0, 0.003, -D/2 + wd/2); g.add(b);
+  const l = ao(D, wd, op); l.rotation.set(-Math.PI/2, 0, Math.PI/2); l.position.set(-W/2 + wd/2, 0.003, 0); g.add(l);
+  const r = ao(D, wd, op); r.rotation.set(-Math.PI/2, 0, -Math.PI/2); r.position.set(W/2 - wd/2, 0.003, 0); g.add(r); }
+function cornerAO(g, W, D, H){
+  const a = ao(H, 0.22, 0.2); a.rotation.z = Math.PI/2; a.position.set(-W/2 + 0.11, H/2, -D/2 + 0.002); g.add(a);
+  const b = ao(H, 0.22, 0.2); b.rotation.z = -Math.PI/2; b.position.set(W/2 - 0.11, H/2, -D/2 + 0.002); g.add(b);
+  const c = ao(W, 0.18, 0.16); c.position.set(0, H - 0.09, -D/2 + 0.002); g.add(c); }
+function blob(g, x, z, w, d, op = 0.5){ const b = ao(w, d, op, true); b.rotation.x = -Math.PI/2; b.position.set(x, 0.004, z); g.add(b); }
+const marbleMat = (w, h) => { const t = marble().clone(); t.needsUpdate = true; t.repeat.set(w / 0.8, h / 0.8); return new THREE.MeshStandardMaterial({map:t, roughness:0.12, envMapIntensity:0.9}); };
+const paint = new THREE.MeshStandardMaterial({color:0xf2f0eb, roughness:0.92});
 const plane = (w, h, mat) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat); m.receiveShadow = true; return m; };
-// 타일 박스 (아래 중심 기준) · faces: 보이는 면만
-function tiledBox(w, h, d, size, hex, faces = ["front","top","left","right","back"]){
+// 타일 박스 (아래 중심) · top은 싯기(대리석)로 바꿀 수 있음
+function tiledBox(w, h, d, size, hex, faces = ["front","top","left","right","back"], topMarble = false){
   const g = new THREE.Group();
-  const add = (pw, ph, pos, rot) => { const m = plane(pw, ph, tileMat(size, hex, pw, ph)); m.position.set(...pos); m.rotation.set(...rot); m.castShadow = true; g.add(m); };
+  const add = (pw, ph, pos, rot, mat) => { const m = plane(pw, ph, mat || tileMat(size, hex, pw, ph)); m.position.set(...pos); m.rotation.set(...rot); m.castShadow = true; g.add(m); };
   if (faces.includes("front")) add(w, h, [0, h/2, d/2], [0, 0, 0]);
   if (faces.includes("back")) add(w, h, [0, h/2, -d/2], [0, Math.PI, 0]);
   if (faces.includes("right")) add(d, h, [w/2, h/2, 0], [0, Math.PI/2, 0]);
   if (faces.includes("left")) add(d, h, [-w/2, h/2, 0], [0, -Math.PI/2, 0]);
-  if (faces.includes("top")) add(w, d, [0, h, 0], [-Math.PI/2, 0, 0]);
+  if (faces.includes("top")) add(w, d, [0, h + 0.001, 0], [-Math.PI/2, 0, 0], topMarble ? marbleMat(w, d) : null);
   return g;
 }
-const porcelain = new THREE.MeshStandardMaterial({color:0xfbfbf8, roughness:0.12, metalness:0, envMapIntensity:0.9});
+const porcelain = new THREE.MeshStandardMaterial({color:0xfbfbf8, roughness:0.12, envMapIntensity:0.9});
 const chrome = new THREE.MeshStandardMaterial({color:0xe6e9ed, roughness:0.22, metalness:0.85, envMapIntensity:1.5});
+const bead = new THREE.MeshStandardMaterial({color:0xd9dcdf, roughness:0.3, metalness:0.6});
 const wood = new THREE.MeshStandardMaterial({color:0xC9AE8B, roughness:0.6});
+const glassMat = new THREE.MeshStandardMaterial({color:0xdcefeb, roughness:0.02, metalness:0.1, transparent:true, opacity:0.22, envMapIntensity:2, depthWrite:false});
+const glow = new THREE.MeshStandardMaterial({color:0xffffff, emissive:0xfff0d0, emissiveIntensity:1.6});
 const mesh = (geo, mat, cast = true) => { const m = new THREE.Mesh(geo, mat); m.castShadow = cast; m.receiveShadow = true; return m; };
+const box = (w, h, d, mat, cast) => mesh(new THREE.BoxGeometry(w, h, d), mat, cast);
+// 코너비드: 졸리컷 안 하면 모서리에 알루미늄 몰딩
+function beads(g, segs){ for (const [x, y, z, len, axis] of segs){ const b = box(axis === "x" ? len : 0.014, axis === "y" ? len : 0.014, axis === "z" ? len : 0.014, bead, false); b.position.set(x, y, z); g.add(b); } }
 
-function build(x){
-  const all = new THREE.Group(), parts = {};
-  const part = k => (parts[k] = parts[k] || new THREE.Group());
-  const wc = COLORS[x.wallColor][1], fc = COLORS[x.floorColor][1];
-  const tub = x.tub !== "없음", jd = x.jendai !== "없음";
-  // 방
-  const room = part("room");
-  const back = plane(W, H, tileMat(x.wall, wc, W, H)); back.position.set(0, H/2, -D/2); room.add(back);
-  const lw = plane(D, H, tileMat(x.wall, wc, D, H)); lw.rotation.y = Math.PI/2; lw.position.set(-W/2, H/2, 0); room.add(lw);
-  const rw = plane(D, H, tileMat(x.wall, wc, D, H)); rw.rotation.y = -Math.PI/2; rw.position.set(W/2, H/2, 0); room.add(rw);
-  const fl = plane(W, D, tileMat(x.floor, fc, W, D, 0.45)); fl.rotation.x = -Math.PI/2; room.add(fl);
-  const ce = plane(W, D, new THREE.MeshStandardMaterial({color:0xf3f3f1, roughness:0.9})); ce.rotation.x = Math.PI/2; ce.position.y = H; room.add(ce);
-  const lamp = mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.02, 40), new THREE.MeshStandardMaterial({color:0xffffff, emissive:0xfff3dd, emissiveIntensity:1.4}), false); lamp.position.set(0.1, H - 0.01, 0.2); room.add(lamp);
-  const drain = mesh(new THREE.BoxGeometry(0.12, 0.004, 0.12), chrome, false); drain.position.set(tub ? 0.35 : -0.35, 0.002, tub ? -D/2 + TUBD + 0.15 : -0.75); room.add(drain);
-
-  // 욕조
-  const zBack = -D/2 + (tub ? TUBD : 0);
-  if (tub){
-    const g = part("tub"), th = 0.55;
-    if (x.tub === "치마 타일"){
-      const skirt = tiledBox(W, th, TUBD, x.wall, wc, ["front","top"]); skirt.position.set(0, 0, -D/2 + TUBD/2); g.add(skirt);
-      const shell = mesh(new THREE.BoxGeometry(W - 0.14, 0.03, TUBD - 0.14), porcelain); shell.position.set(0, th + 0.004, -D/2 + TUBD/2); g.add(shell);
-    } else {
-      const body = mesh(new THREE.BoxGeometry(W, th, TUBD), porcelain); body.position.set(0, th/2, -D/2 + TUBD/2); g.add(body);
-    }
-    const inner = mesh(new THREE.BoxGeometry(W - 0.22, 0.012, TUBD - 0.22), new THREE.MeshStandardMaterial({color:0xe8eef0, roughness:0.05, envMapIntensity:1.2}), false);
-    inner.position.set(0, th + 0.022, -D/2 + TUBD/2); g.add(inner);
-    const sp = mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.18, 16), chrome); sp.rotation.x = Math.PI/2; sp.position.set(0, th + 0.12, -D/2 + 0.09); g.add(sp);
-  }
-  // 젠다이 (왼쪽 벽)
-  const jz0 = x.jendai === "풀" ? zBack : -0.18, jz1 = x.jendai === "풀" ? D/2 : 0.48;
-  if (jd){
-    const len = jz1 - jz0, faces = x.jendai === "풀" ? ["top","right"] : ["top","right","front","back"];
-    const j = tiledBox(JD, JH, len, x.wall, wc, faces); j.position.set(-W/2 + JD/2, 0, (jz0 + jz1)/2); part("jendai").add(j);
-    const bottle = mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.18, 20), new THREE.MeshStandardMaterial({color:0x2b2d31, roughness:0.4}));
-    bottle.position.set(-W/2 + 0.1, JH + 0.09, jz0 + 0.12); part("jendai").add(bottle);
-    const plant = mesh(new THREE.SphereGeometry(0.07, 18, 14), new THREE.MeshStandardMaterial({color:0x6f8f5e, roughness:0.8}));
-    plant.position.set(-W/2 + 0.1, JH + 0.07, jz0 + 0.3); part("jendai").add(plant);
-  }
-  const wallAt = z => -W/2 + (jd && z >= jz0 - 0.01 && z <= jz1 + 0.01 ? JD : 0);
-  // 변기
-  { const g = part("toilet"), z = 0.15, wx = wallAt(z);
-    const tank = mesh(new THREE.BoxGeometry(0.18, 0.38, 0.42), porcelain); tank.position.set(wx + 0.09, 0.62, z);
-    const base = mesh(new THREE.CylinderGeometry(0.14, 0.17, 0.4, 32), porcelain); base.scale.set(1.35, 1, 1); base.position.set(wx + 0.38, 0.2, z);
-    const seat = mesh(new THREE.CylinderGeometry(0.19, 0.18, 0.04, 32), porcelain); seat.scale.set(1.3, 1, 1); seat.position.set(wx + 0.4, 0.42, z);
-    const lid = mesh(new THREE.BoxGeometry(0.06, 0.03, 0.12), chrome); lid.position.set(wx + 0.12, 0.82, z);
-    g.add(tank, base, seat, lid); }
-  // 세면대 + 거울
-  { const g = part("vanity"), z = 0.78, wx = wallAt(z);
-    const cab = mesh(new THREE.BoxGeometry(0.46, 0.42, 0.62), wood); cab.position.set(wx + 0.23, 0.6, z);
-    const top = mesh(new THREE.BoxGeometry(0.48, 0.06, 0.64), porcelain); top.position.set(wx + 0.24, 0.84, z);
-    const bowl = mesh(new THREE.CylinderGeometry(0.17, 0.15, 0.02, 32), new THREE.MeshStandardMaterial({color:0xeef1f1, roughness:0.05})); bowl.position.set(wx + 0.27, 0.875, z);
-    const tap = mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.2, 12), chrome); tap.position.set(wx + 0.06, 0.95, z);
-    const spout = mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.12, 12), chrome); spout.rotation.z = Math.PI/2; spout.position.set(wx + 0.11, 1.04, z);
-    const mir = mesh(new THREE.BoxGeometry(0.02, 0.75, 0.55), new THREE.MeshStandardMaterial({color:0xc4ced6, roughness:0.08, metalness:0.25, emissive:0x8c99a3, emissiveIntensity:0.35}), false); mir.position.set(-W/2 + 0.012, 1.55, z);
-    if (jd && x.jendai === "풀") mir.position.y = 1.62;
-    g.add(cab, top, bowl, tap, spout, mir); }
-  // 파티션 (욕조 없을 때)
-  if (!tub && x.partition !== "없음"){
-    const g = part("partition"), x0 = wallAt(PZ), x1 = -W/2 + 0.95, len = x1 - x0, ph = x.partition === "하프" ? 1.1 : H;
-    const p = tiledBox(len, ph, 0.1, x.wall, wc, x.partition === "하프" ? ["front","back","top","right"] : ["front","back","right"]);
-    p.position.set(x0 + len/2, 0, PZ); g.add(p);
-    if (x.partition === "하프"){
-      const glass = mesh(new THREE.BoxGeometry(len, 0.95, 0.01), new THREE.MeshPhysicalMaterial({color:0xdff3f0, roughness:0.02, transmission:0.92, thickness:0.01, transparent:true, opacity:0.35}), false);
-      glass.position.set(x0 + len/2, 1.1 + 0.475, PZ); g.add(glass);
-      const cap = mesh(new THREE.BoxGeometry(len, 0.015, 0.03), chrome); cap.position.set(x0 + len/2, 2.05, PZ); g.add(cap);
-    }
-  }
-  // 샤워기
-  { const g = part("shower"), sx = -W/2 + 0.42, sz = -D/2 + 0.03;
-    const rail = mesh(new THREE.CylinderGeometry(0.012, 0.012, 1.1, 12), chrome); rail.position.set(sx, 1.45, sz);
-    const head = mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.015, 32), chrome); head.position.set(sx, 2.02, sz + 0.14);
-    const arm = mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.16, 10), chrome); arm.rotation.x = Math.PI/2; arm.position.set(sx, 2.02, sz + 0.07);
-    const valve = mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.05, 20), chrome); valve.rotation.x = Math.PI/2; valve.position.set(sx, tub ? 0.8 : 1.0, sz + 0.02);
-    g.add(rail, head, arm, valve); }
-  // 코너선반 (600각 이상 벽, 샤워 쪽 뒤 오른쪽 모서리)
-  if (x.corner && bigWall(x)){
-    const g = part("corner");
-    for (const y of [1.15, 1.45]){
-      const shp = new THREE.Shape(); shp.moveTo(0, 0); shp.lineTo(0.24, 0); shp.lineTo(0, 0.24); shp.lineTo(0, 0);
-      const geo = new THREE.ExtrudeGeometry(shp, {depth:0.025, bevelEnabled:false}); geo.rotateX(Math.PI/2);
-      const m = mesh(geo, new THREE.MeshStandardMaterial({color:COLORS[x.wallColor][1], roughness:0.3}));
-      m.scale.set(-1, 1, 1); m.position.set(W/2, y, -D/2); g.add(m);
-    }
-  }
-  // 창문 (오른쪽 벽)
-  if (x.window){
-    const g = part("window"), z = -0.35, ww = 0.8, wh = 0.6, y0 = 1.35;
-    const sill = tiledBox(0.1, 0.04, ww + 0.06, x.wall, wc, ["top","left","front","back"]); sill.position.set(W/2 - 0.05, y0 - 0.04, z); g.add(sill);
-    const glass = mesh(new THREE.PlaneGeometry(ww, wh), new THREE.MeshStandardMaterial({color:0xeaf3ff, emissive:0xdfeeff, emissiveIntensity:0.9, roughness:0.2}), false);
-    glass.rotation.y = -Math.PI/2; glass.position.set(W/2 - 0.004, y0 + wh/2, z); g.add(glass);
-    const fr = new THREE.MeshStandardMaterial({color:0xffffff, roughness:0.4});
-    for (const [w, h, dy, dz] of [[ww + 0.06, 0.04, wh, 0],[ww + 0.06, 0.04, 0, 0],[0.04, wh, wh/2, -ww/2 - 0.01],[0.04, wh, wh/2, ww/2 + 0.01],[0.03, wh, wh/2, 0]]){
-      const b = mesh(new THREE.BoxGeometry(0.04, h, w === ww + 0.06 ? w : 0.04), fr, false); b.position.set(W/2 - 0.02, y0 + dy, z + dz); g.add(b);
-    }
-    const sunL = new THREE.PointLight(0xdfeeff, 1.2, 2.5); sunL.position.set(W/2 - 0.3, y0 + 0.3, z); g.add(sunL);
-  }
-  for (const g of Object.values(parts)) all.add(g);
-  return {all, parts};
+function buildRoomShell(W, D, H, wallMat, floorMat, parts){
+  const g = parts.room;
+  const back = plane(W, H, wallMat(W, H)); back.position.set(0, H/2, -D/2); g.add(back);
+  const lw = plane(D, H, wallMat(D, H)); lw.rotation.y = Math.PI/2; lw.position.set(-W/2, H/2, 0); g.add(lw);
+  const rw = plane(D, H, wallMat(D, H)); rw.rotation.y = -Math.PI/2; rw.position.set(W/2, H/2, 0); g.add(rw);
+  const fl = plane(W, D, floorMat(W, D)); fl.rotation.x = -Math.PI/2; g.add(fl);
+  const ce = plane(W, D, new THREE.MeshStandardMaterial({color:0xf5f5f3, roughness:0.85})); ce.rotation.x = Math.PI/2; ce.position.y = H; g.add(ce);
+  floorAO(g, W, D); cornerAO(g, W, D, H);
 }
 
-let built = null, prevSpec = null, anims = [];
-const sig = (x, k) => { // 파트별로 바뀌었는지 판단
-  const t = x.wall + x.wallColor;
-  return ({room:x.wall + x.wallColor + x.floor + x.floorColor + x.tub, tub:x.tub + t, jendai:x.jendai + t + x.tub, partition:x.partition + t + x.jendai + x.tub,
-    corner:String(x.corner && bigWall(x)) + x.wallColor, window:String(x.window) + t, toilet:x.jendai, vanity:x.jendai, shower:x.tub})[k];
-};
-function render3D(popKey){
-  if (!ok) return;
-  const x = sp();
-  const nb = build(x);
-  if (built) scene.remove(built.all);
-  scene.add(nb.all);
-  // 새로 생기거나 바뀐 것 → 쑥 올라오는 효과
-  if (prevSpec && prevSpec.__bath === S.active){
-    for (const [k, g] of Object.entries(nb.parts)){
-      if (k === "room") continue;
-      const was = built && built.parts[k];
-      if (!was || sig(prevSpec, k) !== sig(x, k)){ if (!["toilet","vanity","shower"].includes(k) || !was) { g.scale.set(1, 0.001, 1); anims.push({g, t0:performance.now(), dur:520}); } }
+// 실제 아파트 욕실 배치: 안쪽 긴 벽에 왼쪽부터 변기 → 세면대(가운데) → 샤워/욕조(오른쪽) · 앞(문 쪽)에서 보는 시점
+function buildBath(r, x){
+  const parts = {}; const P = k => (parts[k] = parts[k] || new THREE.Group()); P("room");
+  const a = Math.min(3.4, Math.max(1.1, x.dim?.w || 1.6)), b = Math.min(3.4, Math.max(1.1, x.dim?.l || 2.3));
+  const W = Math.max(a, b), D = Math.min(a, b), H = ZH; // W = 안쪽 긴 벽, D = 깊이
+  const wc = COLORS[x.color][1], fc = COLORS[x.fcolor][1], o = x.opts, pr = S.proc;
+  const jolly = new Set(Array.isArray(o.졸리컷) ? o.졸리컷 : []), marbleTop = o.싯기 === "대리석 싯기";
+  buildRoomShell(W, D, H, (w, h) => tileMat(x.size, wc, w, h, 0.42), (w, h) => tileMat(x.fsize || "300각", fc, w, h, 0.8), parts);
+  const tub = !!o.욕조, TUBW = 0.75, SZ = tub ? TUBW : Math.min(1.0, Math.max(0.8, W * 0.36)); // 오른쪽 샤워·욕조 구역 폭
+  const back = -D/2, JD = 0.2, JH = 1.05, jd = !!o.젠다이, jfull = o.젠다이 === "풀 조적";
+  const jx0 = -W/2, jx1 = jfull ? W/2 - (tub ? TUBW : 0) : W/2 - SZ - 0.1;
+  const wallZ = xx => back + (jd && xx >= jx0 - 0.01 && xx <= jx1 + 0.01 ? JD : 0);
+  const xt = -W/2 + 0.42, vx0 = -W/2 + 0.84, vx1 = W/2 - SZ - (o.파티션 ? 0.16 : 0.08), xv = (vx0 + vx1) / 2, vw = Math.min(0.8, Math.max(0.5, vx1 - vx0 - 0.04));
+  const xp = W/2 - SZ - 0.05; // 파티션 자리
+  const white = porcelain, sMat = new THREE.MeshStandardMaterial({color:0xf2f4f6, roughness:0.18, metalness:0.8, envMapIntensity:2.2});
+  const g0 = P("room");
+
+  // 천장: SMC 돔(광택 판 + 몰딩) 또는 일반 천장재 · 매립등 · 환풍기
+  { const g = P("ceil"), dome = pr.dome.on, smc = dome && pr.dome.천장 === "SMC 돔", cy = H - (smc ? 0.07 : 0.004);
+    if (smc){ const panel = rbox(W - 0.1, 0.03, D - 0.1, 0.012, new THREE.MeshStandardMaterial({color:0xfbfbf9, roughness:0.22, envMapIntensity:0.5}), false); g.add(at(panel, 0, H - 0.055, 0));
+      for (const [w, d, px, pz] of [[W, 0.09, 0, D/2 - 0.045],[W, 0.09, 0, back + 0.045],[0.09, D, W/2 - 0.045, 0],[0.09, D, -W/2 + 0.045, 0]]) g.add(at(rbox(w, 0.08, d, 0.02, white, false), px, H - 0.04, pz));
+      for (let i = 1; i < 3; i++){ const sx = -W/2 + i * W/3; g.add(at(new THREE.Mesh(new THREE.BoxGeometry(0.004, 0.004, D - 0.12), new THREE.MeshStandardMaterial({color:0xdedede})), sx, H - 0.071, 0)); } }
+    else if (dome){ const pnl = plane(W, D, new THREE.MeshStandardMaterial({color:0xf7f7f5, roughness:0.5})); pnl.rotation.x = Math.PI/2; g.add(at(pnl, 0, H - 0.003, 0));
+      for (let i = 1; i < 6; i++) g.add(at(new THREE.Mesh(new THREE.BoxGeometry(W, 0.002, 0.004), new THREE.MeshStandardMaterial({color:0xdcdcdc})), 0, H - 0.005, back + i * D / 6)); }
+    const dl = dome ? pr.dome.매립등 : "2인치";
+    const spots = dl === "2인치" ? [[xt + 0.05, back + D * 0.5],[xv, back + D * 0.42],[W/2 - SZ/2, back + D * 0.42],[xv, D/2 - 0.3]] : dl === "6인치" ? [[xv - 0.25, 0],[W/2 - SZ/2, 0]] : [];
+    for (const [sx, sz] of spots){ const rr = dl === "6인치" ? 0.075 : 0.032;
+      g.add(at(mesh(new THREE.CylinderGeometry(rr + 0.008, rr + 0.008, 0.006, 32), sMat, false), sx, cy - 0.002, sz));
+      g.add(at(mesh(new THREE.CylinderGeometry(rr, rr, 0.008, 32), new THREE.MeshStandardMaterial({color:0xffffff, emissive:0xfff2dc, emissiveIntensity:2.2}), false), sx, cy - 0.004, sz));
     }
+    if (!spots.length){ const l = mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.02, 40), glow, false); g.add(at(l, xv, cy - 0.01, 0)); }
+    if (dome && pr.dome.환풍기){ const fx = W/2 - SZ/2, fz = 0.1;
+      g.add(at(rbox(0.26, 0.012, 0.26, 0.004, new THREE.MeshStandardMaterial({color:0xf4f4f2, roughness:0.4}), false), fx, cy - 0.006, fz));
+      for (let i = -4; i <= 4; i++) g.add(at(new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.003, 0.009), new THREE.MeshStandardMaterial({color:0x9a9a9a})), fx, cy - 0.013, fz + i * 0.022)); }
+    keyLight.position.set(xv * 0.5, H - 0.25, 0.1); keyLight.intensity = 4; }
+
+  // 욕조 (오른쪽 벽 따라, 깊이 전체)
+  if (tub){ const g = P("욕조"), th = 0.56, tx = W/2 - TUBW/2, tl = D;
+    if (o.욕조 === "플라스틱"){ g.add(at(rbox(TUBW, th, tl, 0.03, white), tx, th/2, 0)); }
+    else { const sk = tiledBox(TUBW, th, tl, x.size, wc, ["left","top","front"], marbleTop); sk.position.set(tx, 0, 0); g.add(sk);
+      if (!jolly.size) beads(g, [[tx - TUBW/2, th, 0, tl, "z"]]); }
+    // 안쪽 오목한 욕조 몸체
+    const iw = TUBW - 0.14, il = tl - 0.16, inner = new THREE.Group();
+    inner.add(at(rbox(iw, 0.02, il, 0.008, white), 0, 0.12, 0));
+    for (const [w, d, px, pz] of [[iw, 0.04, 0, il/2],[iw, 0.04, 0, -il/2],[0.04, il, iw/2, 0],[0.04, il, -iw/2, 0]]) inner.add(at(rbox(w, th - 0.12, d, 0.015, white), px, 0.12 + (th - 0.12)/2, pz));
+    inner.add(at(rbox(iw + 0.06, 0.03, il + 0.06, 0.012, white), 0, th + 0.012, 0));
+    const hole = rbox(iw - 0.05, 0.02, il - 0.05, 0.03, new THREE.MeshStandardMaterial({color:0xf2f4f4, roughness:0.08, envMapIntensity:1.1}));
+    inner.add(at(hole, 0, th - 0.05, 0)); inner.position.set(tx, 0, 0); g.add(inner);
+    const spout = mesh(new THREE.TorusGeometry(0.06, 0.012, 12, 24, Math.PI), sMat); spout.rotation.y = Math.PI/2; g.add(at(spout, W/2 - 0.03, th + 0.2, 0.15));
+    blob(g0, tx, 0, TUBW + 0.2, tl + 0.1, 0.25); }
+
+  // 젠다이 (안쪽 벽)
+  if (jd){ const g = P("젠다이"), len = jx1 - jx0, cx = (jx0 + jx1) / 2;
+    const j = tiledBox(len, JH, JD, x.size, wc, ["top","front", ...(jx1 < W/2 - 0.01 ? ["right"] : [])], marbleTop); j.position.set(cx, 0, back + JD/2); g.add(j);
+    if (!jolly.has("젠다이")) beads(g, [[cx, JH, back + JD, len, "x"], ...(jx1 < W/2 - 0.01 ? [[jx1, JH/2, back + JD, JH, "y"], [jx1, JH, back + JD/2, JD, "z"]] : [])]);
+    // 소품: 디퓨저 · 수건 · 화분
+    g.add(at(mesh(new THREE.CylinderGeometry(0.03, 0.035, 0.12, 24), new THREE.MeshStandardMaterial({color:0x3b3a38, roughness:0.15, transparent:true, opacity:0.85})), xt - 0.12, JH + 0.06, back + 0.1));
+    for (let i = 0; i < 3; i++) g.add(at(mesh(new THREE.CylinderGeometry(0.002, 0.002, 0.22, 6), new THREE.MeshStandardMaterial({color:0x2a2a2a})), xt - 0.12 + (i - 1) * 0.01, JH + 0.2, back + 0.1 + (i - 1) * 0.008));
+    const tw = rbox(0.28, 0.08, 0.16, 0.03, new THREE.MeshStandardMaterial({color:0xE8E2D6, roughness:0.95})); g.add(at(tw, xt + 0.16, JH + 0.04, back + 0.1));
+    g.add(at(rbox(0.26, 0.06, 0.15, 0.025, new THREE.MeshStandardMaterial({color:0xD9D1C2, roughness:0.95})), xt + 0.16, JH + 0.11, back + 0.1));
+    if (jx1 > xv){ g.add(at(mesh(new THREE.CylinderGeometry(0.045, 0.04, 0.1, 24), new THREE.MeshStandardMaterial({color:0xf0ede6, roughness:0.6})), xv + vw/2 - 0.06, JH + 0.05, back + 0.1));
+      g.add(at(mesh(new THREE.SphereGeometry(0.075, 20, 14), new THREE.MeshStandardMaterial({color:0x5e7d4f, roughness:0.85})), xv + vw/2 - 0.06, JH + 0.15, back + 0.1)); } }
+
+  // 변기 (원피스형, 왼쪽)
+  { const g = P("toilet"), z0 = wallZ(xt);
+    g.add(at(rbox(0.38, 0.3, 0.17, 0.05, white), xt, 0.6, z0 + 0.095));                       // 수조
+    g.add(at(rbox(0.36, 0.035, 0.18, 0.015, white), xt, 0.765, z0 + 0.095));                    // 수조 뚜껑
+    const prof = [[0.001, 0], [0.11, 0], [0.12, 0.05], [0.13, 0.18], [0.16, 0.3], [0.185, 0.39], [0.19, 0.41], [0.001, 0.41]].map(([a, b]) => new THREE.Vector2(a, b));
+    const bowl = mesh(new THREE.LatheGeometry(prof, 40), white); bowl.scale.set(1, 1, 1.32); g.add(at(bowl, xt, 0, z0 + 0.42));
+    const seat = mesh(new THREE.TorusGeometry(0.15, 0.03, 14, 40), white); seat.rotation.x = Math.PI/2; seat.scale.set(1, 1.3, 0.6); g.add(at(seat, xt, 0.425, z0 + 0.43));
+    const lid = mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.02, 40), white); lid.scale.set(1, 1, 1.28); lid.rotation.x = -1.35; g.add(at(lid, xt, 0.6, z0 + 0.2));
+    g.add(at(mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.012, 20), sMat), xt, 0.787, z0 + 0.095));
+    blob(g0, xt, z0 + 0.38, 0.55, 0.75, 0.55); }
+
+  // 비드벽: 변기와 세면대 사이 낮은 벽
+  if (o.비드벽){ const g = P("비드벽"), bx = -W/2 + 0.8, z0 = wallZ(bx), len = 0.55, h = 1.0;
+    const bw = tiledBox(0.1, h, len, x.size, wc, ["left","right","top","front"], marbleTop); bw.position.set(bx, 0, z0 + len/2); g.add(bw);
+    if (!jolly.has("비드벽")) beads(g, [[bx - 0.05, h/2, z0 + len, h, "y"], [bx + 0.05, h/2, z0 + len, h, "y"], [bx - 0.05, h, z0 + len/2, len, "z"], [bx + 0.05, h, z0 + len/2, len, "z"]]); }
+
+  // 세면대: 긴다리 세면대(가운데) · 거울 또는 거울장 · 간접등
+  { const g = P("vanity"), z0 = wallZ(xv), sani = pr.sani.on ? pr.sani.항목 : [], top = 0.86, dep = 0.46;
+    const slab = rbox(vw, 0.14, dep, 0.035, white); g.add(at(slab, xv, top - 0.07, z0 + dep/2));
+    const basin = rbox(vw - 0.16, 0.02, dep - 0.16, 0.06, new THREE.MeshStandardMaterial({color:0xf3f5f5, roughness:0.06, envMapIntensity:1.2})); g.add(at(basin, xv, top - 0.004, z0 + dep/2 + 0.03));
+    g.add(at(mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.006, 20), sMat), xv, top + 0.004, z0 + dep/2 + 0.04));
+    for (const lx of [xv - vw/2 + 0.07, xv + vw/2 - 0.07]){ g.add(at(mesh(new THREE.CylinderGeometry(0.014, 0.014, top - 0.14, 16), sMat), lx, (top - 0.14)/2, z0 + dep - 0.06)); // 긴다리
+      g.add(at(mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.01, 20), sMat), lx, 0.005, z0 + dep - 0.06)); }
+    { const bar = mesh(new THREE.CylinderGeometry(0.008, 0.008, vw - 0.14, 12), sMat); bar.rotation.z = Math.PI/2; g.add(at(bar, xv, 0.55, z0 + dep - 0.06)); } // 수건걸이 바
+    g.add(at(rbox(Math.min(0.4, vw - 0.2), 0.16, 0.025, 0.008, new THREE.MeshStandardMaterial({color:0xE8E2D6, roughness:1})), xv, 0.48, z0 + dep - 0.045)); // 수건
+    // 수전: 높은 원홀 수전
+    const fx = xv, fz = z0 + 0.07, curve = new THREE.CatmullRomCurve3([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0.2, 0), new THREE.Vector3(0, 0.26, 0.04), new THREE.Vector3(0, 0.24, 0.13)]);
+    g.add(at(mesh(new THREE.TubeGeometry(curve, 30, 0.013, 12), sMat), fx, top, fz));
+    g.add(at(mesh(new THREE.CylinderGeometry(0.024, 0.024, 0.04, 20), sMat), fx, top + 0.02, fz));
+    g.add(at(mesh(new THREE.BoxGeometry(0.012, 0.012, 0.08), sMat), fx + 0.035, top + 0.16, fz - 0.01));
+    g.add(at(mesh(new THREE.CylinderGeometry(0.025, 0.022, 0.09, 20), new THREE.MeshStandardMaterial({color:0xd8d4cc, roughness:0.3})), xv - vw/2 + 0.08, top + 0.045, z0 + 0.12)); // 컵
+    const mirMat = mirrorMat();
+    const my = jd && jx1 >= xv ? Math.max(1.55, JH + 0.5) : 1.5;
+    if (sani.includes("거울장·수납장")){ const mw = Math.min(vw + 0.1, 0.9), cab = rbox(mw, 0.7, 0.14, 0.01, new THREE.MeshStandardMaterial({color:0xf3f2ee, roughness:0.35}));
+      g.add(at(cab, xv, my, back + 0.07)); g.add(at(new THREE.Mesh(new THREE.BoxGeometry(mw/2 - 0.012, 0.68, 0.004), mirMat), xv - mw/4, my, back + 0.142)); g.add(at(new THREE.Mesh(new THREE.BoxGeometry(mw/2 - 0.012, 0.68, 0.004), mirMat), xv + mw/4, my, back + 0.142)); }
+    else { const mw = Math.min(vw, 0.7); g.add(at(rbox(mw + 0.02, 0.82, 0.025, 0.01, new THREE.MeshStandardMaterial({color:0x2c2c2e, roughness:0.4})), xv, my, back + 0.013));
+      g.add(at(new THREE.Mesh(new THREE.BoxGeometry(mw, 0.8, 0.004), mirMat), xv, my, back + 0.028)); }
+    if (sani.includes("간접등")){ g.add(at(new THREE.Mesh(new THREE.BoxGeometry(vw - 0.1, 0.008, 0.02), glow), xv, top - 0.145, z0 + dep - 0.1));
+      const gl = new THREE.PointLight(0xffe2b8, 1.4, 1.6); gl.position.set(xv, top - 0.2, z0 + dep/2); g.add(gl);
+      g.add(at(new THREE.Mesh(new THREE.BoxGeometry(Math.min(vw, 0.7), 0.008, 0.008), glow), xv, my - 0.43, back + 0.02)); }
+    blob(g0, xv, z0 + dep/2, vw + 0.1, dep + 0.2, 0.3); }
+
+  // 파티션 (세면대와 샤워 사이, 안쪽 벽에서 앞으로)
+  if (o.파티션){ const g = P("파티션"), half = !/^풀/.test(o.파티션 === true ? "하프" : o.파티션), z0 = wallZ(xp), len = Math.min(0.95, (D - (z0 - back)) * 0.62), ph = half ? 1.1 : H;
+    const p = tiledBox(0.1, ph, len, x.size, wc, half ? ["left","right","top","front"] : ["left","right","front"], marbleTop); p.position.set(xp, 0, z0 + len/2); g.add(p);
+    if (!jolly.has("파티션")) beads(g, [[xp - 0.05, ph/2, z0 + len, ph, "y"], [xp + 0.05, ph/2, z0 + len, ph, "y"], ...(half ? [[xp - 0.05, ph, z0 + len/2, len, "z"], [xp + 0.05, ph, z0 + len/2, len, "z"]] : [])]);
+    if (half){ const glassH = 0.95;
+      g.add(at(new THREE.Mesh(new THREE.BoxGeometry(0.008, glassH, len - 0.02), glassMat), xp, ph + glassH/2, z0 + len/2));
+      g.add(at(new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.02, len), sMat), xp, ph + 0.01, z0 + len/2));
+      g.add(at(new THREE.Mesh(new THREE.BoxGeometry(0.02, glassH, 0.015), sMat), xp, ph + glassH/2, z0 + len - 0.008)); }
+    if (o["파티션 선반"]){ const sh = tiledBox(0.24, 0.03, len - 0.06, x.size, wc, ["front","top","left","right"], marbleTop);
+      sh.position.set(half ? xp : xp + 0.17, half ? 1.1 : 1.2, z0 + len/2); P("파티션 선반").add(sh); } }
+  else if (!tub){ // 파티션 없으면 일반 유리 샤워부스 고정판
+    const g = P("glass"), len = Math.min(0.9, D * 0.55);
+    g.add(at(new THREE.Mesh(new THREE.BoxGeometry(0.008, 1.95, len), glassMat), xp + 0.02, 0.985, back + len/2));
+    g.add(at(new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.02, len), sMat), xp + 0.02, 0.01, back + len/2));
+    }
+
+  // 해바라기 샤워 (샤워 구역 안쪽 벽, 욕조면 오른쪽 벽)
+  { const g = P("shower"), onRight = tub, sx = onRight ? W/2 - 0.03 : W/2 - SZ/2 + 0.05, sz = onRight ? back + 0.45 : back + 0.035;
+    const col = mesh(new THREE.CylinderGeometry(0.013, 0.013, 1.25, 14), sMat); g.add(at(col, sx, 1.4, sz));
+    const arm = mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.32, 12), sMat); if (onRight) arm.rotation.z = Math.PI/2; else arm.rotation.x = Math.PI/2;
+    g.add(at(arm, onRight ? sx - 0.16 : sx, 2.03, onRight ? sz : sz + 0.16));
+    const head = mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.012, 40), sMat); g.add(at(head, onRight ? sx - 0.3 : sx, 2.02, onRight ? sz : sz + 0.3));
+    g.add(at(rbox(onRight ? 0.06 : 0.22, 0.08, onRight ? 0.22 : 0.06, 0.02, sMat), sx + (onRight ? -0.03 : 0), tub ? 0.78 : 1.0, sz + (onRight ? 0 : 0.03)));  // 수전
+    const hand = rbox(0.045, 0.2, 0.045, 0.02, sMat); g.add(at(hand, sx + (onRight ? -0.05 : 0.12), 1.3, sz + (onRight ? 0.12 : 0.05)));
+    const hose = new THREE.CatmullRomCurve3([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0.02, -0.3, 0.05), new THREE.Vector3(0.05, -0.15, 0.08), new THREE.Vector3(0.1, 0.25, 0.04)]);
+    g.add(at(mesh(new THREE.TubeGeometry(hose, 30, 0.006, 8), sMat), sx + (onRight ? -0.05 : 0.02), tub ? 0.78 : 1.0, sz + (onRight ? 0.02 : 0.05))); }
+  // 배수구 (샤워 구역)
+  if (!tub){ const dx = W/2 - SZ/2, dz = back + D * 0.35;
+    g0.add(at(rbox(0.13, 0.006, 0.13, 0.002, sMat, false), dx, 0.003, dz));
+    for (let i = -3; i <= 3; i++) g0.add(at(new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.002, 0.006), new THREE.MeshStandardMaterial({color:0x222222})), dx, 0.0065, dz + i * 0.014)); }
+  // 욕실 발매트
+  g0.add(at(rbox(0.6, 0.012, 0.4, 0.006, new THREE.MeshStandardMaterial({color:0xBFB6A6, roughness:1}), false), xv - 0.05, 0.006, D/2 - 0.35));
+
+  // 코너선반 (샤워 구역 안쪽 오른쪽 모서리)
+  if (o.코너선반){ const g = P("코너선반");
+    for (const y of [1.15, 1.45]){ const sh = new THREE.Shape(); sh.moveTo(0, 0); sh.lineTo(0.25, 0); sh.quadraticCurveTo(0.2, 0.2, 0, 0.25); sh.lineTo(0, 0);
+      const geo = new THREE.ExtrudeGeometry(sh, {depth:0.025, bevelEnabled:true, bevelSize:0.004, bevelThickness:0.004, bevelSegments:2}); geo.rotateX(Math.PI/2);
+      const m = mesh(geo, marbleTop ? marbleMat(0.3, 0.3) : tileMat(x.size, wc, 0.3, 0.3, 0.4)); m.scale.set(-1, 1, 1); g.add(at(m, W/2, y, back));
+      g.add(at(mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.16, 18), new THREE.MeshStandardMaterial({color:y > 1.3 ? 0xEDE6DA : 0x51606B, roughness:0.35})), W/2 - 0.07, y + 0.08, back + 0.07)); } }
+
+  // 창틀 (왼쪽 벽, 변기 위)
+  if (o.창틀){ const g = P("창틀"), z = Math.min(0, back + D * 0.45), ww = 0.7, wh = 0.55, y0 = 1.45, dep = 0.12;
+    const sill = tiledBox(dep, 0.04, ww + 0.08, x.size, wc, ["top","right","front","back"], marbleTop); sill.position.set(-W/2 + dep/2, y0 - 0.04, z); g.add(sill);
+    if (!jolly.has("창틀")) beads(g, [[-W/2 + dep, y0, z, ww + 0.08, "z"]]);
+    const gl = plane(ww, wh, new THREE.MeshStandardMaterial({color:0xf2f7ff, emissive:0xe6f0ff, emissiveIntensity:1.1, roughness:0.6})); gl.rotation.y = Math.PI/2; g.add(at(gl, -W/2 + 0.004, y0 + wh/2, z));
+    const fr = new THREE.MeshStandardMaterial({color:0xffffff, roughness:0.35});
+    for (const [h, dy, wz, dz] of [[0.04, wh, ww + 0.04, 0],[0.03, 0.01, ww + 0.04, 0],[wh, wh/2, 0.04, -ww/2],[wh, wh/2, 0.04, ww/2],[wh, wh/2, 0.03, 0]]) g.add(at(new THREE.Mesh(new THREE.BoxGeometry(0.05, h, wz), fr), -W/2 + 0.025, y0 + dy, z + dz));
+    const sl = new THREE.PointLight(0xe6f0ff, 1.5, 2.5); sl.position.set(-W/2 + 0.3, y0 + 0.3, z); g.add(sl); }
+  return {parts, W, D};
+}
+
+function buildOther(r, x){
+  const parts = {}; const P = k => (parts[k] = parts[k] || new THREE.Group()); P("room");
+  const kc = isKitchen(r), c = COLORS[x.color][1], o = x.opts;
+  const da = Math.min(7.5, Math.max(1.0, x.dim?.w || 1.5)), db = Math.min(7.5, Math.max(1.0, x.dim?.l || 2.5));
+  const W = kc ? 2.6 : Math.max(da, db), D = kc ? 2.0 : Math.min(da, db), H = ZH; // 긴 쪽이 안쪽 벽(창 쪽)
+  const ver = /베란다/.test(r), laundry = /세탁실/.test(r), entry = /현관/.test(r);
+  if (kc){
+    buildRoomShell(W, D, H, () => paint, (w, h) => tileMat("600각", "#CFC8BC", w, h, 0.4), parts);
+    const g = P("kitchen"), cab = new THREE.MeshStandardMaterial({color:0xEDEBE6, roughness:0.5}), top = new THREE.MeshStandardMaterial({color:0x3a3b3f, roughness:0.25});
+    g.add(at(box(W, 0.85, 0.6, cab), 0, 0.425, -D/2 + 0.3));
+    g.add(at(box(W, 0.04, 0.62, top), 0, 0.87, -D/2 + 0.31));
+    g.add(at(box(W, 0.7, 0.35, cab), 0, 1.8, -D/2 + 0.175));
+    const bs = plane(W, 0.56, tileMat(x.size, c, W, 0.56)); bs.position.set(0, 0.89 + 0.28, -D/2 + 0.002); P("벽 타일").add(bs);
+    const sink = box(0.5, 0.02, 0.4, chrome, false); sink.position.set(-0.4, 0.895, -D/2 + 0.32); g.add(sink);
+    const tap = mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.3, 12), chrome); tap.position.set(-0.4, 1.04, -D/2 + 0.1); g.add(tap);
+    const hob = box(0.6, 0.01, 0.45, new THREE.MeshStandardMaterial({color:0x111111, roughness:0.1}), false); hob.position.set(0.6, 0.895, -D/2 + 0.3); g.add(hob);
+    for (let i = 0; i < 4; i++){ const h = box(0.004, 0.25, 0.02, chrome, false); h.position.set(-W/2 + 0.3 + i * 0.65, 1.55, -D/2 + 0.355); g.add(h); }
+    keyLight.position.set(0, H - 0.2, 0.2);
+    return {parts, W, D};
   }
-  built = nb; prevSpec = Object.assign({__bath:S.active}, x);
+  const flTile = (w, h) => tileMat(x.size, c, w, h, 0.45);
+  buildRoomShell(W, D, H, () => paint, flTile, parts);
+  keyLight.position.set(0, H - 0.2, 0);
+  { const g = P("ceil"), l = mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.02, 32), glow, false); l.position.set(0, H - 0.012, 0); g.add(l); }
+  // 걸레받이
+  if (o.걸레받이){ const g = P("걸레받이"), bs = typeof o.걸레받이 === "string" ? o.걸레받이 : x.size === "600×1200" ? "600각" : x.size, h = 0.1;
+    const add = (w, pos, ry) => { const m = plane(w, h, tileMat(bs === "기타" ? "300각" : bs, c, w, h)); m.position.set(...pos); m.rotation.y = ry; g.add(m); };
+    add(W, [0, h/2, -D/2 + 0.002], 0); add(D, [-W/2 + 0.002, h/2, 0], Math.PI/2); add(D, [W/2 - 0.002, h/2, 0], -Math.PI/2); }
+  // 샷시 (베란다·세탁실: 뒤 벽 창) · 샷시 아래 타일
+  if (ver || laundry){ const g = P("sash"), sy = 0.5, sh = 1.6, sw = W - 0.2, nP = Math.max(2, Math.round(sw / 1.2));
+    const gl = plane(sw, sh, new THREE.MeshStandardMaterial({color:0xeaf3ff, emissive:0xdfeeff, emissiveIntensity:0.8, roughness:0.2})); gl.position.set(0, sy + sh/2, -D/2 + 0.004); g.add(gl);
+    const fr = new THREE.MeshStandardMaterial({color:0xfafafa, roughness:0.4});
+    for (const [w, h, px, py] of [[sw, 0.05, 0, sy],[sw, 0.05, 0, sy + sh],[0.05, sh, -sw/2, sy + sh/2],[0.05, sh, sw/2, sy + sh/2], ...Array.from({length:nP - 1}, (_, i) => [0.04, sh, -sw/2 + sw * (i + 1) / nP, sy + sh/2])]){ const b = box(w, h, 0.06, fr, false); b.position.set(px, py, -D/2 + 0.03); g.add(b); }
+    const sl = new THREE.PointLight(0xdfeeff, 2, 4); sl.position.set(0, 1.4, -D/2 + 0.5); g.add(sl);
+    if (o["샷시 아래"]){ const t = tiledBox(W, sy - 0.02, 0.06, x.size === "기타" ? "300각" : x.size, c, ["front","top"]); t.position.set(0, 0, -D/2 + 0.03); P("샷시 아래").add(t); } }
+  if (laundry){ const g = P("wm"), wm = box(0.6, 0.85, 0.6, porcelain); wm.position.set(W/2 - 0.35, 0.425, D/2 - 0.5); g.add(wm);
+    const door = mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.02, 32), new THREE.MeshStandardMaterial({color:0x9aa3ab, roughness:0.1, metalness:0.5}), false); door.rotation.z = Math.PI/2; door.position.set(W/2 - 0.66, 0.45, D/2 - 0.5); g.add(door); }
+  if (entry){ const g = P("entry"), sc = box(0.38, 2.1, Math.min(1.2, D - 0.2), new THREE.MeshStandardMaterial({color:0xE7E3DA, roughness:0.5})); sc.position.set(-W/2 + 0.19, 1.05, 0); g.add(sc);
+    const door = box(0.95, 2.05, 0.05, new THREE.MeshStandardMaterial({color:0x5b5d63, roughness:0.4})); door.position.set(0.2, 1.025, -D/2 + 0.03); g.add(door);
+    g.add(at(box(0.03, 0.2, 0.04, chrome), -0.15, 1.05, -D/2 + 0.07)); }
+  // 단(시다지): 앞쪽 턱
+  if (o["단(시다지)"]){ const g = P("단(시다지)"), st = tiledBox(W, 0.15, 0.3, x.size === "기타" ? "300각" : x.size, c, ["front","top","back"]); st.position.set(0, 0, D/2 - 0.15); g.add(st); }
+  return {parts, W, D};
+}
+
+let built = null, prevKey = "", prevSig = {}, anims = [];
+// 거울: 방을 한 번 찍어 반사로 씀 (바뀔 때만)
+let cubeRT = null, cubeCam = null, mirrors = [];
+function mirrorMat(){ if (!ok) return new THREE.MeshBasicMaterial({color:0xcfd6dc});
+  if (!cubeRT){ cubeRT = new THREE.WebGLCubeRenderTarget(256); cubeRT.texture.colorSpace = THREE.SRGBColorSpace; cubeCam = new THREE.CubeCamera(0.05, 20, cubeRT); scene.add(cubeCam); }
+  const m = new THREE.MeshBasicMaterial({envMap:cubeRT.texture, color:0xe9eef1}); mirrors.push(m); return m; }
+function render3D(){
+  if (!ok) return;
+  const r = S.active, x = X();
+  const nb = isBath(r) ? buildBath(r, x) : buildOther(r, x);
+  const all = new THREE.Group(); for (const g of Object.values(nb.parts)) all.add(g);
+  if (built) scene.remove(built.all);
+  scene.add(all);
+  if (cubeCam){ const hide = []; all.traverse(o => { if (o.material && mirrors.includes(o.material)){ o.visible = false; hide.push(o); } });
+    cubeCam.position.set(0, 1.5, room.D ? 0 : 0); const ac = renderer.getClearAlpha(); renderer.setClearColor(0xf2f0eb, 1); cubeCam.update(renderer, scene); renderer.setClearColor(0x000000, ac); hide.forEach(o => o.visible = true); }
+  const sig = {}; for (const k of Object.keys(nb.parts)) sig[k] = JSON.stringify(x.opts[k] ?? null) + x.size + x.color + (x.opts.싯기 || "") + JSON.stringify(x.opts.졸리컷 || []);
+  if (prevKey === r){ for (const [k, g] of Object.entries(nb.parts)){
+    if (["room","toilet","vanity","shower","ceil","kitchen","sash","wm","entry","glass"].includes(k)) continue;
+    if (!(k in prevSig) || (prevSig[k] !== sig[k] && /^(젠다이|욕조|파티션|비드벽|파티션 선반|코너선반|창틀|걸레받이|단|샷시 아래)/.test(k) && !(k in prevSig))) { g.scale.set(1, 0.001, 1); anims.push({g, t0:performance.now(), dur:520}); } } }
+  const dimChanged = room.W !== nb.W || room.D !== nb.D || prevKey !== r;
+  room = {W:nb.W, D:nb.D}; if (dimChanged) resetCam();
+  built = {all}; prevKey = r; prevSig = sig;
 }
 const easeOutBack = t => { const c1 = 1.5, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
 let visible = true;
 if (ok){
   new IntersectionObserver(e => { visible = e[0].isIntersecting; }).observe(view);
-  renderer.setAnimationLoop(now => {
-    if (!visible) return;
+  renderer.setAnimationLoop(now => { if (!visible) return;
     anims = anims.filter(a => { const t = Math.min(1, (now - a.t0) / a.dur); a.g.scale.y = Math.max(0.001, easeOutBack(t)); return t < 1; });
-    controls.update(); renderer.render(scene, camera);
-  });
+    controls.update(); renderer.render(scene, camera); });
 }
 
-/* ───────── 화면 ───────── */
-function pop(txt){ const p = $("#pop"); p.textContent = txt; p.classList.add("on"); clearTimeout(pop.t); pop.t = setTimeout(() => p.classList.remove("on"), 1300); }
+/* ═══════════ 화면 ═══════════ */
+function pop(t){ const p = $("#pop"); p.textContent = t; p.classList.add("on"); clearTimeout(pop.t); pop.t = setTimeout(() => p.classList.remove("on"), 1300); }
 function toast(t){ const e = $("#toast"); e.textContent = t; e.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => e.classList.remove("on"), 2200); }
-const lab = (k, v) => (Q[k]?.items.find(i => i[0] === v) || [, v])[1];
+const ob = (attrs, on, label, small, dis, cls = "opt") => `<button type="button" class="${cls}" ${attrs} aria-pressed="${!!on}" ${dis ? "disabled" : ""}>${label}${small ? `<small>${small}</small>` : ""}</button>`;
+const q = (label, body, tip, first) => `<div class="q${first ? " first" : ""}"><div class="ql">${label}${tip ? `<small>${tip}</small>` : ""}</div>${body}</div>`;
+const optTxt = (n, v) => v === true || (Array.isArray(v) && !v.length) ? n : `${n}(${Array.isArray(v) ? v.join("·") : String(v).replace(/ 싯기/, "")})`;
+const dmTxt = a => { if (!a?.length) return "철거"; if (a.includes(DM_ALL)) return DM_ALL; return a.map(v => v.replace(" 철거", "")).join("·") + " 철거"; };
+const dimTxt = (r, d) => { if (!d?.w || !d?.l) return ""; const f = d.w * d.l, wall = isBath(r) ? Math.max(0, 2 * (d.w + d.l) * ZH - 1.6) : 0; return `바닥 ${z1(f)}㎡(${z1(f / PY)}평)${wall ? ` · 벽 ${z1(wall)}㎡` : ""}`; };
 
-function renderTabs(){
-  const on = BATHS.filter(([b]) => S.on[b]);
-  $("#vtabs").innerHTML = on.length > 1 ? on.map(([b]) => `<button type="button" class="vtab" data-tab="${b}" aria-pressed="${S.active === b}">${b}</button>`).join("") : "";
-  $("#bathpick").innerHTML = BATHS.map(([b, d]) => `<button type="button" class="opt" data-bath="${b}" aria-pressed="${!!S.on[b]}">${S.on[b] ? "✓ " : ""}${b}<small>${d}</small></button>`).join("");
+function renderZones(){
+  $("#zpick").innerHTML = ZONES.map(z => ob(`data-zone="${z}"`, S.rooms.includes(z), `${S.rooms.includes(z) ? "✓ " : ""}${z}`, ZDESC[z])).join("");
+  const on = S.rooms;
+  $("#vtabs").innerHTML = on.length > 1 ? on.map(z => `<button type="button" class="vtab" data-tab="${z}" aria-pressed="${S.active === z}">${z}</button>`).join("") : "";
 }
-function renderChips(){
-  const x = sp(), c = [];
-  c.push(`벽 <b>${x.wall === "300×600" ? "36" : x.wall}</b>`, `바닥 <b>${x.floor}</b>`);
-  if (x.jendai !== "없음") c.push(`젠다이 ${lab("jendai", x.jendai)}`);
-  if (x.tub !== "없음") c.push(lab("tub", x.tub));
-  if (x.tub === "없음" && x.partition !== "없음") c.push(`파티션 ${lab("partition", x.partition)}`);
-  if (x.corner && bigWall(x)) c.push("코너선반");
-  if (x.window) c.push("창문");
-  $("#chips").innerHTML = c.map(t => `<span class="chip">${t}</span>`).join("");
-}
-function opt(k, v, label, small, on, dis){ return `<button type="button" class="opt" data-k="${k}" data-v="${esc(v)}" aria-pressed="${on}" ${dis ? "disabled" : ""}>${label}${small ? `<small>${small}</small>` : ""}</button>`; }
-function qBlock(k){
-  const x = sp(), q = Q[k], dis = k === "partition" && x.tub !== "없음";
-  return `<div class="q"><div class="ql">${q.label}${q.tip ? `<small>${q.tip}</small>` : ""}</div><div class="opts">${q.items.map(([v, l, s]) => opt(k, v, l, s, x[k] === v, dis)).join("")}</div>${dis ? `<div class="dis">욕조가 있으면 파티션 대신 욕조로 샤워 공간을 써요.</div>` : ""}</div>`;
-}
-function sizeBlock(k, label, list){
-  const x = sp();
-  return `<div class="q"><div class="ql">${label} 크기</div><div class="opts">${list.map(([v, big, s]) => opt(k, v, `<span class="big">${big}</span>`, s, x[k] === v)).join("")}</div></div>`;
-}
-function colorBlock(k, label){
-  const x = sp();
-  return `<div class="q"><div class="ql">${label} 색<small>${COLORS[x[k]][0]}</small></div><div class="opts">${Object.entries(COLORS).map(([c, [n, hex]]) => `<button type="button" class="sw" data-k="${k}" data-v="${c}" aria-pressed="${x[k] === c}" title="${n}" aria-label="${n}" style="background:${hex}"></button>`).join("")}</div></div>`;
-}
-function renderSpec(){
-  const x = sp(), on = BATHS.filter(([b]) => S.on[b]).map(([b]) => b);
-  const tabs = on.length > 1 ? `<div class="opts" style="margin-bottom:6px">${on.map(b => `<button type="button" class="opt" data-tab="${b}" aria-pressed="${S.active === b}">${b}</button>`).join("")}${S.active === on[1] ? `<button type="button" class="opt" data-copy="1"><small style="margin:0">${on[0]}이랑 똑같이</small></button>` : ""}</div>` : "";
-  $("#specCard").innerHTML = `<h2><span class="n">2</span>${esc(S.active)} 꾸미기</h2><p class="sub">누르면 위 3D에 바로 보여요.</p>${tabs}
-    ${qBlock("work")}
-    ${sizeBlock("wall", "벽 타일", WALL_SIZES)}${colorBlock("wallColor", "벽 타일")}
-    ${sizeBlock("floor", "바닥 타일", FLOOR_SIZES)}${colorBlock("floorColor", "바닥 타일")}
-    ${qBlock("jendai")}${qBlock("tub")}${qBlock("partition")}
-    <div class="q"><div class="ql">추가</div><div class="opts">
-      ${opt("corner", "t", "코너선반", bigWall(x) ? "샤워 쪽 모서리 선반" : "600각 이상 벽 타일만 돼요", x.corner && bigWall(x), !bigWall(x))}
-      ${opt("window", "t", "창문 있음", "창틀까지 타일 마감", x.window)}
-    </div></div>`;
-}
-function summaryText(){
-  const lines = [];
-  for (const [b] of BATHS){ if (!S.on[b]) continue; const x = S.spec[b];
-    const parts = [x.work === "모름" ? "공사 방식 상담" : x.work, `벽 ${x.wall}(${COLORS[x.wallColor][0]})`, `바닥 ${x.floor}(${COLORS[x.floorColor][0]})`];
-    if (x.jendai !== "없음") parts.push(`젠다이 ${x.jendai === "하프" ? "하프(변기 뒤)" : "풀(벽 전체)"}`);
-    if (x.tub !== "없음") parts.push(`욕조 ${x.tub}`);
-    if (x.tub === "없음" && x.partition !== "없음") parts.push(`파티션 ${x.partition === "하프" ? "하프+유리" : "풀(천장까지)"}`);
-    if (x.corner && bigWall(x)) parts.push("코너선반"); if (x.window) parts.push("창틀");
-    lines.push(`■ ${b}: ${parts.join(" · ")}`);
+function specHTML(){
+  const r = S.active, x = X(), on = S.rooms;
+  let h = `<h2><span class="n">2</span>${esc(r)} 꾸미기</h2><p class="sub">누르면 위 3D에 바로 보여요.</p>`;
+  if (on.length > 1) h += `<div class="ztabs">${on.map(z => `<button type="button" class="ztab" data-tab="${z}" aria-pressed="${z === r}">${z}</button>`).join("")}</div>`;
+  const same = on.filter(z => z !== r && kindOf(z) === kindOf(r) || (z !== r && isBath(z) && isBath(r)));
+  if (same.length) h += `<div class="opts" style="margin:4px 0 6px">${same.map(z => ob(`data-copy="${z}"`, false, `${z}이랑 똑같이`, "", false)).join("")}</div>`;
+  // 크기 · 양
+  if (isKitchen(r)) h += q("타일 양", `<div class="opts">${KQTY.map(v => ob(`data-k="qty" data-v="${v}"`, x.qty === v, v)).join("")}${ob(`data-k="qty" data-v=""`, !x.qty, "잘 모르겠어요")}</div>`, "주방 벽 타일 장수", true);
+  else { const std = ZDIM_STD[kindOf(r)], d = x.dim || {};
+    h += q("크기", `<div class="opts">${Object.entries(std).map(([p, [w, l]]) => ob(`data-dimp="${p}"`, d.pk === p, `${p}평대`, `${w}×${l}m`)).join("")}${ob(`data-dimp="custom"`, d.pk === "custom", "직접 입력", "가로×세로")}</div>
+      <div class="dim"><input data-dim="w" inputmode="decimal" value="${d.w || ""}" aria-label="가로(m)">×<input data-dim="l" inputmode="decimal" value="${d.l || ""}" aria-label="세로(m)">m<span class="a" id="dimA">${dimTxt(r, d)}</span></div>`, "아파트 평수 기준 · 3D 크기도 바뀌어요", true); }
+  // 욕실: 시공 범위 · 난방
+  if (isBath(r)){
+    const sc = x.scope || [], all = !sc.length && !x.scopeNote;
+    h += q("시공 범위", `<div class="opts">${ob(`data-scope="전체"`, all, "전체")}${SCOPE.map(o => ob(`data-scope="${o}"`, sc.includes(o), o)).join("")}</div>${all ? "" : `<div class="dim" style="margin-top:8px"><input data-scopenote="1" value="${esc(x.scopeNote || "")}" placeholder="직접 적기 (예: 욕조 자리 + 수전 벽 한 면)" style="width:100%;text-align:left;font-family:var(--font)"></div>`}`, "일부만 하면 골라 주세요");
+    h += q("욕실 난방", `<div class="opts">${["들어감","안 들어감"].map(v => ob(`data-k="heat" data-v="${v}"`, x.heat === v, v)).join("")}${ob(`data-k="heat" data-v=""`, !x.heat, "잘 모르겠어요")}</div>`, "바닥 난방 배관");
   }
-  return lines.join("\n") || "욕실을 하나 이상 골라 주세요.";
+  // 공사 · 철거
+  if (hasWork(r)){
+    h += q("공사 방식", `<div class="opts">${ob(`data-k="work" data-v="철거 후 시공"`, x.work === "철거 후 시공", "철거 후 시공", "기존 타일 뜯고 새로")}${ob(`data-k="work" data-v="덧방"`, x.work === "덧방", "덧방", "기존 타일 위에 붙이기")}${ob(`data-k="work" data-v=""`, !x.work, "잘 모르겠어요", "보고 정해 드려요")}</div>
+      ${isBath(r) && x.work === "철거 후 시공" ? `<div class="qs"><div class="ql">철거 범위<small>여러 개 골라도 돼요</small></div><div class="opts">${[DM_ALL, ...DM_ITEMS].map(v => ob(`data-dm="${v}"`, (x.demo || []).includes(v) || (v !== DM_ALL && (x.demo || []).includes(DM_ALL)), v)).join("")}</div></div>` : ""}`);
+  }
+  // 타일 크기 · 색
+  h += q(isFloorZ(r) ? "바닥 타일 크기" : "벽 타일 크기", `<div class="opts">${SIZES(r).map(s => ob(`data-k="size" data-v="${s}"`, x.size === s, `<span class="big">${s}</span>`, SIZE_NOTE[s])).join("")}</div>`);
+  h += q(isFloorZ(r) ? "바닥 타일 색" : "벽 타일 색", `<div class="opts">${Object.entries(COLORS).map(([c, [n, hex]]) => `<button type="button" class="sw" data-k="color" data-v="${c}" aria-pressed="${x.color === c}" title="${n}" aria-label="${n}" style="background:${hex}"></button>`).join("")}</div>`, COLORS[x.color][0]);
+  if (isBath(r)){
+    h += q("바닥 타일 크기", `<div class="opts">${FLOOR_SIZES.map(s => ob(`data-k="fsize" data-v="${s}"`, x.fsize === s, `<span class="big">${s}</span>`, s === "모자이크" ? "미끄럼 방지" : SIZE_NOTE[s])).join("")}</div>`);
+    h += q("바닥 타일 색", `<div class="opts">${Object.entries(COLORS).map(([c, [n, hex]]) => `<button type="button" class="sw" data-k="fcolor" data-v="${c}" aria-pressed="${x.fcolor === c}" title="${n}" aria-label="${n}" style="background:${hex}"></button>`).join("")}</div>`, COLORS[x.fcolor][0]);
+  }
+  // 붙이는 방법 (벽 타일)
+  if (!isFloorZ(r)){ const ms = methodsFor(r, x);
+    h += q("붙이는 방법", `<div class="opts">${METHODS.map(m => ob(`data-k="method" data-v="${m}"`, x.method === m, m, ms.includes(m) ? METHOD_NOTE[m] : "이 타일엔 안 돼요", !ms.includes(m))).join("")}${ob(`data-k="method" data-v=""`, !x.method, "잘 모르겠어요", "맞춰서 해 드려요")}</div>`, heavy(r, x.size) ? "600각 이상 벽은 본드 안 돼요" : x.size === "600×1200" ? "" : ""); }
+  // 추가 항목
+  const list = optList(r, x);
+  if (list.length){ const o = x.opts;
+    let b = `<div class="opts">${list.map(([n, , tip]) => ob(`data-opt="${n}"`, !!o[n], n, tip, false, "opt add")).join("")}</div>`;
+    for (const [n, subs] of list){ if (!o[n]) continue;
+      const ch = n === "졸리컷" ? JOLLY.filter(j => o[j]) : subs; if (!ch || !ch.length) continue;
+      const multi = n === "졸리컷", cur = o[n];
+      b += `<div class="qs"><div class="ql">${n}${multi ? "<small>어디에 할지</small>" : ""}</div><div class="opts">${ch.map(s => ob(`data-sub="${n}|${s}"`, multi ? (Array.isArray(cur) && cur.includes(s)) : cur === s, SUBL[s] || s, SUBN[s + "@" + n] || SUBN[s] || "")).join("")}</div></div>`; }
+    if (isBath(r) && !list.some(([n]) => n === "코너선반")) b += `<div class="dis">코너선반은 600각 이상, 졸리컷은 큰 타일에 젠다이·파티션·비드벽·창틀이 있을 때 고를 수 있어요.</div>`;
+    h += q("추가", b, isBath(r) ? "누르면 3D에 생겨요" : "");
+  }
+  return h;
 }
-function renderAll(popKey){ renderTabs(); renderSpec(); renderChips(); $("#sum").textContent = summaryText(); render3D(popKey); save(); }
+function procHTML(){
+  const P = S.proc, B = S.rooms.filter(isBath);
+  const hdr = (k, l, sub) => `<button type="button" data-proc="${k}"><i>${P[k].on ? "✓" : ""}</i><b>${l}</b><span>${sub}</span></button>`;
+  const sel = (k, f, list) => `<div class="opts">${list.map(v => ob(`data-pv="${k}|${f}|${v}"`, P[k][f] === v, v)).join("")}</div>`;
+  let h = `<h2><span class="n">3</span>함께 할 공사</h2><p class="sub">타일 말고도 필요한 공사를 골라 주세요. 모르면 비워 두셔도 돼요.</p>`;
+  const card = (k, l, sub, body) => `<div class="proc${P[k].on ? " on" : ""}">${hdr(k, l, sub)}${P[k].on && body ? `<div class="pin">${body}</div>` : ""}</div>`;
+  h += card("prot", "보양", P.prot.on ? P.prot.범위 : "공사 중 바닥·벽 보호", q("범위", sel("prot", "범위", ["욕실만","복도·엘리베이터까지"]), "", true));
+  h += card("demo", "철거", P.demo.on ? (P.demo.done ? "철거 해 둔 상태" : `폐기물 ${P.demo.폐기물}`) : "기존 타일·도기 뜯기",
+    q("상태", `<div class="opts">${ob(`data-pv="demo|done|0"`, !P.demo.done, "철거해야 함")}${ob(`data-pv="demo|done|1"`, P.demo.done, "철거 해 둔 상태")}</div>`, "", true)
+    + (P.demo.done ? "" : q("폐기물", sel("demo", "폐기물", ["904에 맡김","직접 처리"])))
+    + q("철거 상세 내용", `<label class="f" style="margin:0"><textarea data-pnote="demo" placeholder="예: 외욕실 욕조 철거 후 샤워부스 자리 · 내욕실 세면대만">${esc(P.demo.note)}</textarea></label>`));
+  h += card("plumb", "설비", P.plumb.on ? `${Object.values(P.plumb.by).flat().length || ""}${Object.values(P.plumb.by).flat().length ? "개" : "고르기"}` : "배관·수전 위치",
+    (B.length ? B.map((r, i) => q(r, `<div class="opts">${PLUMB.map(v => ob(`data-plumb="${r}|${v}"`, (P.plumb.by[r] || []).includes(v), v)).join("")}</div>`, "", i === 0)).join("") : `<div class="dis">욕실을 고르면 욕실마다 고를 수 있어요.</div>`)
+    + q("설비 상세 내용", `<label class="f" style="margin:0"><textarea data-pnote="plumb" placeholder="예: 외욕실 변기 문쪽으로 30cm · 내욕실 수전 높이 올리기">${esc(P.plumb.note)}</textarea></label>`));
+  const wpLines = B.map(r => { const w = wpFor(r); return `<b>${r}</b> ${w.v.length ? w.v.join(" → ") : "안 함"} <span>· ${w.why}</span>`; });
+  h += card("wp", "방수", P.wp.on ? "철거 내용에 맞춰" : "욕실 바닥 방수", `<div class="auto">${wpLines.length ? wpLines.join("<br>") : "욕실을 고르면 철거 내용에 맞춰 정해져요."}</div>`);
+  h += `<div class="proc on"><button type="button" disabled style="cursor:default"><i>✓</i><b>타일</b><span>${P.tile.메지}</span></button><div class="pin">${q("메지(줄눈)", `<div class="opts">${ob(`data-pv="tile|메지|일반 메지"`, P.tile.메지 === "일반 메지", "일반 메지", "기본")}${ob(`data-pv="tile|메지|케라폭시"`, P.tile.메지 === "케라폭시", "케라폭시", "곰팡이·오염에 강함")}</div>`, "", true)}</div></div>`;
+  h += card("sani", "도기 세팅", P.sani.on ? (P.sani.항목.join("·") || "고르기") : "변기·세면대·수전 달기",
+    q("항목", `<div class="opts">${SANI.map(v => ob(`data-sani="${v}"`, P.sani.항목.includes(v), v, v === "거울장·수납장" || v === "간접등" ? "3D에 보여요" : "")).join("")}</div>`, "여러 개", true));
+  h += card("dome", "돔천장", P.dome.on ? `${P.dome.천장} · 매립등 ${P.dome.매립등}` : "천장·조명·환풍기",
+    q("천장", sel("dome", "천장", ["SMC 돔","일반 천장재"]), "", true) + q("매립등", sel("dome", "매립등", ["2인치","6인치","없음"])) + q("추가", ob(`data-pv="dome|환풍기|t"`, P.dome.환풍기, "환풍기(휴젠트)", "", false, "opt add")));
+  h += card("etc", "기타", P.etc.on ? (P.etc.note ? "적음" : "적어 주세요") : "그 밖에 필요한 것",
+    `<label class="f" style="margin:0"><textarea data-pnote="etc" placeholder="예: 욕실 문틀 교체, 실리콘 전체 재시공, 환풍기 위치 변경">${esc(P.etc.note)}</textarea></label>`);
+  return h;
+}
+function chips(){
+  const r = S.active, x = X(), c = [];
+  if (x.dim?.w) c.push(`${x.dim.w}×${x.dim.l}m`);
+  if (x.work) c.push(x.work === "철거 후 시공" && isBath(r) ? dmTxt(x.demo) : x.work);
+  c.push(`${isFloorZ(r) ? "바닥" : "벽"} ${x.size === "300×600" ? "36" : x.size}`);
+  if (isBath(r)) c.push(`바닥 ${x.fsize}`);
+  for (const [n, v] of Object.entries(x.opts)) c.push(optTxt(n, v).replace("하프 조적","하프").replace("풀 조적","풀").replace("하프 폼","폼 하프").replace("풀 폼","폼 풀"));
+  if (isBath(r) && S.proc.dome.on) c.push(S.proc.dome.천장 === "SMC 돔" ? "돔천장" : "천장재");
+  $("#chips").innerHTML = c.map(t => `<span class="chip">${esc(t)}</span>`).join("");
+}
+function zoneText(r){ const x = S.spec[r];
+  const head = [x.dim?.w ? `${x.dim.w}×${x.dim.l}m` : "", x.qty || "", isBath(r) && (x.scope?.length || x.scopeNote) ? `범위 ${[...(x.scope || []), x.scopeNote].filter(Boolean).join("·")}` : "",
+    hasWork(r) ? (x.work === "철거 후 시공" ? (isBath(r) ? dmTxt(x.demo) : "철거 후 시공") : x.work || "공사 방식 상담") : "",
+    `${isFloorZ(r) ? "" : "벽 "}${x.size}(${COLORS[x.color][0]})`, isBath(r) ? `바닥 ${x.fsize}(${COLORS[x.fcolor][0]})` : "",
+    !isFloorZ(r) ? (x.method || "방법 상담") : "", isBath(r) && x.heat ? `난방 ${x.heat === "들어감" ? "있음" : "없음"}` : ""].filter(Boolean).join("·");
+  const op = Object.entries(x.opts).map(([n, v]) => optTxt(n, v)).join("·");
+  return `■ ${r}: ${head}${op ? " +" + op : ""}`; }
+function procText(){ const P = S.proc, L = [];
+  if (P.prot.on) L.push(`보양: ${P.prot.범위}`);
+  if (P.demo.on) L.push(`철거: ${P.demo.done ? "철거 해 둔 상태" : `폐기물 ${P.demo.폐기물}`}${P.demo.note ? ` · ${P.demo.note}` : ""}`);
+  if (P.plumb.on){ const t = Object.entries(P.plumb.by).filter(([r, a]) => a.length && S.rooms.includes(r)).map(([r, a]) => `${r} ${a.join("·")}`); L.push(`설비: ${t.join(" / ") || "상담"}${P.plumb.note ? ` · ${P.plumb.note}` : ""}`); }
+  if (P.wp.on){ const t = S.rooms.filter(isBath).map(r => `${r} ${wpFor(r).v.join("·") || "안 함"}`); L.push(`방수: ${t.join(" / ")}`); }
+  L.push(`타일 메지: ${P.tile.메지}`);
+  if (P.sani.on) L.push(`도기 세팅: ${P.sani.항목.join("·") || "상담"}`);
+  if (P.dome.on) L.push(`돔천장: ${P.dome.천장} · 매립등 ${P.dome.매립등}${P.dome.환풍기 ? " · 환풍기(휴젠트)" : ""}`);
+  if (P.etc.on && P.etc.note) L.push(`기타: ${P.etc.note}`);
+  return L.map(l => "· " + l).join("\n"); }
+const summary = () => S.rooms.map(zoneText).join("\n") + "\n\n[공정]\n" + procText() + `\n· 자재: ${S.mat === "904" ? "904가 준비" : "직접 준비"}`;
+
+function renderMat(){ $("#matOpts").innerHTML = ob(`data-mat="904"`, S.mat === "904", "904가 골라서 준비", "추천해 드려요") + ob(`data-mat="own"`, S.mat === "own", "직접 고른 자재 있음", "적어 주세요"); $("#matNoteWrap").hidden = S.mat !== "own"; }
+function renderAll(three = true){
+  for (const r of S.rooms) norm(r, S.spec[r]);
+  renderZones(); $("#specCard").innerHTML = specHTML(); $("#procCard").innerHTML = procHTML(); renderMat(); chips(); $("#sum").textContent = summary();
+  if (three) render3D(); save();
+}
 
 document.addEventListener("click", e => {
-  const t = e.target.closest("button"); if (!t) return;
-  if (t.dataset.tab){ S.active = t.dataset.tab; renderAll(); return; }
-  if (t.dataset.bath){ const b = t.dataset.bath; const n = BATHS.filter(([x]) => S.on[x]).length;
-    if (S.on[b] && n === 1){ toast("욕실은 하나 이상 골라 주세요"); return; }
-    S.on[b] = !S.on[b]; if (S.on[b]) S.active = b; else if (S.active === b) S.active = BATHS.find(([x]) => S.on[x])[0];
-    renderAll(); return; }
-  if (t.dataset.copy){ const first = BATHS.find(([x]) => S.on[x])[0]; S.spec[S.active] = Object.assign({}, S.spec[first]); renderAll(); pop(`${first}이랑 똑같이 맞췄어요`); return; }
-  const k = t.dataset.k; if (!k) return;
-  const x = sp(), v = t.dataset.v;
-  if (k === "corner" || k === "window") x[k] = !x[k]; else x[k] = v;
-  if (k === "tub" && v !== "없음" && x.partition !== "없음") x.partition = "없음";
-  const msg = {
-    jendai: v === "없음" ? "젠다이 뺐어요" : `젠다이 ${lab("jendai", v)} 추가!`,
-    tub: v === "없음" ? "욕조 뺐어요" : `${lab("tub", v)} 추가!`,
-    partition: v === "없음" ? "파티션 뺐어요" : `파티션 ${lab("partition", v)} 추가!`,
-    corner: x.corner ? "코너선반 추가!" : "코너선반 뺐어요", window: x.window ? "창문 추가!" : "창문 뺐어요",
-    wall: `벽 ${v === "300×600" ? "300×600 (36)" : v}`, floor: `바닥 ${v}`, wallColor: `벽 ${COLORS[v]?.[0]}`, floorColor: `바닥 ${COLORS[v]?.[0]}`,
-    work: lab("work", v)
-  }[k];
-  renderAll(); if (msg) pop(msg);
+  const t = e.target.closest("button"); if (!t || t.disabled) return; const d = t.dataset, x = X(), r = S.active; let msg = "";
+  if (d.zone){ const z = d.zone;
+    if (S.rooms.includes(z)){ if (S.rooms.length === 1) return toast("시공할 곳을 하나 이상 골라 주세요"); S.rooms = S.rooms.filter(v => v !== z); if (S.active === z) S.active = S.rooms[0]; }
+    else { S.rooms = ZONES.filter(v => v === z || S.rooms.includes(v)); S.spec[z] = S.spec[z] || blank(z); S.active = z; msg = `${z} 추가`; } }
+  else if (d.tab){ S.active = d.tab; }
+  else if (d.copy){ const src = S.spec[d.copy]; S.spec[r] = Object.assign(structuredClone(src), isBath(r) === isBath(d.copy) && kindOf(r) !== kindOf(d.copy) ? {dim:x.dim} : {}); msg = `${d.copy}이랑 똑같이`; }
+  else if (d.dimp){ const std = ZDIM_STD[kindOf(r)]; x.dim = d.dimp === "custom" ? {...(x.dim || {}), pk:"custom"} : {pk:d.dimp, w:std[d.dimp][0], l:std[d.dimp][1]}; if (d.dimp !== "custom") msg = `${d.dimp}평대 크기`; }
+  else if (d.scope){ if (d.scope === "전체"){ x.scope = []; x.scopeNote = ""; } else { const a = x.scope || []; x.scope = a.includes(d.scope) ? a.filter(v => v !== d.scope) : [...a, d.scope]; } }
+  else if (d.dm){ let a = [...(x.demo || [])], o = d.dm;
+    if (o === DM_ALL) a = a.includes(o) ? [] : [o];
+    else if (a.includes(DM_ALL)) a = DM_ITEMS.filter(v => v !== o);
+    else a = a.includes(o) ? a.filter(v => v !== o) : [...a, o];
+    if (DM_ITEMS.every(v => a.includes(v))) a = [DM_ALL];
+    x.demo = a; }
+  else if (d.k){ x[d.k] = d.v;
+    msg = {size:`${isFloorZ(r) ? "바닥" : "벽"} ${d.v === "300×600" ? "300×600 (36)" : d.v}`, fsize:`바닥 ${d.v}`, color:COLORS[d.v]?.[0], fcolor:`바닥 ${COLORS[d.v]?.[0]}`}[d.k] || ""; }
+  else if (d.opt){ const n = d.opt, o = x.opts;
+    if (o[n]) { delete o[n]; msg = `${n} 뺐어요`; }
+    else { const sub = optList(r, x).find(([m]) => m === n)?.[1]; o[n] = n === "졸리컷" ? JOLLY.filter(j => o[j]) : sub && sub.length && n !== "걸레받이" ? sub[0] : true; msg = `${n} 추가!`; } }
+  else if (d.sub){ const [n, s] = d.sub.split("|"), o = x.opts;
+    if (n === "졸리컷"){ const a = Array.isArray(o.졸리컷) ? o.졸리컷 : []; o.졸리컷 = a.includes(s) ? a.filter(v => v !== s) : [...a, s]; msg = o.졸리컷.includes(s) ? `${s} 졸리컷` : `${s} 코너비드`; }
+    else { o[n] = o[n] === s && n === "걸레받이" ? true : s; msg = `${n} ${SUBL[s] || s}`; } }
+  else if (d.proc){ const p = S.proc[d.proc]; p.on = !p.on; msg = p.on ? `${t.querySelector("b").textContent} 추가` : ""; }
+  else if (d.pv){ const [k, f, v] = d.pv.split("|"), p = S.proc[k]; if (f === "done") p.done = v === "1"; else if (f === "환풍기") p.환풍기 = !p.환풍기; else p[f] = v; }
+  else if (d.plumb){ const [rr, v] = d.plumb.split("|"), a = S.proc.plumb.by[rr] || []; S.proc.plumb.by[rr] = a.includes(v) ? a.filter(z => z !== v) : [...a, v]; }
+  else if (d.sani){ const a = S.proc.sani.항목; S.proc.sani.항목 = a.includes(d.sani) ? a.filter(v => v !== d.sani) : [...a, d.sani]; }
+  else if (d.mat){ S.mat = d.mat; }
+  else return;
+  const sy = window.scrollY; renderAll(); window.scrollTo(0, sy); if (msg) pop(msg); $("#hint").style.opacity = 0;
 });
+let dimT = 0;
+document.addEventListener("input", e => { const t = e.target, x = X();
+  if (t.dataset.dim){ x.dim = {...(x.dim || {}), pk:"custom", [t.dataset.dim]: Number(String(t.value).replace(/[^\d.]/g, "")) || 0}; const a = $("#dimA"); if (a) a.textContent = dimTxt(S.active, x.dim);
+    document.querySelectorAll("[data-dimp]").forEach(b => b.setAttribute("aria-pressed", b.dataset.dimp === "custom")); clearTimeout(dimT); dimT = setTimeout(() => { chips(); $("#sum").textContent = summary(); render3D(); save(); }, 350); }
+  else if (t.dataset.scopenote){ x.scopeNote = t.value.trim(); $("#sum").textContent = summary(); save(); }
+  else if (t.dataset.pnote){ S.proc[t.dataset.pnote].note = t.value; $("#sum").textContent = summary(); save(); } });
 $("#reset").addEventListener("click", resetCam);
 setTimeout(() => { $("#hint").style.opacity = 0; }, 4000);
 
-/* ───────── 보내기 ───────── */
+/* ═══════════ 보내기 ═══════════ */
 const SEND_TO = "https://formsubmit.co/ajax/904bath@gmail.com";
 let sending = false;
 $("#send").addEventListener("click", async () => {
   if (sending) return;
   const name = $("#fName").value.trim(), phone = $("#fPhone").value.trim(), addr = $("#fAddr").value.trim();
-  const err = !name ? "이름을 적어 주세요" : !/\d{3,}.*\d{3,}/.test(phone) ? "연락처를 확인해 주세요" : !addr ? "지역을 적어 주세요" : !$("#fAgree").checked ? "개인정보 수집에 동의해 주세요" : "";
+  const err = !name ? "이름을 적어 주세요" : !/\d{3,}.*\d{3,}/.test(phone) ? "연락처를 확인해 주세요" : !addr ? "현장 주소를 적어 주세요" : !$("#fAgree").checked ? "개인정보 수집에 동의해 주세요" : "";
   $("#err").textContent = err; if (err) return;
   sending = true; const b = $("#send"); b.disabled = true; b.textContent = "보내는 중…";
+  const matNote = $("#fMatNote").value.trim(), memo = $("#fMemo").value.trim(), when = $("#fWhen").value;
+  // 캘린더 받은요청과 같은 모양 (rooms · zoneSpec · proc)
+  const zoneSpec = Object.fromEntries(S.rooms.map(r => { const x = S.spec[r], o = {};
+    if (x.dim?.w) o.dim = x.dim; if (x.qty) o.qty = x.qty;
+    if (hasWork(r) && x.work){ o.work = x.work; if (isBath(r) && x.work === "철거 후 시공"){ const it = dmIt(x.demo), w = it.includes("벽 철거"), f = it.includes("바닥 철거"); o.demo = w && f ? "올철거" : f ? "바닥만 철거" : w ? "벽만 철거" : it.includes("욕조 철거") ? "욕조 자리만" : it.includes("도기 철거") ? "도기만 철거" : ""; } }
+    o.size = x.size; if (x.method) o.method = x.method; if (x.heat) o.heat = x.heat; if (x.scope?.length) o.scope = x.scope; if (x.scopeNote) o.scopeNote = x.scopeNote;
+    if (Object.keys(x.opts).length) o.opts = x.opts; o.color = COLORS[x.color][0]; if (isBath(r)){ o.floorSize = x.fsize; o.floorColor = COLORS[x.fcolor][0]; }
+    return [r, o]; }));
   try {
-    const r = await fetch(SEND_TO, {method:"POST", headers:{"Content-Type":"application/json", "Accept":"application/json"},
+    const res = await fetch(SEND_TO, {method:"POST", headers:{"Content-Type":"application/json", "Accept":"application/json"},
       body: JSON.stringify({_subject:`[소비자 견적요청] ${name} · ${addr}`, _template:"box", _captcha:"false",
-        구분:"소비자(3D 견적요청)", 이름:name, 연락처:phone, 지역:addr, 희망시기:$("#fWhen").value, 요청내용:summaryText(), 메모:$("#fMemo").value.trim(),
-        data: JSON.stringify({type:"customer", name, phone, addr, when:$("#fWhen").value, memo:$("#fMemo").value.trim(), baths:BATHS.filter(([x]) => S.on[x]).map(([x]) => ({bath:x, ...S.spec[x]}))})})});
-    const j = await r.json().catch(() => ({})); if (!r.ok || j.success === false || j.success === "false") throw new Error(j.message || r.status);
+        구분:"소비자(3D 견적요청)", 이름:name, 연락처:phone, 주소:addr, 희망시기:when, 요청서:summary() + (matNote ? `\n· 원하는 자재: ${matNote}` : ""), 메모:memo,
+        data: JSON.stringify({type:"customer", name, phone, addr, when, memo, mat:{by:S.mat === "904" ? "ours" : "client", note:matNote}, rooms:S.rooms, zoneSpec, proc:S.proc, wp:Object.fromEntries(S.rooms.filter(isBath).map(r => [r, wpFor(r).v]))})})});
+    const j = await res.json().catch(() => ({})); if (!res.ok || j.success === false || j.success === "false") throw new Error(j.message || res.status);
     $("#form").innerHTML = `<div class="done"><h2>견적 요청을 보냈어요 ✓</h2><p>${esc(name)}님, 확인하고 904에서 직접 연락드릴게요.<br>현장 사진이 있으면 연락드릴 때 같이 보내 주세요.</p></div>`;
     $("#form").scrollIntoView({behavior:"smooth", block:"center"});
   } catch(_){ toast("보내지 못했어요. 잠시 뒤 다시 눌러 주세요"); b.disabled = false; b.textContent = "견적 요청 보내기"; }
