@@ -190,6 +190,7 @@ const ZH = 2.3, PY = 3.3058;
 const SIZES = r => isKitchen(r) ? ["300×600","600각","800각","600×1200","모자이크","기타"] : isBath(r) ? ["300×600","600각","600×1200","모자이크","기타"] : ["300각","600각","600×1200","기타"];
 const SIZE_NOTE = {"300×600":"36 · 가장 많이 써요","600각":"600×600","800각":"800×800","600×1200":"대형 · 줄눈 최소","모자이크":"작은 조각","300각":"300×300","기타":"상담 때 정해요"};
 const FLOOR_SIZES = ["300각","600각","모자이크"];
+const FLOOR_AUTO = {"300×600":"300각", "600각":"600각"}; // 벽 타일 고르면 바닥 자동
 const METHODS = ["에폭시","본드","드라이"];
 const METHOD_NOTE = {에폭시:"접착력 가장 강함", 본드:"가벼운 타일", 드라이:"드라이픽스"};
 const heavy = (r, s) => (isBath(r) || isKitchen(r)) && ["600각","800각","600×1200"].includes(s);
@@ -678,7 +679,7 @@ function specHTML(){
   h += q(isFloorZ(r) ? "바닥 타일 크기" : "벽 타일 크기", `<div class="opts">${SIZES(r).map(s => ob(`data-k="size" data-v="${s}"`, x.size === s, `<span class="big">${s}</span>`, SIZE_NOTE[s])).join("")}</div>`);
   h += q(isFloorZ(r) ? "바닥 타일 색" : "벽 타일 색", `<div class="opts">${Object.entries(COLORS).map(([c, [n, hex]]) => `<button type="button" class="sw" data-k="color" data-v="${c}" aria-pressed="${x.color === c}" title="${n}" aria-label="${n}" style="background:${hex}"></button>`).join("")}</div>`, COLORS[x.color][0]);
   if (isBath(r)){
-    h += q("바닥 타일 크기", `<div class="opts">${FLOOR_SIZES.map(s => ob(`data-k="fsize" data-v="${s}"`, x.fsize === s, `<span class="big">${s}</span>`, s === "모자이크" ? "미끄럼 방지" : SIZE_NOTE[s])).join("")}</div>`);
+    h += q("바닥 타일 크기", `<div class="opts">${FLOOR_SIZES.map(s => ob(`data-k="fsize" data-v="${s}"`, x.fsize === s, `<span class="big">${s}</span>`, s === "모자이크" ? "미끄럼 방지" : SIZE_NOTE[s])).join("")}</div>`, FLOOR_AUTO[x.size] ? `벽 ${x.size === "300×600" ? "36" : x.size}이라 ${FLOOR_AUTO[x.size]} · 바꿀 수 있어요` : "");
     h += q("바닥 타일 색", `<div class="opts">${Object.entries(COLORS).map(([c, [n, hex]]) => `<button type="button" class="sw" data-k="fcolor" data-v="${c}" aria-pressed="${x.fcolor === c}" title="${n}" aria-label="${n}" style="background:${hex}"></button>`).join("")}</div>`, COLORS[x.fcolor][0]);
   }
   // 붙이는 방법 (벽 타일)
@@ -774,7 +775,8 @@ document.addEventListener("click", e => {
     if (DM_ITEMS.every(v => a.includes(v))) a = [DM_ALL];
     x.demo = a; }
   else if (d.k){ x[d.k] = d.v;
-    msg = {size:`${isFloorZ(r) ? "바닥" : "벽"} ${d.v === "300×600" ? "300×600 (36)" : d.v}`, fsize:`바닥 ${d.v}`, color:COLORS[d.v]?.[0], fcolor:`바닥 ${COLORS[d.v]?.[0]}`}[d.k] || ""; }
+    if (d.k === "size" && isBath(r) && FLOOR_AUTO[d.v]) x.fsize = FLOOR_AUTO[d.v]; // 벽 36 → 바닥 300각 · 벽 600각 → 바닥 600각
+    msg = {size:`${isFloorZ(r) ? "바닥" : "벽"} ${d.v === "300×600" ? "300×600 (36)" : d.v}${isBath(r) && FLOOR_AUTO[d.v] ? ` · 바닥 ${FLOOR_AUTO[d.v]}` : ""}`, fsize:`바닥 ${d.v}`, color:COLORS[d.v]?.[0], fcolor:`바닥 ${COLORS[d.v]?.[0]}`}[d.k] || ""; }
   else if (d.opt){ const n = d.opt, o = x.opts;
     if (o[n]) { delete o[n]; msg = `${n} 뺐어요`; }
     else { const sub = optList(r, x).find(([m]) => m === n)?.[1]; o[n] = n === "졸리컷" ? JOLLY.filter(j => o[j]) : sub && sub.length && n !== "걸레받이" ? sub[0] : true; msg = `${n} 추가!`; } }
