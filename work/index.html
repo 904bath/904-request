@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>90.4 BATH 작업</title>
+<link rel="icon" href="../logo-t.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --bg:#E9ECF2; --surface:#FFFFFF; --surface2:#F3F5F9; --line:#E2E6EE;
+  --fg:#1B1F27; --muted:#7F889A; --accent:#2F66F5; --accent-fg:#FFFFFF; --accent-soft:#E8EFFF;
+  --green:#22B37C; --green-soft:#E3F6EE; --red:#E5484D; --red-soft:#FDE9EA; --orange:#F5900F; --orange-soft:#FEF1DF;
+  --scrim:rgba(14,16,24,.45); --shadow:0 1px 2px rgba(20,24,40,.06),0 4px 16px rgba(20,24,40,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A0B0E; --surface:#16181D; --surface2:#1F2128; --line:#2C2F38;
+    --fg:#ECEEF3; --muted:#8E95A6; --accent:#6E94FF; --accent-fg:#0D0E12; --accent-soft:#1D2540;
+    --green:#23A673; --green-soft:#12291F; --red:#FF6B6F; --red-soft:#341A1C; --orange:#F2A04A; --orange-soft:#33240F;
+    --scrim:rgba(0,0,0,.6); --shadow:none; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A0B0E; --surface:#16181D; --surface2:#1F2128; --line:#2C2F38;
+  --fg:#ECEEF3; --muted:#8E95A6; --accent:#6E94FF; --accent-fg:#0D0E12; --accent-soft:#1D2540;
+  --green:#23A673; --green-soft:#12291F; --red:#FF6B6F; --red-soft:#341A1C; --orange:#F2A04A; --orange-soft:#33240F;
+  --scrim:rgba(0,0,0,.6); --shadow:none; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 15px/1.55 var(--font);-webkit-tap-highlight-color:transparent;word-break:keep-all;overflow-wrap:anywhere}
+button{font-family:inherit;color:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:16px;color:var(--fg)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px calc(40px + env(safe-area-inset-bottom,0px))}
+
+/* 상단 */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.top .in{max-width:640px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px;min-height:58px}
+.logo{height:34px;width:auto;flex:none}
+:root[data-theme="dark"] .logo{filter:none}
+.top h1{font:800 17px/1.2 var(--font);letter-spacing:-.02em;margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top h1 small{display:block;font:500 12px var(--font);color:var(--muted);letter-spacing:0}
+.ib{width:38px;height:38px;border:0;background:transparent;border-radius:50%;display:grid;place-items:center;flex:none}
+.ib:hover{background:var(--surface2)}
+.ib svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* 카드 */
+.card{background:var(--surface);border-radius:16px;padding:16px;margin-top:12px;box-shadow:var(--shadow)}
+.card h2{font:700 15px/1.3 var(--font);margin:0 0 12px;display:flex;align-items:center;gap:8px}
+.card h2 .sub{font:500 12px var(--font);color:var(--muted);margin-left:auto}
+.hero{padding:20px 16px}
+.hero .proc{font:800 26px/1.2 var(--font);letter-spacing:-.03em;margin:8px 0 4px}
+.hero .meta{color:var(--muted);font-size:14px}
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0;padding-top:0}
+.row .k{width:72px;flex:none;color:var(--muted);font-size:13px}
+.row .v{flex:1;min-width:0;font-weight:500}
+.row .v.big{font:700 18px/1.3 var(--font);letter-spacing:.02em}
+.pre{white-space:pre-wrap}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.num{font-variant-numeric:tabular-nums}
+
+/* 칩 */
+.chip{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 9px;border-radius:999px;font:700 12px var(--font);background:var(--surface2);color:var(--muted);white-space:nowrap}
+.chip.blue{background:var(--accent-soft);color:var(--accent)}
+.chip.green{background:var(--green-soft);color:var(--green)}
+.chip.red{background:var(--red-soft);color:var(--red)}
+.chip.orange{background:var(--orange-soft);color:var(--orange)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block}
+.badge{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--red);color:#fff;font:700 11px/20px var(--font);text-align:center}
+
+/* 버튼 */
+.btn{height:48px;border:0;border-radius:12px;padding:0 16px;font:700 15px var(--font);background:var(--accent);color:var(--accent-fg);display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.ghost{background:var(--surface2);color:var(--fg)}
+.btn.line{background:transparent;border:1px solid var(--line);color:var(--fg)}
+.btn.green{background:var(--green);color:#fff}
+.btn.red{background:var(--red-soft);color:var(--red)}
+.btn.sm{height:36px;font-size:13px;border-radius:10px;padding:0 12px;width:auto}
+.btns{display:flex;gap:8px;margin-top:12px}
+.btns>*{flex:1}
+.lnk{border:0;background:transparent;color:var(--accent);font:600 13px var(--font);padding:4px 6px;border-radius:8px}
+.lnk:hover{background:var(--accent-soft)}
+
+/* 입력 */
+label.f{display:block;margin-top:12px}
+label.f>span{display:block;font:600 13px var(--font);color:var(--muted);margin-bottom:6px}
+.in-t,textarea.in-t,select.in-t{width:100%;height:46px;border:1px solid var(--line);border-radius:12px;background:var(--surface2);padding:0 12px}
+textarea.in-t{height:auto;min-height:88px;padding:10px 12px;resize:vertical;line-height:1.5}
+.in-t:focus{outline:0;border-color:var(--accent);background:var(--surface)}
+.won{position:relative}
+.won .in-t{padding-right:36px;text-align:right;font:700 18px var(--font);font-variant-numeric:tabular-nums}
+.won::after{content:"원";position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.seg{display:flex;background:var(--surface2);border-radius:12px;padding:4px;gap:4px}
+.seg button{flex:1;height:38px;border:0;border-radius:9px;background:transparent;font:700 14px var(--font);color:var(--muted)}
+.seg button.on{background:var(--surface);color:var(--fg);box-shadow:var(--shadow)}
+.seg button.on.r{color:var(--red)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+
+/* 사진 */
+.drop{border:1.5px dashed var(--line);border-radius:14px;padding:18px;text-align:center;background:var(--surface2);display:block;cursor:pointer}
+.drop b{display:block;font:700 15px var(--font)}
+.drop span{font-size:13px;color:var(--muted)}
+.drop input{display:none}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:6px;margin-top:10px}
+.thumbs:empty{display:none}
+.th{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:var(--surface2);border:0;padding:0}
+.th img,.th video{width:100%;height:100%;object-fit:cover;display:block}
+.th .x{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font:700 14px/24px var(--font);padding:0}
+.th .play{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.th .play::after{content:"";width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.55) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 7l8 5-8 5z' fill='white'/%3E%3C/svg%3E") center/20px no-repeat}
+
+/* 대화 */
+.thread{display:flex;flex-direction:column;gap:12px}
+.msg{max-width:88%;align-self:flex-start}
+.msg.me{align-self:flex-end}
+.msg .hd{display:flex;align-items:center;gap:6px;font:600 12px var(--font);color:var(--muted);margin-bottom:4px}
+.msg.me .hd{justify-content:flex-end}
+.msg .bd{background:var(--surface2);border-radius:4px 14px 14px 14px;padding:10px 12px}
+.msg.me .bd{background:var(--accent-soft);border-radius:14px 4px 14px 14px}
+.msg .bd .thumbs{margin-top:8px;grid-template-columns:repeat(auto-fill,minmax(72px,1fr))}
+.msg .bd .thumbs:first-child{margin-top:0}
+.msg .amt{font:800 17px var(--font);font-variant-numeric:tabular-nums}
+.empty{color:var(--muted);text-align:center;padding:16px 0;font-size:14px}
+
+/* 타임라인 (소비자) */
+.tl{list-style:none;margin:0;padding:0}
+.tl li{position:relative;padding:0 0 18px 28px}
+.tl li::before{content:"";position:absolute;left:7px;top:22px;bottom:0;width:2px;background:var(--line)}
+.tl li:last-child::before{display:none}
+.tl .pt{position:absolute;left:0;top:4px;width:16px;height:16px;border-radius:50%;border:2px solid var(--line);background:var(--surface)}
+.tl li.ok .pt{background:var(--green);border-color:var(--green)}
+.tl li.ok .pt::after{content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.tl .t{font:700 16px var(--font)}
+.tl .d{font-size:13px;color:var(--muted)}
+
+/* 관리자 목록 */
+.tabs{display:flex;gap:6px;margin-top:12px}
+.tabs button{height:38px;border:0;border-radius:999px;padding:0 16px;background:var(--surface);color:var(--muted);font:700 14px var(--font);display:flex;align-items:center;gap:6px;box-shadow:var(--shadow)}
+.tabs button.on{background:var(--fg);color:var(--surface)}
+.site{display:block;width:100%;text-align:left;border:0;background:var(--surface);border-radius:16px;padding:14px 16px;margin-top:10px;box-shadow:var(--shadow)}
+.site .nm{font:700 16px/1.3 var(--font);display:flex;align-items:center;gap:8px}
+.site .ad{font-size:13px;color:var(--muted);margin-top:2px}
+.site .chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.search{width:100%;height:44px;border:0;border-radius:12px;background:var(--surface);padding:0 14px;margin-top:12px;box-shadow:var(--shadow)}
+.job{border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:10px}
+.job .jt{display:flex;align-items:flex-start;gap:8px}
+.job .jt b{font:800 17px/1.3 var(--font);flex:1}
+.job .jm{font-size:13px;color:var(--muted);margin-top:2px}
+.job .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.job .money{display:flex;gap:16px;margin-top:8px;font-size:13px}
+.job .money b{font-variant-numeric:tabular-nums;font-size:15px}
+.tog{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:14px;cursor:pointer}
+.tog input{width:20px;height:20px;accent-color:var(--accent)}
+.inbox-it{display:block;width:100%;text-align:left;border:0;background:var(--surface);border-radius:14px;padding:12px 14px;margin-top:8px;box-shadow:var(--shadow)}
+.inbox-it .w{font:600 12px var(--font);color:var(--muted);display:flex;gap:6px;align-items:center}
+.inbox-it .tx{margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.banner{background:var(--orange-soft);color:var(--fg);border-radius:12px;padding:10px 12px;font-size:13px;margin-top:12px}
+.banner a{color:var(--accent);font-weight:700}
+
+/* 시트·라이트박스·토스트 */
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:50;display:flex;align-items:flex-end;justify-content:center;animation:fd .15s}
+.sheet{background:var(--surface);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:8px 16px calc(20px + env(safe-area-inset-bottom,0px));animation:up .2s ease-out}
+@media (min-width:700px){.scrim{align-items:center}.sheet{border-radius:20px;max-height:86vh}}
+.sheet .grab{width:40px;height:4px;border-radius:2px;background:var(--line);margin:4px auto 10px}
+.sheet h3{font:800 19px var(--font);margin:4px 0 4px}
+@keyframes up{from{transform:translateY(30px);opacity:0}}
+@keyframes fd{from{opacity:0}}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:60;display:flex;align-items:center;justify-content:center}
+.lb img,.lb video{max-width:100%;max-height:100%;object-fit:contain}
+.lb iframe{width:100%;height:80vh;border:0}
+.lb .ib{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));right:10px;color:#fff;background:rgba(255,255,255,.12)}
+.lb .nav{position:absolute;top:50%;transform:translateY(-50%);color:#fff;background:rgba(255,255,255,.12)}
+.lb .nav.l{left:8px}.lb .nav.r{right:8px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--surface);padding:10px 16px;border-radius:12px;font:600 14px var(--font);z-index:70;animation:up .2s;max-width:90vw;text-align:center}
+.center{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;padding:20px}
+.center .logo{height:70px}
+.spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp 0.8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.prog{font-size:13px;color:var(--muted);margin-top:8px;text-align:center}
+.done-box{display:flex;gap:10px;align-items:center;background:var(--green-soft);color:var(--green);border-radius:12px;padding:12px;font-weight:700;margin-bottom:12px}
+.hr{height:1px;background:var(--line);margin:16px 0}
+</style>
+</head>
+<body>
+<div id="app"><div class="center"><div class="spin"></div></div></div>
+
+<script src="config.js"></script>
+<script src="core.js"></script>
+<script>
+"use strict";
+/* ================= 기본 ================= */
+const API = (window.API_URL || "").trim();
+const DEMO = !API;
+const QS = new URLSearchParams(location.search);
+const ROLE = QS.get("w") ? "w" : QS.get("c") ? "c" : "a";
+const TOK = QS.get("w") || QS.get("c") || "";
+const BASE = location.origin + location.pathname;
+const LOGO = "../logo-t.png";
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const won = n => (n === "" || n == null || isNaN(+n)) ? "" : Number(n).toLocaleString("ko-KR") + "원";
+const digits = s => String(s || "").replace(/[^0-9]/g, "");
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const DOW = "일월화수목금토";
+function fdate(d, t) {
+  if (!d) return "날짜 미정";
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d); if (!m) return d;
+  const dt = new Date(+m[1], +m[2] - 1, +m[3]);
+  return `${+m[2]}/${+m[3]}(${DOW[dt.getDay()]})` + (t ? " " + t : "");
+}
+function fago(iso) {
+  const d = new Date(iso), s = (Date.now() - d) / 1000;
+  if (s < 60) return "방금"; if (s < 3600) return Math.floor(s / 60) + "분 전"; if (s < 86400) return Math.floor(s / 3600) + "시간 전";
+  return `${d.getMonth() + 1}/${d.getDate()} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+}
+function toast(m) { $$(".toast").forEach(t => t.remove()); const t = document.createElement("div"); t.className = "toast"; t.textContent = m; document.body.appendChild(t); setTimeout(() => t.remove(), 2600); }
+const ICON = {
+  back: '<svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>',
+  ref: '<svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg>',
+  x: '<svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>',
+  l: '<svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>',
+  r: '<svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>',
+  out: '<svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>'
+};
+function topbar(title, sub, left = "", right = "") {
+  return `<div class="top"><div class="in">${left}<img class="logo" src="${LOGO}" alt="90.4 BATH"><h1>${esc(title)}${sub ? `<small>${esc(sub)}</small>` : ""}</h1>${right}</div></div>`;
+}
+async function copy(text) {
+  try { await navigator.clipboard.writeText(text); toast("복사했어요"); }
+  catch (_) { const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); toast("복사했어요"); } catch (e) { toast("복사가 안 돼요. 길게 눌러 복사해 주세요"); } ta.remove(); }
+}
+const smsHref = (phone, body) => `sms:${digits(phone)}${/iPhone|iPad|iPod|Mac/.test(navigator.userAgent) ? "&" : "?"}body=${encodeURIComponent(body)}`;
+const mapHref = addr => `https://map.kakao.com/link/search/${encodeURIComponent(addr)}`;
+
+/* ================= 서버 ================= */
+let ADMIN_PW = ""; try { ADMIN_PW = localStorage.getItem("904work-pw") || ""; } catch (_) {}
+let MS = null;
+function demoStore() {
+  if (MS) return MS;
+  try { MS = JSON.parse(localStorage.getItem("904work-demo") || "null"); } catch (_) {}
+  if (!MS) MS = seed();
+  return MS;
+}
+function seed() {
+  const d = n => { const t = new Date(); t.setDate(t.getDate() + n); return t.toISOString().slice(0, 10); };
+  return {
+    sites: [{ id: "s1", cTok: "democ01", name: "범어동 ○○아파트 (예시)", addr: "대구 수성구 범어동 123-4", unit: "101동 1203호", pw: "#1234*", cname: "김민지", cphone: "010-0000-0000", memo: "", at: new Date().toISOString() }],
+    jobs: [
+      { id: "j1", siteId: "s1", wTok: "demow01", proc: "철거", loc: "내욕실·외욕실", date: d(1), time: "08:30", content: "벽·바닥 타일 철거, 욕조 철거\n폐기물 반출까지", vendor: "○○철거", vphone: "010-0000-0001", est: "600000", final: "", showC: true, status: "예정", memo: "" },
+      { id: "j2", siteId: "s1", wTok: "demow02", proc: "도막 1차", loc: "외욕실", date: d(3), time: "", content: "도막 1차", vendor: "○○방수", vphone: "010-0000-0002", est: "250000", final: "", showC: false, status: "예정", memo: "" }
+    ],
+    posts: []
+  };
+}
+async function api(a, p = {}) {
+  const q = Object.assign({ a }, p);
+  if (ROLE === "a") q.pw = ADMIN_PW; else q.t = TOK;
+  if (DEMO) {
+    await sleep(120);
+    const S = demoStore();
+    const r = Core.handle(S, JSON.parse(JSON.stringify(q)), {
+      adminPw: "904",
+      saveFile: (sid, f) => ({ id: "data:" + f.mime + ";base64," + f.b64, type: /^video/.test(f.mime) ? "v" : "i" })
+    });
+    if (r.write) { try { localStorage.setItem("904work-demo", JSON.stringify(S)); } catch (_) {} }
+    return JSON.parse(JSON.stringify(r.data));
+  }
+  let res;
+  try { res = await fetch(API, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(q), redirect: "follow" }); }
+  catch (e) { throw new Error("인터넷 연결을 확인해 주세요"); }
+  let j; try { j = await res.json(); } catch (e) { throw new Error("서버 응답이 이상해요. 잠시 후 다시 해 주세요"); }
+  if (!j.ok) throw new Error(j.error || "오류가 났어요");
+  return j.data;
+}
+
+/* ================= 사진·영상 ================= */
+const isData = id => String(id).startsWith("data:");
+const thumbUrl = f => isData(f.id) ? f.id : `https://drive.google.com/thumbnail?id=${encodeURIComponent(f.id)}&sz=w600`;
+const bigUrl = f => isData(f.id) ? f.id : `https://drive.google.com/thumbnail?id=${encodeURIComponent(f.id)}&sz=w2000`;
+let LB = [];
+function mediaGrid(list) {
+  if (!list || !list.length) return "";
+  const base = LB.length; LB.push(...list);
+  return `<div class="thumbs">${list.map((f, i) => `<button class="th" type="button" data-lb="${base + i}" aria-label="${f.type === "v" ? "영상" : "사진"} 크게 보기">${
+    f.type === "v" && isData(f.id) ? `<video src="${f.id}" muted playsinline preload="metadata"></video>` : `<img src="${esc(thumbUrl(f))}" alt="" loading="lazy" referrerpolicy="no-referrer">`
+  }${f.type === "v" ? '<span class="play"></span>' : ""}</button>`).join("")}</div>`;
+}
+function openLB(i) {
+  const show = () => {
+    const f = LB[i]; let inner;
+    if (f.type === "v") inner = isData(f.id) ? `<video src="${f.id}" controls autoplay playsinline></video>` : `<iframe src="https://drive.google.com/file/d/${encodeURIComponent(f.id)}/preview" allow="autoplay"></iframe>`;
+    else inner = `<img src="${esc(bigUrl(f))}" alt="" referrerpolicy="no-referrer">`;
+    el.innerHTML = inner + `<button class="ib" data-c aria-label="닫기">${ICON.x}</button>` + (LB.length > 1 ? `<button class="ib nav l" data-p aria-label="이전">${ICON.l}</button><button class="ib nav r" data-n aria-label="다음">${ICON.r}</button>` : "");
+  };
+  const el = document.createElement("div"); el.className = "lb";
+  el.onclick = e => {
+    if (e.target.closest("[data-p]")) { i = (i - 1 + LB.length) % LB.length; show(); }
+    else if (e.target.closest("[data-n]")) { i = (i + 1) % LB.length; show(); }
+    else if (e.target.closest("[data-c]") || e.target === el) el.remove();
+  };
+  document.body.appendChild(el); show();
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-lb]"); if (b) openLB(+b.dataset.lb); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") { const l = $(".lb"); if (l) l.remove(); else { const s = $(".scrim"); if (s) s.remove(); } } });
+
+/* 업로더: 고른 파일을 들고 있다가 보낼 때 올림 */
+function Uploader(id, label = "사진·영상 올리기", hint = "여러 장 한 번에 고를 수 있어요") {
+  const st = { id, files: [] };
+  st.html = () => `<label class="drop" for="${id}"><b>📷 ${esc(label)}</b><span>${esc(hint)}</span><input id="${id}" type="file" accept="image/*,video/*" multiple></label><div class="thumbs" id="${id}-p"></div>`;
+  st.bind = () => {
+    const inp = $("#" + id), box = $("#" + id + "-p"); if (!inp) return;
+    const draw = () => {
+      box.innerHTML = st.files.map((f, i) => `<div class="th">${/^video/.test(f.type) ? `<video src="${f.url}" muted playsinline preload="metadata"></video><span class="play"></span>` : `<img src="${f.url}" alt="">`}<button class="x" type="button" data-rm="${i}" aria-label="빼기">×</button></div>`).join("");
+    };
+    inp.onchange = () => {
+      for (const f of inp.files) {
+        if (/^video/.test(f.type) && f.size > 30 * 1024 * 1024) { toast(`${f.name}: 영상은 30MB까지 올릴 수 있어요`); continue; }
+        if (!/^(image|video)\//.test(f.type)) continue;
+        st.files.push({ file: f, type: f.type, url: URL.createObjectURL(f) });
+      }
+      inp.value = ""; draw();
+    };
+    box.onclick = e => { const b = e.target.closest("[data-rm]"); if (b) { st.files.splice(+b.dataset.rm, 1); draw(); } };
+    draw();
+  };
+  st.upload = async (extra, onProg) => {
+    const out = [];
+    for (let i = 0; i < st.files.length; i++) {
+      onProg && onProg(`사진·영상 올리는 중 ${i + 1}/${st.files.length}`);
+      const f = await packFile(st.files[i].file);
+      out.push(await api("up", Object.assign({ file: f }, extra || {})));
+    }
+    return out;
+  };
+  st.clear = () => { st.files = []; };
+  return st;
+}
+async function packFile(file) {
+  if (/^image\//.test(file.type) && !/gif|svg/.test(file.type)) {
+    try {
+      const bmp = await createImageBitmap(file, { imageOrientation: "from-image" });
+      const M = 1800, sc = Math.min(1, M / Math.max(bmp.width, bmp.height));
+      const c = document.createElement("canvas"); c.width = Math.round(bmp.width * sc); c.height = Math.round(bmp.height * sc);
+      c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+      const url = c.toDataURL("image/jpeg", 0.82);
+      return { name: file.name.replace(/\.[^.]+$/, "") + ".jpg", mime: "image/jpeg", b64: url.split(",")[1] };
+    } catch (_) { /* 아래로 */ }
+  }
+  const b64 = await new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(",")[1]); r.onerror = no; r.readAsDataURL(file); });
+  return { name: file.name, mime: file.type || "application/octet-stream", b64 };
+}
+
+/* ================= 공통 화면 조각 ================= */
+const KIND = Core.KIND;
+const KCHIP = { done: "green", issue: "red", ask: "blue", pay: "orange", reply: "", note: "" };
+function statusChip(s) { return `<span class="chip ${({ "예정": "", "완료보고": "green", "결제요청": "orange", "정산완료": "blue" })[s] || ""}">${esc(s || "예정")}</span>`; }
+function thread(posts, meFrom, names) {
+  if (!posts.length) return `<div class="empty">아직 주고받은 내용이 없어요</div>`;
+  return `<div class="thread">${posts.slice().sort((a, b) => a.at < b.at ? -1 : 1).map(p => `<div class="msg ${p.from === meFrom ? "me" : ""}">
+    <div class="hd">${p.from === meFrom ? "" : esc(names[p.from] || "")} ${p.kind !== "reply" && p.kind !== "note" ? `<span class="chip ${KCHIP[p.kind]}">${esc(KIND[p.kind] || "")}</span>` : ""} <span>${esc(fago(p.at))}</span></div>
+    <div class="bd">${p.amount ? `<div class="amt">${won(p.amount)}</div>` : ""}${p.text ? `<div class="pre">${esc(p.text)}</div>` : ""}${mediaGrid(p.files)}</div></div>`).join("")}</div>`;
+}
+function busy(btn, on, label) {
+  if (on) { btn.dataset.t = btn.textContent; btn.disabled = true; btn.textContent = label || "보내는 중…"; }
+  else { btn.disabled = false; if (btn.dataset.t) btn.textContent = btn.dataset.t; }
+}
+function fail(msg) {
+  $("#app").innerHTML = `<div class="wrap"><div class="center"><img class="logo" src="${LOGO}" alt="90.4 BATH"><b style="font-size:17px">${esc(msg)}</b><span class="muted small">링크를 다시 받아 주세요. 문의: 90.4 BATH</span></div></div>`;
+}
+function demoBanner() { return DEMO ? `<div class="banner">미리보기 모드예요 — 아직 서버 연결 전이라 입력한 내용은 이 기기에만 저장돼요.</div>` : ""; }
+
+/* ================= 작업자 ================= */
+let W = null;
+const upDone = Uploader("upDone", "완료 사진·영상 올리기", "작업한 곳이 잘 보이게 여러 장 올려 주세요");
+const upAsk = Uploader("upAsk", "사진 첨부 (선택)", "문제 부위 사진이 있으면 같이 올려 주세요");
+let askKind = "ask";
+async function loadWorker() {
+  try { W = await api("w"); renderWorker(); } catch (e) { fail(e.message); }
+}
+function renderWorker() {
+  LB = [];
+  const { job: j, site: s, posts } = W;
+  const reported = j.status !== "예정";
+  const paid = j.status === "결제요청" || j.status === "정산완료";
+  const names = { worker: "우리", admin: "90.4 BATH" };
+  $("#app").innerHTML = topbar("시공요청서", "90.4 BATH INTERIOR DESIGN") + `<div class="wrap">
+    ${demoBanner()}
+    <div class="card hero">
+      ${statusChip(j.status)}
+      <div class="proc">${esc(j.proc)}${j.loc ? ` <span class="muted" style="font-weight:700">· ${esc(j.loc)}</span>` : ""}</div>
+      <div class="meta">${esc(fdate(j.date, j.time))}${j.vendor ? " · " + esc(j.vendor) : ""}</div>
+    </div>
+
+    <div class="card">
+      <h2>현장 정보</h2>
+      <div class="row"><div class="k">현장</div><div class="v">${esc(s.name || "")}</div></div>
+      <div class="row"><div class="k">주소</div><div class="v">${esc(s.addr || "-")}</div>${s.addr ? `<button class="lnk" data-copy="${esc(s.addr + (s.unit ? " " + s.unit : ""))}">복사</button><a class="lnk" href="${mapHref(s.addr)}" target="_blank" rel="noopener">지도</a>` : ""}</div>
+      ${s.unit ? `<div class="row"><div class="k">동·호수</div><div class="v">${esc(s.unit)}</div></div>` : ""}
+      <div class="row"><div class="k">현관 비번</div><div class="v big num" id="pwv">${s.pw ? "••••••" : "<span class='muted' style='font:500 14px var(--font)'>없음 (연락 주세요)</span>"}</div>${s.pw ? `<button class="lnk" id="pwBtn">보기</button>` : ""}</div>
+    </div>
+
+    ${j.content ? `<div class="card"><h2>작업 내용</h2><div class="pre">${esc(j.content)}</div></div>` : ""}
+
+    <div class="card">
+      <h2>작업 완료 · 정산 <span class="sub">${reported ? "완료 보고됨" : "작업 끝나면 올려 주세요"}</span></h2>
+      ${reported ? `<div class="done-box">✓ 완료 사진을 받았어요. 더 있으면 추가로 올려 주세요.</div>` : ""}
+      ${upDone.html()}
+      <label class="f"><span>남길 말 (선택)</span><textarea class="in-t" id="doneTx" placeholder="예) 바닥 배수구 주변 마감 확인 부탁드려요"></textarea></label>
+      <div class="btns"><button class="btn green" id="doneBtn">${reported ? "사진 추가로 보내기" : "작업 완료 보고하기"}</button></div>
+      <div class="prog" id="doneProg"></div>
+      <div class="hr"></div>
+      <div class="row" style="padding-top:0;border:0"><div class="k">예상 견적</div><div class="v big num">${won(j.est) || "<span class='muted' style='font:500 14px var(--font)'>미정</span>"}</div></div>
+      <label class="f"><span>최종 견적 — 달라졌으면 고쳐 주세요</span><div class="won"><input class="in-t" id="finalIn" inputmode="numeric" value="${esc((j.final || j.est) ? Number(j.final || j.est).toLocaleString("ko-KR") : "")}" placeholder="0"></div></label>
+      <div class="btns"><button class="btn" id="payBtn" ${reported ? "" : "disabled"}>${paid ? "결제요청 다시 보내기" : "결제요청 보내기"}</button></div>
+      <div class="prog">${paid ? `결제요청을 보냈어요 (${won(j.final)})` : reported ? "" : "완료 보고를 먼저 해 주세요"}</div>
+    </div>
+
+    <div class="card">
+      <h2>문의 · 문제 남기기</h2>
+      <div class="seg" id="askSeg"><button data-k="ask" class="${askKind === "ask" ? "on" : ""}">문의</button><button data-k="issue" class="r ${askKind === "issue" ? "on" : ""}">문제 있어요</button></div>
+      <label class="f"><span>내용</span><textarea class="in-t" id="askTx" placeholder="${askKind === "issue" ? "예) 바닥 배관 누수 흔적이 있어요" : "예) 자재는 어디에 있나요?"}"></textarea></label>
+      <div style="margin-top:12px">${upAsk.html()}</div>
+      <div class="btns"><button class="btn" id="askBtn">보내기</button></div>
+      <div class="prog" id="askProg"></div>
+    </div>
+
+    <div class="card"><h2>주고받은 내용 <span class="sub"><button class="lnk" id="refBtn">새로고침</button></span></h2>${thread(posts, "worker", names)}</div>
+  </div>`;
+  upDone.bind(); upAsk.bind();
+  $$("[data-copy]").forEach(b => b.onclick = () => copy(b.dataset.copy));
+  const pwBtn = $("#pwBtn"); if (pwBtn) pwBtn.onclick = () => { const v = $("#pwv"); const show = pwBtn.textContent === "보기"; v.textContent = show ? s.pw : "••••••"; pwBtn.textContent = show ? "숨기기" : "보기"; };
+  $("#refBtn").onclick = loadWorker;
+  $("#finalIn").oninput = e => { const d = digits(e.target.value); e.target.value = d ? Number(d).toLocaleString("ko-KR") : ""; };
+  $("#askSeg").onclick = e => { const b = e.target.closest("[data-k]"); if (!b) return; askKind = b.dataset.k; $$("#askSeg button").forEach(x => x.classList.toggle("on", x === b)); $("#askTx").placeholder = askKind === "issue" ? "예) 바닥 배관 누수 흔적이 있어요" : "예) 자재는 어디에 있나요?"; };
+  $("#doneBtn").onclick = async e => {
+    const b = e.currentTarget; if (!upDone.files.length) return toast("완료 사진을 1장 이상 골라 주세요");
+    busy(b, true);
+    try {
+      const files = await upDone.upload({}, m => $("#doneProg").textContent = m);
+      W = await api("wPost", { kind: "done", text: $("#doneTx").value, files });
+      upDone.clear(); renderWorker(); toast("완료 보고를 보냈어요. 수고하셨습니다!");
+    } catch (er) { busy(b, false); $("#doneProg").textContent = ""; toast(er.message); }
+  };
+  $("#payBtn").onclick = async e => {
+    const b = e.currentTarget, amt = digits($("#finalIn").value);
+    if (!amt) return toast("최종 금액을 적어 주세요");
+    if (!confirm(`최종 견적 ${won(amt)}으로 결제요청을 보낼까요?`)) return;
+    busy(b, true);
+    try { W = await api("wPost", { kind: "pay", amount: amt, text: "" }); renderWorker(); toast("결제요청을 보냈어요"); }
+    catch (er) { busy(b, false); toast(er.message); }
+  };
+  $("#askBtn").onclick = async e => {
+    const b = e.currentTarget, tx = $("#askTx").value.trim();
+    if (!tx && !upAsk.files.length) return toast("내용을 적어 주세요");
+    busy(b, true);
+    try {
+      const files = await upAsk.upload({}, m => $("#askProg").textContent = m);
+      W = await api("wPost", { kind: askKind, text: tx, files });
+      upAsk.clear(); renderWorker(); toast("보냈어요. 확인 후 답변드릴게요");
+    } catch (er) { busy(b, false); $("#askProg").textContent = ""; toast(er.message); }
+  };
+}
+
+/* ================= 소비자 ================= */
+let C = null;
+const upC = Uploader("upC", "사진 첨부 (선택)", "궁금한 부분 사진이 있으면 같이 올려 주세요");
+async function loadCustomer() { try { C = await api("c"); renderCustomer(); } catch (e) { fail(e.message); } }
+function renderCustomer() {
+  LB = [];
+  const { site: s, jobs, posts } = C;
+  const doneN = jobs.filter(j => j.done).length;
+  $("#app").innerHTML = topbar("공사 진행 안내", "90.4 BATH INTERIOR DESIGN") + `<div class="wrap">
+    ${demoBanner()}
+    <div class="card hero">
+      <span class="chip blue">${jobs.length ? `${doneN} / ${jobs.length} 공정 완료` : "일정 준비 중"}</span>
+      <div class="proc">${esc(s.cname ? s.cname + "님 댁" : s.name)}</div>
+      <div class="meta">${esc(s.name || "")} · 저희 90.4 BATH가 꼼꼼히 진행하겠습니다</div>
+    </div>
+    <div class="card">
+      <h2>공정 일정</h2>
+      ${jobs.length ? `<ul class="tl">${jobs.map(j => `<li class="${j.done ? "ok" : ""}"><span class="pt"></span>
+        <div class="t">${esc(j.proc)}${j.loc ? ` <span class="muted" style="font-weight:500;font-size:14px">${esc(j.loc)}</span>` : ""}</div>
+        <div class="d">${esc(fdate(j.date))} · ${j.done ? "완료" : "예정"}</div>${mediaGrid(j.files)}</li>`).join("")}</ul>` : `<div class="empty">일정이 정해지면 여기에 보여 드릴게요</div>`}
+    </div>
+    <div class="card">
+      <h2>문의 남기기</h2>
+      <label class="f" style="margin-top:0"><span>궁금하신 점, 요청하실 점을 편하게 적어 주세요</span><textarea class="in-t" id="cTx" placeholder="예) 줄눈 색상은 언제 정하면 될까요?"></textarea></label>
+      <div style="margin-top:12px">${upC.html()}</div>
+      <div class="btns"><button class="btn" id="cBtn">보내기</button></div>
+      <div class="prog" id="cProg"></div>
+    </div>
+    <div class="card"><h2>주고받은 내용 <span class="sub"><button class="lnk" id="refBtn">새로고침</button></span></h2>${thread(posts, "customer", { admin: "90.4 BATH" })}</div>
+  </div>`;
+  upC.bind();
+  $("#refBtn").onclick = loadCustomer;
+  $("#cBtn").onclick = async e => {
+    const b = e.currentTarget, tx = $("#cTx").value.trim();
+    if (!tx && !upC.files.length) return toast("내용을 적어 주세요");
+    busy(b, true);
+    try {
+      const files = await upC.upload({}, m => $("#cProg").textContent = m);
+      C = await api("cPost", { kind: "ask", text: tx, files }); upC.clear(); renderCustomer(); toast("보냈어요. 확인 후 답변드릴게요");
+    } catch (er) { busy(b, false); $("#cProg").textContent = ""; toast(er.message); }
+  };
+}
+
+/* ================= 관리자 ================= */
+let S = null, VIEW = { tab: "sites", site: null, q: "" };
+const PROCS = ["철거", "설비", "액방", "도막 1차", "도막 2차", "타일", "줄눈", "실리콘", "도기 세팅", "청소"];
+const LOCS = ["내욕실", "외욕실", "내욕실·외욕실", "베란다", "현관"];
+function loginView(msg) {
+  $("#app").innerHTML = `<div class="wrap"><div class="center">
+    <img class="logo" src="${LOGO}" alt="90.4 BATH">
+    <b style="font-size:18px">외주 작업 관리</b>
+    <form id="lg" style="width:100%;max-width:320px">
+      <input class="in-t" id="lgPw" type="password" placeholder="관리자 비밀번호" autocomplete="current-password" style="text-align:center">
+      <button class="btn" style="margin-top:10px">들어가기</button>
+      ${msg ? `<div class="prog" style="color:var(--red)">${esc(msg)}</div>` : ""}
+      ${DEMO ? `<div class="prog">미리보기 비밀번호: 904</div>` : ""}
+    </form></div></div>`;
+  $("#lgPw").focus();
+  $("#lg").onsubmit = async e => {
+    e.preventDefault(); ADMIN_PW = $("#lgPw").value;
+    try { S = await api("all"); try { localStorage.setItem("904work-pw", ADMIN_PW); } catch (_) {} renderAdmin(); }
+    catch (er) { loginView(er.message); }
+  };
+}
+async function loadAdmin(quiet) {
+  if (!ADMIN_PW) return loginView();
+  try { S = await api("all"); renderAdmin(); if (quiet === "toast") toast("새로 불러왔어요"); }
+  catch (e) { if (/비밀번호/.test(e.message)) { try { localStorage.removeItem("904work-pw"); } catch (_) {} ADMIN_PW = ""; loginView(e.message); } else if (S) toast(e.message); else fail(e.message); }
+}
+const siteOf = id => S.sites.find(s => s.id === id);
+const jobOf = id => S.jobs.find(j => j.id === id);
+const jobsOf = sid => S.jobs.filter(j => j.siteId === sid).sort((a, b) => String(a.date || "9").localeCompare(String(b.date || "9")));
+const unreadOf = sid => S.posts.filter(p => p.siteId === sid && !p.read && p.from !== "admin");
+function renderAdmin() {
+  LB = [];
+  if (VIEW.site && !siteOf(VIEW.site)) VIEW.site = null;
+  if (VIEW.site) return renderSite();
+  const unread = S.posts.filter(p => !p.read && p.from !== "admin");
+  const q = VIEW.q.trim();
+  const sites = S.sites.filter(s => !q || [s.name, s.addr, s.cname].concat(jobsOf(s.id).map(j => j.vendor)).join(" ").includes(q))
+    .sort((a, b) => (unreadOf(b.id).length - unreadOf(a.id).length) || String(b.at).localeCompare(String(a.at)));
+  $("#app").innerHTML = topbar("외주 작업 관리", `현장 ${S.sites.length}곳`, "", `<button class="ib" id="ref" aria-label="새로고침">${ICON.ref}</button><button class="ib" id="logout" aria-label="나가기">${ICON.out}</button>`) + `<div class="wrap">
+    ${DEMO ? `<div class="banner">미리보기 모드 — 서버 연결 전이라 이 기기에만 저장돼요. 예시 링크: <a href="?w=demow01" target="_blank">작업자 화면</a> · <a href="?c=democ01" target="_blank">소비자 화면</a></div>` : ""}
+    <div class="tabs"><button data-tab="sites" class="${VIEW.tab === "sites" ? "on" : ""}">현장</button><button data-tab="inbox" class="${VIEW.tab === "inbox" ? "on" : ""}">새 소식 ${unread.length ? `<span class="badge">${unread.length}</span>` : ""}</button></div>
+    ${VIEW.tab === "sites" ? `
+      <input class="search" id="q" placeholder="현장·주소·소비자·업체 검색" value="${esc(VIEW.q)}">
+      <div class="btns"><button class="btn" id="addSite">+ 현장 추가</button></div>
+      ${sites.length ? sites.map(s => { const js = jobsOf(s.id), u = unreadOf(s.id).length; return `<button class="site" data-site="${s.id}">
+        <div class="nm">${esc(s.name)} ${u ? `<span class="badge">${u}</span>` : ""}</div>
+        <div class="ad">${esc([s.addr, s.unit].filter(Boolean).join(" ") || "주소 없음")}${s.cname ? " · " + esc(s.cname) : ""}</div>
+        <div class="chips">${js.length ? js.map(j => `<span class="chip ${({ "완료보고": "green", "결제요청": "orange", "정산완료": "blue" })[j.status] || ""}">${esc(j.proc)} ${esc(fdate(j.date))}</span>`).join("") : `<span class="chip">작업 없음</span>`}</div></button>`; }).join("") : `<div class="empty">${q ? "찾는 현장이 없어요" : "현장을 추가해 보세요"}</div>`}
+    ` : unread.length ? unread.sort((a, b) => a.at < b.at ? 1 : -1).map(p => { const s = siteOf(p.siteId) || {}, j = jobOf(p.jobId); return `<button class="inbox-it" data-site="${p.siteId}">
+        <div class="w"><span class="chip ${KCHIP[p.kind]}">${esc(KIND[p.kind])}</span>${p.from === "worker" ? "작업자 " + esc(j ? j.vendor || j.proc : "") : "소비자 " + esc(s.cname || "")} · ${esc(s.name || "")} · ${esc(fago(p.at))}</div>
+        <div class="tx">${p.amount ? "<b>" + won(p.amount) + "</b> " : ""}${esc(p.text || (p.files.length ? `사진·영상 ${p.files.length}개` : ""))}</div></button>`; }).join("") : `<div class="empty">새로 온 소식이 없어요</div>`}
+  </div>`;
+  $("#ref").onclick = () => loadAdmin("toast");
+  $("#logout").onclick = () => { if (!confirm("이 기기에서 로그아웃할까요?")) return; try { localStorage.removeItem("904work-pw"); } catch (_) {} ADMIN_PW = ""; S = null; loginView(); };
+  $$("[data-tab]").forEach(b => b.onclick = () => { VIEW.tab = b.dataset.tab; renderAdmin(); });
+  $$("[data-site]").forEach(b => b.onclick = () => { VIEW.site = b.dataset.site; window.scrollTo(0, 0); renderAdmin(); });
+  const qi = $("#q"); if (qi) qi.oninput = () => { VIEW.q = qi.value; const pos = qi.selectionStart; renderAdmin(); const n = $("#q"); n.focus(); n.setSelectionRange(pos, pos); };
+  const as = $("#addSite"); if (as) as.onclick = () => siteForm();
+}
+function renderSite() {
+  const s = siteOf(VIEW.site), js = jobsOf(s.id);
+  const unread = unreadOf(s.id);
+  if (unread.length) { const ids = unread.map(p => p.id); api("read", { ids }).then(d => { S = d; }).catch(() => {}); }
+  const unreadIds = new Set(unread.map(p => p.id));
+  const cPosts = S.posts.filter(p => p.siteId === s.id && !p.jobId);
+  $("#app").innerHTML = topbar(s.name, [s.addr, s.unit].filter(Boolean).join(" "), `<button class="ib" id="back" aria-label="뒤로">${ICON.back}</button>`, `<button class="ib" id="ref" aria-label="새로고침">${ICON.ref}</button>`) + `<div class="wrap">
+    <div class="card">
+      <h2>현장 정보 <span class="sub"><button class="lnk" id="editSite">고치기</button></span></h2>
+      <div class="row"><div class="k">주소</div><div class="v">${esc(s.addr || "-")}</div>${s.addr ? `<a class="lnk" href="${mapHref(s.addr)}" target="_blank" rel="noopener">지도</a>` : ""}</div>
+      <div class="row"><div class="k">동·호수</div><div class="v">${esc(s.unit || "-")}</div></div>
+      <div class="row"><div class="k">현관 비번</div><div class="v big num">${esc(s.pw || "-")}</div></div>
+      <div class="row"><div class="k">소비자</div><div class="v">${esc([s.cname, s.cphone].filter(Boolean).join(" · ") || "-")}</div></div>
+      ${s.memo ? `<div class="row"><div class="k">메모</div><div class="v pre">${esc(s.memo)}</div></div>` : ""}
+      <div class="btns"><button class="btn line sm" id="cLink">소비자 링크 보내기</button></div>
+    </div>
+
+    <div class="card">
+      <h2>외주 작업 <span class="sub">${js.length}건</span></h2>
+      ${js.map(j => { const ps = S.posts.filter(p => p.jobId === j.id), nu = ps.filter(p => unreadIds.has(p.id)).length; const photos = ps.filter(p => p.from === "worker" && p.kind === "done").reduce((a, p) => a.concat(p.files), []); return `<div class="job">
+        <div class="jt"><b>${esc(j.proc)}${j.loc ? ` <span class="muted" style="font-weight:600;font-size:14px">${esc(j.loc)}</span>` : ""}</b>${statusChip(j.status)}</div>
+        <div class="jm">${esc(fdate(j.date, j.time))} · ${esc(j.vendor || "업체 미정")}${j.vphone ? " " + esc(j.vphone) : ""}</div>
+        <div class="money"><span class="muted">예상 <b style="color:var(--fg)">${won(j.est) || "-"}</b></span><span class="muted">최종 <b style="color:${j.final ? "var(--orange)" : "var(--fg)"}">${won(j.final) || "-"}</b></span></div>
+        ${photos.length ? `<div class="small muted" style="margin-top:10px">완료 사진 ${photos.length}개</div>${mediaGrid(photos)}` : ""}
+        <label class="tog"><input type="checkbox" data-showc="${j.id}" ${j.showC ? "checked" : ""}> 완료 사진을 소비자에게 보여주기</label>
+        <div class="acts">
+          <button class="btn sm" data-wlink="${j.id}">작업자 링크 보내기</button>
+          <button class="btn ghost sm" data-thread="${j.id}">대화 ${ps.length}${nu ? ` <span class="badge">${nu}</span>` : ""}</button>
+          <select class="btn ghost sm" data-status="${j.id}" aria-label="상태">${Core.STATUSES.map(x => `<option ${x === j.status ? "selected" : ""}>${x}</option>`).join("")}</select>
+          <button class="btn ghost sm" data-editjob="${j.id}">고치기</button>
+        </div>
+        <div data-th="${j.id}" ${nu ? "" : "hidden"} style="margin-top:14px">${thread(ps, "admin", { worker: j.vendor || "작업자" })}
+          <label class="f"><span>작업자에게 답변</span><textarea class="in-t" data-rtx="${j.id}" placeholder="답변을 적어 주세요" style="min-height:64px"></textarea></label>
+          <div class="btns"><button class="btn sm" data-reply="${j.id}">답변 보내기</button></div></div>
+      </div>`; }).join("") || `<div class="empty">아직 외주 작업이 없어요</div>`}
+      <div class="btns"><button class="btn" id="addJob">+ 외주 작업 추가</button></div>
+    </div>
+
+    <div class="card">
+      <h2>소비자 문의 <span class="sub">${cPosts.length}건</span></h2>
+      ${thread(cPosts, "admin", { customer: s.cname || "소비자" })}
+      <label class="f"><span>소비자에게 답변·안내</span><textarea class="in-t" id="cRtx" placeholder="예) 내일 줄눈 시공 예정입니다" style="min-height:64px"></textarea></label>
+      <div class="btns"><button class="btn sm" id="cReply">보내기</button></div>
+    </div>
+
+    <div class="btns" style="margin-top:20px"><button class="btn red" id="delSite">이 현장 삭제</button></div>
+  </div>`;
+  $("#back").onclick = () => { VIEW.site = null; renderAdmin(); };
+  $("#ref").onclick = () => loadAdmin("toast");
+  $("#editSite").onclick = () => siteForm(s);
+  $("#cLink").onclick = () => linkSheet("c", s);
+  $("#addJob").onclick = () => jobForm({ siteId: s.id });
+  $("#delSite").onclick = async () => { if (!confirm(`'${s.name}' 현장과 작업·대화를 모두 지울까요? 되돌릴 수 없어요.`)) return; try { S = await api("delSite", { id: s.id }); VIEW.site = null; renderAdmin(); toast("삭제했어요"); } catch (e) { toast(e.message); } };
+  $$("[data-wlink]").forEach(b => b.onclick = () => linkSheet("w", s, jobOf(b.dataset.wlink)));
+  $$("[data-editjob]").forEach(b => b.onclick = () => jobForm(jobOf(b.dataset.editjob)));
+  $$("[data-thread]").forEach(b => b.onclick = () => { const t = $(`[data-th="${b.dataset.thread}"]`); t.hidden = !t.hidden; });
+  $$("[data-showc]").forEach(c => c.onchange = async () => { try { S = await api("saveJob", { job: { id: c.dataset.showc, showC: c.checked } }); toast(c.checked ? "소비자에게 사진이 보여요" : "소비자에게 사진을 숨겼어요"); } catch (e) { c.checked = !c.checked; toast(e.message); } });
+  $$("[data-status]").forEach(c => c.onchange = async () => { try { S = await api("saveJob", { job: { id: c.dataset.status, status: c.value } }); renderAdmin(); toast("상태를 바꿨어요"); } catch (e) { toast(e.message); } });
+  $$("[data-reply]").forEach(b => b.onclick = async () => {
+    const id = b.dataset.reply, tx = $(`[data-rtx="${id}"]`).value.trim(); if (!tx) return toast("답변을 적어 주세요");
+    busy(b, true); try { S = await api("reply", { siteId: s.id, jobId: id, to: "worker", text: tx }); renderAdmin(); $(`[data-th="${id}"]`).hidden = false; toast("작업자 링크에 답변이 올라갔어요"); } catch (e) { busy(b, false); toast(e.message); }
+  });
+  $("#cReply").onclick = async e => {
+    const b = e.currentTarget, tx = $("#cRtx").value.trim(); if (!tx) return toast("내용을 적어 주세요");
+    busy(b, true); try { S = await api("reply", { siteId: s.id, to: "customer", text: tx }); renderAdmin(); toast("소비자 링크에 올라갔어요"); } catch (er) { busy(b, false); toast(er.message); }
+  };
+}
+function sheet(html, onBind) {
+  const sc = document.createElement("div"); sc.className = "scrim";
+  sc.innerHTML = `<div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div>${html}</div>`;
+  sc.onclick = e => { if (e.target === sc || e.target.closest("[data-close]")) sc.remove(); };
+  document.body.appendChild(sc); onBind && onBind(sc); return sc;
+}
+const fld = (id, label, val, attrs = "") => `<label class="f"><span>${label}</span><input class="in-t" id="${id}" value="${esc(val || "")}" ${attrs}></label>`;
+function siteForm(s = {}) {
+  sheet(`<h3>${s.id ? "현장 고치기" : "현장 추가"}</h3>
+    ${fld("fName", "현장 이름 *", s.name, 'placeholder="예) 범어동 ○○아파트"')}
+    ${fld("fAddr", "주소", s.addr, 'placeholder="도로명 또는 지번 주소"')}
+    <div class="grid2">${fld("fUnit", "동·호수", s.unit, 'placeholder="101동 1203호"')}${fld("fPw", "현관 비밀번호", s.pw, 'placeholder="#1234*"')}</div>
+    <div class="grid2">${fld("fCname", "소비자 이름", s.cname)}${fld("fCphone", "소비자 연락처", s.cphone, 'inputmode="tel"')}</div>
+    <label class="f"><span>메모 (관리자만 봐요)</span><textarea class="in-t" id="fMemo" style="min-height:64px">${esc(s.memo || "")}</textarea></label>
+    <div class="btns"><button class="btn ghost" data-close>취소</button><button class="btn" id="fSave">저장</button></div>`, sc => {
+    $("#fName", sc).focus();
+    $("#fSave", sc).onclick = async e => {
+      const site = { id: s.id, name: $("#fName", sc).value.trim(), addr: $("#fAddr", sc).value.trim(), unit: $("#fUnit", sc).value.trim(), pw: $("#fPw", sc).value.trim(), cname: $("#fCname", sc).value.trim(), cphone: $("#fCphone", sc).value.trim(), memo: $("#fMemo", sc).value };
+      if (!site.name) return toast("현장 이름을 적어 주세요");
+      busy(e.currentTarget, true, "저장 중…");
+      try {
+        const before = new Set(S.sites.map(x => x.id));
+        S = await api("saveSite", { site }); sc.remove();
+        if (!s.id) { const n = S.sites.find(x => !before.has(x.id)); if (n) VIEW.site = n.id; }
+        renderAdmin(); toast("저장했어요");
+      } catch (er) { busy(e.currentTarget, false); toast(er.message); }
+    };
+  });
+}
+function jobForm(j = {}) {
+  sheet(`<h3>${j.id ? "외주 작업 고치기" : "외주 작업 추가"}</h3>
+    <datalist id="dlP">${PROCS.map(p => `<option value="${p}">`).join("")}</datalist>
+    <datalist id="dlL">${LOCS.map(p => `<option value="${p}">`).join("")}</datalist>
+    <div class="grid2">${fld("jProc", "공정 *", j.proc, 'list="dlP" placeholder="도막 1차"')}${fld("jLoc", "시공 위치", j.loc, 'list="dlL" placeholder="외욕실"')}</div>
+    <div class="grid2">${fld("jDate", "날짜", j.date, 'type="date"')}${fld("jTime", "시간", j.time, 'placeholder="08:30"')}</div>
+    <label class="f"><span>작업 내용 (작업자에게 보여요)</span><textarea class="in-t" id="jContent">${esc(j.content || "")}</textarea></label>
+    <div class="grid2">${fld("jVendor", "업체·작업자", j.vendor)}${fld("jVphone", "연락처", j.vphone, 'inputmode="tel"')}</div>
+    <label class="f"><span>예상 견적</span><div class="won"><input class="in-t" id="jEst" inputmode="numeric" value="${j.est ? Number(j.est).toLocaleString("ko-KR") : ""}" placeholder="0"></div></label>
+    <label class="f"><span>메모 (관리자만 봐요)</span><textarea class="in-t" id="jMemo" style="min-height:64px">${esc(j.memo || "")}</textarea></label>
+    <div class="btns">${j.id ? `<button class="btn red" id="jDel">삭제</button>` : `<button class="btn ghost" data-close>취소</button>`}<button class="btn" id="jSave">저장</button></div>`, sc => {
+    $("#jProc", sc).focus();
+    $("#jEst", sc).oninput = e => { const d = digits(e.target.value); e.target.value = d ? Number(d).toLocaleString("ko-KR") : ""; };
+    $("#jSave", sc).onclick = async e => {
+      const job = { id: j.id, siteId: j.siteId, proc: $("#jProc", sc).value.trim(), loc: $("#jLoc", sc).value.trim(), date: $("#jDate", sc).value, time: $("#jTime", sc).value.trim(), content: $("#jContent", sc).value, vendor: $("#jVendor", sc).value.trim(), vphone: $("#jVphone", sc).value.trim(), est: digits($("#jEst", sc).value), memo: $("#jMemo", sc).value };
+      if (!job.proc) return toast("공정을 적어 주세요");
+      busy(e.currentTarget, true, "저장 중…");
+      try {
+        const before = new Set(S.jobs.map(x => x.id));
+        S = await api("saveJob", { job }); sc.remove(); renderAdmin(); toast("저장했어요");
+        if (!j.id) { const n = S.jobs.find(x => !before.has(x.id)); if (n) linkSheet("w", siteOf(n.siteId), n); }
+      } catch (er) { busy(e.currentTarget, false); toast(er.message); }
+    };
+    const del = $("#jDel", sc); if (del) del.onclick = async () => { if (!confirm("이 작업과 대화·사진 기록을 지울까요?")) return; try { S = await api("delJob", { id: j.id }); sc.remove(); renderAdmin(); toast("삭제했어요"); } catch (er) { toast(er.message); } };
+  });
+}
+function linkMsg(kind, s, j) {
+  if (kind === "c") return `[90.4 BATH] ${s.cname ? s.cname + "님, " : ""}욕실 공사 진행 안내드립니다.\n아래 링크에서 공정 일정과 완료 사진을 보실 수 있고, 궁금한 점은 바로 남겨 주시면 됩니다.\n\n${BASE}?c=${s.cTok}`;
+  const area = (s.addr || "").split(" ").slice(0, 3).join(" ");
+  return `[90.4 BATH] 시공요청서\n■ 현장: ${area || s.name}\n■ 일정: ${fdate(j.date, j.time)}\n■ 공정: ${j.proc}${j.loc ? " / " + j.loc : ""}${j.est ? "\n■ 예상 견적: " + won(j.est) : ""}\n■ 링크: ${BASE}?w=${j.wTok}\n\n링크에서 현장 주소·비밀번호 확인하시고, 작업 끝나면 완료 사진과 결제요청 올려 주세요. 문의·문제도 링크에 남겨 주시면 됩니다.`;
+}
+function linkSheet(kind, s, j) {
+  const phone = kind === "c" ? s.cphone : j.vphone;
+  const url = kind === "c" ? `${BASE}?c=${s.cTok}` : `${BASE}?w=${j.wTok}`;
+  const sc = sheet(`<h3>${kind === "c" ? "소비자 링크" : "작업자 링크"}</h3>
+    <div class="muted small">${kind === "c" ? "소비자는 일정·공개한 사진·문의만 봐요. 주소·비번·금액은 안 보여요." : "이 작업자는 이 작업 하나만 봐요. 현장 주소·비번은 이 링크에서만 보여요."}</div>
+    <label class="f"><span>보낼 문구</span><textarea class="in-t" id="lMsg" style="min-height:200px">${esc(linkMsg(kind, s, j))}</textarea></label>
+    <div class="btns"><button class="btn ghost" id="lCopy">문구 복사</button>${phone ? `<a class="btn" id="lSms" href="#">문자로 보내기</a>` : ""}</div>
+    <div class="btns"><a class="btn line sm" href="${url}" target="_blank" rel="noopener">링크 열어보기</a><button class="btn line sm" id="lNew">링크 새로 만들기</button></div>
+    <div class="prog">링크 새로 만들기를 누르면 예전 링크는 더 이상 안 열려요</div>`, sc => {
+    $("#lCopy", sc).onclick = () => copy($("#lMsg", sc).value);
+    const sms = $("#lSms", sc); if (sms) sms.onclick = e => { e.preventDefault(); location.href = smsHref(phone, $("#lMsg", sc).value); };
+    $("#lNew", sc).onclick = async () => {
+      if (!confirm("예전 링크를 막고 새 링크를 만들까요?")) return;
+      try { S = await api("newTok", kind === "c" ? { siteId: s.id } : { jobId: j.id }); sc.remove(); renderAdmin(); linkSheet(kind, siteOf(s.id), j && jobOf(j.id)); toast("새 링크를 만들었어요"); } catch (e) { toast(e.message); }
+    };
+  });
+  return sc;
+}
+
+/* ================= 시작 ================= */
+if (ROLE === "w") loadWorker();
+else if (ROLE === "c") loadCustomer();
+else loadAdmin();
+</script>
+</body>
+</html>
