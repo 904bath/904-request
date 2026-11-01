@@ -165,6 +165,25 @@ textarea.in-t{height:auto;min-height:88px;padding:10px 12px;resize:vertical;line
 .banner{background:var(--orange-soft);color:var(--fg);border-radius:12px;padding:10px 12px;font-size:13px;margin-top:12px}
 .banner a{color:var(--accent);font-weight:700}
 
+
+/* 완성도 링 */
+.ring{position:relative;flex:none;display:grid;place-items:center}
+.ring svg{display:block;transform:rotate(-90deg)}
+.ring .bg{stroke:var(--line)}
+.ring .fg{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1)}
+.ring.full .fg{stroke:var(--green)}
+.ring .lbl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;text-align:center}
+.ring .pc{font:800 30px var(--font);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.ring .pc small{font-size:15px;font-weight:700;margin-left:1px}
+.ring .cap{font:600 12px var(--font);color:var(--muted);margin-top:4px}
+.ring.sm .pc{font-size:12px}.ring.sm .pc small{font-size:9px}
+.gauge{display:flex;align-items:center;gap:18px}
+.gauge .gi{flex:1;min-width:0}
+.steps{display:flex;gap:4px;margin-top:10px}
+.steps i{flex:1;height:6px;border-radius:3px;background:var(--surface2)}
+.steps i.on{background:var(--green)}
+.site .nm .ring{margin-left:auto}
+
 /* 시트·라이트박스·토스트 */
 .scrim{position:fixed;inset:0;background:var(--scrim);z-index:50;display:flex;align-items:flex-end;justify-content:center;animation:fd .15s}
 .sheet{background:var(--surface);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:8px 16px calc(20px + env(safe-area-inset-bottom,0px));animation:up .2s ease-out}
@@ -369,6 +388,18 @@ function thread(posts, meFrom, names) {
     <div class="hd">${p.from === meFrom ? "" : esc(names[p.from] || "")} ${p.kind !== "reply" && p.kind !== "note" ? `<span class="chip ${KCHIP[p.kind]}">${esc(KIND[p.kind] || "")}</span>` : ""} <span>${esc(fago(p.at))}</span></div>
     <div class="bd">${p.amount ? `<div class="amt">${won(p.amount)}</div>` : ""}${p.text ? `<div class="pre">${esc(p.text)}</div>` : ""}${mediaGrid(p.files)}</div></div>`).join("")}</div>`;
 }
+
+/* 완성도 링: 완료 공정 / 전체 공정 */
+function ring(done, total, size = 150, sw = 14, cap = "") {
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const r = (size - sw) / 2, c = 2 * Math.PI * r;
+  const sm = size < 60;
+  return `<div class="ring ${pct === 100 ? "full" : ""} ${sm ? "sm" : ""}" style="width:${size}px;height:${size}px" role="img" aria-label="완성도 ${pct}%">
+    <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><circle class="bg" cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke-width="${sw}"/>
+    <circle class="fg" cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke-width="${sw}" stroke-dasharray="${c}" stroke-dashoffset="${c}" data-off="${c * (1 - pct / 100)}"/></svg>
+    <div class="lbl"><div class="pc">${pct}<small>%</small></div>${cap && !sm ? `<div class="cap">${esc(cap)}</div>` : ""}</div></div>`;
+}
+function animRings() { requestAnimationFrame(() => requestAnimationFrame(() => $$(".ring .fg").forEach(c => c.style.strokeDashoffset = c.dataset.off))); }
 function busy(btn, on, label) {
   if (on) { btn.dataset.t = btn.textContent; btn.disabled = true; btn.textContent = label || "보내는 중…"; }
   else { btn.disabled = false; if (btn.dataset.t) btn.textContent = btn.dataset.t; }
@@ -481,9 +512,16 @@ function renderCustomer() {
   $("#app").innerHTML = topbar("공사 진행 안내", "90.4 BATH INTERIOR DESIGN") + `<div class="wrap">
     ${demoBanner()}
     <div class="card hero">
-      <span class="chip blue">${jobs.length ? `${doneN} / ${jobs.length} 공정 완료` : "일정 준비 중"}</span>
-      <div class="proc">${esc(s.cname ? s.cname + "님 댁" : s.name)}</div>
+      <div class="proc" style="margin-top:0">${esc(s.cname ? s.cname + "님 댁" : s.name)}</div>
       <div class="meta">${esc(s.name || "")} · 저희 90.4 BATH가 꼼꼼히 진행하겠습니다</div>
+      <div class="gauge" style="margin-top:18px">
+        ${ring(doneN, jobs.length, 150, 14, "공사 완성도")}
+        <div class="gi">
+          <div style="font:800 18px var(--font)">${!jobs.length ? "일정 준비 중" : doneN === jobs.length ? "공사 완료!" : `${jobs.length}개 공정 중 ${doneN}개 완료`}</div>
+          <div class="small muted" style="margin-top:4px">${(() => { const nx = jobs.find(j => !j.done); return nx ? `다음 공정: ${esc(nx.proc)} · ${esc(fdate(nx.date))}` : jobs.length ? "모든 공정이 끝났어요" : "일정이 정해지면 알려 드릴게요"; })()}</div>
+          ${jobs.length ? `<div class="steps">${jobs.map(j => `<i class="${j.done ? "on" : ""}" title="${esc(j.proc)}"></i>`).join("")}</div>` : ""}
+        </div>
+      </div>
     </div>
     <div class="card">
       <h2>공정 일정</h2>
@@ -500,7 +538,7 @@ function renderCustomer() {
     </div>
     <div class="card"><h2>주고받은 내용 <span class="sub"><button class="lnk" id="refBtn">새로고침</button></span></h2>${thread(posts, "customer", { admin: "90.4 BATH" })}</div>
   </div>`;
-  upC.bind();
+  upC.bind(); animRings();
   $("#refBtn").onclick = loadCustomer;
   $("#cBtn").onclick = async e => {
     const b = e.currentTarget, tx = $("#cTx").value.trim();
@@ -558,13 +596,14 @@ function renderAdmin() {
       <input class="search" id="q" placeholder="현장·주소·소비자·업체 검색" value="${esc(VIEW.q)}">
       <div class="btns"><button class="btn" id="addSite">+ 현장 추가</button></div>
       ${sites.length ? sites.map(s => { const js = jobsOf(s.id), u = unreadOf(s.id).length; return `<button class="site" data-site="${s.id}">
-        <div class="nm">${esc(s.name)} ${u ? `<span class="badge">${u}</span>` : ""}</div>
+        <div class="nm">${esc(s.name)} ${u ? `<span class="badge">${u}</span>` : ""}${js.length ? ring(js.filter(j => j.status !== "예정").length, js.length, 46, 5) : ""}</div>
         <div class="ad">${esc([s.addr, s.unit].filter(Boolean).join(" ") || "주소 없음")}${s.cname ? " · " + esc(s.cname) : ""}</div>
         <div class="chips">${js.length ? js.map(j => `<span class="chip ${({ "완료보고": "green", "결제요청": "orange", "정산완료": "blue" })[j.status] || ""}">${esc(j.proc)} ${esc(fdate(j.date))}</span>`).join("") : `<span class="chip">작업 없음</span>`}</div></button>`; }).join("") : `<div class="empty">${q ? "찾는 현장이 없어요" : "현장을 추가해 보세요"}</div>`}
     ` : unread.length ? unread.sort((a, b) => a.at < b.at ? 1 : -1).map(p => { const s = siteOf(p.siteId) || {}, j = jobOf(p.jobId); return `<button class="inbox-it" data-site="${p.siteId}">
         <div class="w"><span class="chip ${KCHIP[p.kind]}">${esc(KIND[p.kind])}</span>${p.from === "worker" ? "작업자 " + esc(j ? j.vendor || j.proc : "") : "소비자 " + esc(s.cname || "")} · ${esc(s.name || "")} · ${esc(fago(p.at))}</div>
         <div class="tx">${p.amount ? "<b>" + won(p.amount) + "</b> " : ""}${esc(p.text || (p.files.length ? `사진·영상 ${p.files.length}개` : ""))}</div></button>`; }).join("") : `<div class="empty">새로 온 소식이 없어요</div>`}
   </div>`;
+  animRings();
   $("#ref").onclick = () => loadAdmin("toast");
   $("#logout").onclick = () => { if (!confirm("이 기기에서 로그아웃할까요?")) return; try { localStorage.removeItem("904work-pw"); } catch (_) {} ADMIN_PW = ""; S = null; loginView(); };
   $$("[data-tab]").forEach(b => b.onclick = () => { VIEW.tab = b.dataset.tab; renderAdmin(); });
@@ -591,6 +630,7 @@ function renderSite() {
 
     <div class="card">
       <h2>외주 작업 <span class="sub">${js.length}건</span></h2>
+      ${js.length ? `<div class="gauge" style="margin-bottom:6px">${ring(js.filter(j => j.status !== "예정").length, js.length, 110, 11, "완성도")}<div class="gi"><div style="font:800 16px var(--font)">${js.length}개 공정 중 ${js.filter(j => j.status !== "예정").length}개 완료</div><div class="small muted" style="margin-top:4px">작업자가 완료 보고를 올리면 자동으로 올라가요</div><div class="steps">${js.map(j => `<i class="${j.status !== "예정" ? "on" : ""}" title="${esc(j.proc)}"></i>`).join("")}</div></div></div>` : ""}
       ${js.map(j => { const ps = S.posts.filter(p => p.jobId === j.id), nu = ps.filter(p => unreadIds.has(p.id)).length; const photos = ps.filter(p => p.from === "worker" && p.kind === "done").reduce((a, p) => a.concat(p.files), []); return `<div class="job">
         <div class="jt"><b>${esc(j.proc)}${j.loc ? ` <span class="muted" style="font-weight:600;font-size:14px">${esc(j.loc)}</span>` : ""}</b>${statusChip(j.status)}</div>
         <div class="jm">${esc(fdate(j.date, j.time))} · ${esc(j.vendor || "업체 미정")}${j.vphone ? " " + esc(j.vphone) : ""}</div>
@@ -619,6 +659,7 @@ function renderSite() {
 
     <div class="btns" style="margin-top:20px"><button class="btn red" id="delSite">이 현장 삭제</button></div>
   </div>`;
+  animRings();
   $("#back").onclick = () => { VIEW.site = null; renderAdmin(); };
   $("#ref").onclick = () => loadAdmin("toast");
   $("#editSite").onclick = () => siteForm(s);
