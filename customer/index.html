@@ -50,6 +50,18 @@ button,input,textarea,select{font:inherit;color:inherit}
 .hint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(22,23,27,.72);color:#fff;font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:99px;pointer-events:none;transition:opacity .5s;z-index:2;white-space:nowrap}
 .pop{position:absolute;left:50%;top:52px;transform:translate(-50%,-8px);background:var(--lime);color:#16171B;font-weight:900;font-size:14px;padding:9px 15px;border-radius:99px;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:3;white-space:nowrap}
 .pop.on{opacity:1;transform:translate(-50%,0)}
+.case{position:absolute;inset:0;display:flex;flex-direction:column}
+.case img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .35s}
+.case .cap{position:absolute;left:10px;right:10px;top:52px;display:flex;gap:6px;flex-wrap:wrap;pointer-events:none}
+.case .cap span{background:rgba(255,255,255,.88);color:#16171B;font-size:11.5px;font-weight:800;padding:5px 9px;border-radius:99px}
+.case .cap span.diff{background:rgba(22,23,27,.75);color:#fff;font-weight:600}
+.case .nav{position:absolute;right:10px;top:10px;display:flex;gap:6px;z-index:3}
+.case .empty{flex:1;display:grid;place-items:center;text-align:center;padding:60px 24px 70px;color:var(--muted);font-size:14px;line-height:1.65}
+.case .empty b{display:block;color:var(--fg);font-size:16px;margin-bottom:4px}
+.pcard{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:8px}
+.pcard .opt{min-height:74px}
+.pcard .opt .ph{display:block;width:100%;aspect-ratio:4/3;border-radius:10px;background:var(--surface);margin-bottom:7px;object-fit:cover;border:1px solid var(--line)}
+.fin{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:6px;border:1px solid rgba(0,0,0,.15)}
 .nogl{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;color:var(--muted);font-size:14px;line-height:1.6}
 .note{font-size:11.5px;color:var(--muted);margin:6px 2px 4px;line-height:1.5}
 
@@ -120,21 +132,22 @@ footer{padding:24px 0 40px;color:var(--muted);font-size:12px;text-align:center;l
 <div class="wrap">
   <div class="top"><img src="../logo-t.png" alt="90.4 BATH INTERIOR DESIGN"><a href="#form">견적 요청 ↓</a></div>
   <section class="hero">
-    <span class="tag">3D BATH PREVIEW</span>
+    <span class="tag">904 REAL CASES</span>
     <h1>우리 집 욕실,<br><em>미리 보고</em> 견적 받기</h1>
-    <p>시공할 곳을 고르고 타일, 젠다이, 욕조, 파티션을 골라 보세요. 고르는 대로 3D가 바로 바뀌어요. 마음에 들면 그대로 견적을 요청하시면 됩니다.</p>
+    <p>시공할 곳을 고르고 타일, 젠다이, 욕조, 파티션부터 변기·세면대·수전·욕실장까지 골라 보세요. 고르는 대로 904가 실제로 시공한 비슷한 욕실 사진을 보여드려요.</p>
   </section>
 
   <div class="grid">
     <div class="stage">
       <div class="view" id="view">
         <div class="vtabs" id="vtabs"></div>
-        <div class="vbtns"><button type="button" class="ibtn" id="reset">정면으로</button></div>
+        <div class="vbtns" hidden><button type="button" class="ibtn" id="reset">정면으로</button></div>
+        <div class="case" id="case"></div>
         <div class="pop" id="pop"></div>
-        <div class="hint" id="hint">손가락으로 돌려 보세요 ↻</div>
+        <div class="hint" id="hint" hidden></div>
         <div class="chips" id="chips"></div>
       </div>
-      <p class="note">3D는 이해를 돕기 위한 예시예요. 실제 크기·배치에 맞춰 시공합니다.</p>
+      <p class="note" id="caseNote">고른 내용과 가장 비슷한 904 실제 시공 사진을 보여드려요.</p>
     </div>
 
     <div class="panel">
@@ -144,9 +157,10 @@ footer{padding:24px 0 40px;color:var(--muted);font-size:12px;text-align:center;l
         <div class="zpick" id="zpick"></div>
       </div>
       <div class="card" id="specCard"></div>
+      <div class="card" id="prodCard"></div>
       <div class="card" id="procCard"></div>
       <div class="card" id="form">
-        <h2><span class="n">4</span>견적 받을 연락처</h2>
+        <h2><span class="n">5</span>견적 받을 연락처</h2>
         <p class="sub">확인하고 904에서 직접 연락드려요.</p>
         <label class="f"><span>이름 <i>*</i></span><input id="fName" autocomplete="name" placeholder="홍길동"></label>
         <label class="f"><span>연락처 <i>*</i></span><input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="010-0000-0000"></label>
@@ -223,6 +237,7 @@ function blank(r){
   if (hasWork(r)){ x.work = "철거 후 시공"; if (isBath(r)) x.demo = [DM_ALL]; }
   if (isBath(r)){ x.fsize = "300각"; x.heat = ""; x.scope = []; x.scopeNote = ""; }
   if (isKitchen(r)) x.qty = "";
+  x.tfin = "유광"; x.tpat = "단색"; if (isBath(r)) x.prod = blankProd();
   return x;
 }
 const blankProc = () => ({prot:{on:false, 범위:"욕실만"}, demo:{on:false, done:false, 폐기물:"904에 맡김", note:""}, plumb:{on:false, by:{}, note:""}, wp:{on:false}, tile:{on:true, 메지:"일반 메지"}, sani:{on:false, 항목:[]}, dome:{on:false, 천장:"SMC 돔", 매립등:"2인치", 환풍기:false}, etc:{on:false, note:""}});
@@ -233,6 +248,7 @@ const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch
 const X = () => S.spec[S.active];
 // 고른 값 중 더는 안 맞는 것 정리 (업체용 zsNorm과 같은 규칙)
 function norm(r, x){
+  x.tfin = x.tfin || "유광"; x.tpat = x.tpat || "단색"; if (isBath(r)) x.prod = Object.assign(blankProd(), x.prod || {});
   if (isBath(r)){ if (x.size === "모자이크") x.size = "300×600"; if (!FLOOR_SIZES.includes(x.fsize)) x.fsize = FLOOR_AUTO[x.size] || "300각"; if (!x.mcolor) x.mcolor = "charcoal"; }
   if (x.method && !methodsFor(r, x).includes(x.method)) x.method = "";
   const ok = new Set(optList(r, x).map(([n]) => n)), o = x.opts;
@@ -250,8 +266,9 @@ function wpFor(r){ const x = S.spec[r]; if (!x || !isBath(r)) return null;
 
 /* ═══════════ 3D ═══════════ */
 const view = $("#view");
+const USE3D = false; // 실제 사진 방식 · 3D 다시 쓰려면 true
 let renderer, scene, camera, controls, ok = true;
-try {
+try { if (!USE3D) throw 0;
   renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
   renderer.setClearColor(0x000000, 0);
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -259,7 +276,7 @@ try {
   renderer.toneMapping = THREE.AgXToneMapping; renderer.toneMappingExposure = 1.25;
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   view.prepend(renderer.domElement);
-} catch(e){ ok = false; view.insertAdjacentHTML("beforeend", `<div class="nogl">이 기기에선 3D 미리보기가 안 열려요.<br>선택은 그대로 하실 수 있어요.</div>`); }
+} catch(e){ ok = false; if (USE3D) view.insertAdjacentHTML("beforeend", `<div class="nogl">이 기기에선 3D 미리보기가 안 열려요.<br>선택은 그대로 하실 수 있어요.</div>`); }
 let keyLight;
 if (ok){
   scene = new THREE.Scene();
@@ -708,7 +725,7 @@ function procHTML(){
   const P = S.proc, B = S.rooms.filter(isBath);
   const hdr = (k, l, sub) => `<button type="button" data-proc="${k}"><i>${P[k].on ? "✓" : ""}</i><b>${l}</b><span>${sub}</span></button>`;
   const sel = (k, f, list) => `<div class="opts">${list.map(v => ob(`data-pv="${k}|${f}|${v}"`, P[k][f] === v, v)).join("")}</div>`;
-  let h = `<h2><span class="n">3</span>함께 할 공사</h2><p class="sub">타일 말고도 필요한 공사를 골라 주세요. 모르면 비워 두셔도 돼요.</p>`;
+  let h = `<h2><span class="n">4</span>함께 할 공사</h2><p class="sub">타일 말고도 필요한 공사를 골라 주세요. 모르면 비워 두셔도 돼요.</p>`;
   const card = (k, l, sub, body) => `<div class="proc${P[k].on ? " on" : ""}">${hdr(k, l, sub)}${P[k].on && body ? `<div class="pin">${body}</div>` : ""}</div>`;
   h += card("prot", "보양", P.prot.on ? P.prot.범위 : "공사 중 바닥·벽 보호", q("범위", sel("prot", "범위", ["욕실만","복도·엘리베이터까지"]), "", true));
   h += card("demo", "철거", P.demo.on ? (P.demo.done ? "철거 해 둔 상태" : `폐기물 ${P.demo.폐기물}`) : "기존 타일·도기 뜯기",
@@ -745,7 +762,8 @@ function zoneText(r){ const x = S.spec[r];
     `${isFloorZ(r) ? "" : "벽 "}${x.size}(${COLORS[x.color][0]})`, isBath(r) ? `바닥 ${x.fsize}(${COLORS[x.fcolor][0]})` : "",
     !isFloorZ(r) ? (x.method || "방법 상담") : "", isBath(r) && x.heat ? `난방 ${x.heat === "들어감" ? "있음" : "없음"}` : ""].filter(Boolean).join("·");
   const op = Object.entries(x.opts).map(([n, v]) => optTxt(n, v) + (n === "모자이크 포인트" ? ` ${COLORS[x.mcolor || "charcoal"][0]}` : "")).join("·");
-  return `■ ${r}: ${head}${op ? " +" + op : ""}`; }
+  const pt = `${x.tfin || "유광"}·${x.tpat || "단색"}`, pr = isBath(r) ? prodText(x) : "";
+  return `■ ${r}: ${head}·${pt}${op ? " +" + op : ""}${pr ? `\n   제품: ${pr}` : ""}`; }
 function procText(){ const P = S.proc, L = [];
   if (P.prot.on) L.push(`보양: ${P.prot.범위}`);
   if (P.demo.on) L.push(`철거: ${P.demo.done ? "철거 해 둔 상태" : `폐기물 ${P.demo.폐기물}`}${P.demo.note ? ` · ${P.demo.note}` : ""}`);
@@ -758,10 +776,69 @@ function procText(){ const P = S.proc, L = [];
   return L.map(l => "· " + l).join("\n"); }
 const summary = () => S.rooms.map(zoneText).join("\n") + "\n\n[공정]\n" + procText() + `\n· 자재: ${S.mat === "904" ? "904가 준비" : "직접 준비"}`;
 
+/* ═══════════ 제품 고르기 (욕실마다) ═══════════ */
+const PROD = [
+  ["toilet","양변기",[["원피스","일체형 · 가장 많이 써요"],["투피스","물탱크 분리형"],["비데 일체형","전자식 비데"],["벽걸이","벽 매립 · 바닥이 깔끔"]]],
+  ["basin","세면대",[["긴다리","젠다이에 붙는 다리형"],["반다리","짧은 다리"],["하부장 일체형","아래 수납장"],["탑볼","상판 위에 올리는 볼"]]],
+  ["faucet","세면대 수전",[["원홀","기본형"],["높은 원홀","탑볼용 · 모던"],["벽부 매립","벽에서 나오는 수전"]]],
+  ["shower","샤워 수전",[["해바라기","레인샤워 + 핸드샤워"],["슬라이드바","핸드샤워만"],["매립 레인샤워","벽·천장 매립"]]],
+  ["cabinet","욕실장·거울",[["여닫이 거울장","거울 문 수납"],["슬라이드장","옆으로 미는 문"],["플랩장","위로 여는 문"],["원형 거울","수납 없이 거울만"],["LED 거울","조명 달린 거울"]]],
+];
+const FINISH = [["크롬","#D9DDE1"],["무광 블랙","#2A2A2C"],["건메탈","#5D6166"],["브러시드 골드","#C8A66A"]];
+const BRANDS = ["상관없음","대림바스","아메리칸스탠다드","이누스","로얄앤컴퍼니","계림","그로헤"];
+const ACC = ["수건걸이","휴지걸이","샤워 선반","칫솔꽂이","비누대","로브 후크"];
+const TFIN = [["유광","반짝 · 청소 쉬움"],["무광","차분 · 덜 미끄러움"],["폴리싱","대리석 광택"]];
+const TPAT = [["단색","깔끔한 기본"],["대리석","결무늬"],["테라조","알갱이 무늬"],["콘크리트","시멘트 느낌"],["우드","나무결"]];
+function blankProd(){ return {toilet:"원피스", basin:"긴다리", faucet:"원홀", shower:"해바라기", cabinet:"여닫이 거울장", finish:"크롬", brand:"상관없음", acc:[]}; }
+function prodHTML(){
+  const r = S.active, x = X();
+  let h = `<h2><span class="n">3</span>${esc(r)} 제품 고르기</h2><p class="sub">${isBath(r) ? "타일 느낌부터 변기·세면대·수전·욕실장까지 골라 주세요. 모르는 건 그대로 두시면 904가 맞춰 드려요." : "타일 느낌을 골라 주세요."}</p>`;
+  const on = S.rooms; if (on.length > 1) h += `<div class="ztabs">${on.map(z => `<button type="button" class="ztab" data-tab="${z}" aria-pressed="${z === r}">${z}</button>`).join("")}</div>`;
+  h += q("타일 마감", `<div class="opts">${TFIN.map(([v, n]) => ob(`data-tf="${v}"`, x.tfin === v, v, n)).join("")}</div>`, "", true);
+  h += q("타일 무늬", `<div class="opts">${TPAT.map(([v, n]) => ob(`data-tp="${v}"`, x.tpat === v, v, n)).join("")}</div>`);
+  if (!isBath(r)) return h;
+  const P = x.prod;
+  for (const [k, l, list] of PROD) h += q(l, `<div class="pcard">${list.map(([v, n]) => ob(`data-prod="${k}|${v}"`, P[k] === v, v, n)).join("")}</div>`);
+  h += q("수전·악세사리 색", `<div class="opts">${FINISH.map(([v, c]) => ob(`data-prod="finish|${v}"`, P.finish === v, `<span class="fin" style="background:${c}"></span>${v}`)).join("")}</div>`, "수전·샤워기·악세사리 다 같이");
+  h += q("악세사리", `<div class="opts">${ACC.map(v => ob(`data-acc="${v}"`, P.acc.includes(v), v, "", false, "opt add")).join("")}</div>`, "여러 개");
+  h += q("원하는 브랜드", `<div class="opts">${BRANDS.map(v => ob(`data-prod="brand|${v}"`, P.brand === v, v)).join("")}</div>`, "도기·수전");
+  return h;
+}
+const prodText = x => { const P = x.prod; if (!P) return ""; return [PROD.map(([k, l]) => `${l} ${P[k]}`).join(" · "), `${P.finish}`, P.acc.length ? `악세사리 ${P.acc.join("·")}` : "", P.brand !== "상관없음" ? `브랜드 ${P.brand}` : ""].filter(Boolean).join(" · "); };
+
+/* ═══════════ 실제 시공 사례 사진 (cases.json) ═══════════
+   사진마다 꼬리표: {src, zone:"욕실|주방|현관|베란다|세탁실", tags:{size, jendai, tub, partition, mosaic, tone, tpat, tfin, basin, cabinet, finish}}
+   고른 내용과 꼬리표가 많이 맞을수록 먼저 보여줌 */
+let CASES = [], caseIdx = 0, caseKey = "";
+fetch("cases.json?" + Date.now()).then(r => r.ok ? r.json() : []).then(a => { CASES = Array.isArray(a) ? a : []; renderCase(); }).catch(() => {});
+const toneOf = hex => { const c = parseInt(hex.slice(1), 16), l = (0.299 * (c >> 16 & 255) + 0.587 * (c >> 8 & 255) + 0.114 * (c & 255)) / 255; return l > 0.62 ? "밝은 톤" : l > 0.4 ? "중간 톤" : "어두운 톤"; };
+const zoneKind = r => isBath(r) ? "욕실" : isKitchen(r) ? "주방" : /현관/.test(r) ? "현관" : /세탁실/.test(r) ? "세탁실" : "베란다";
+function want(r){ const x = S.spec[r], o = x.opts, P = x.prod || {};
+  const part = o.파티션 ? (/^풀/.test(o.파티션) ? "풀" : "하프") : null;
+  return {size:x.size, jendai:o.젠다이 ? (o.젠다이 === "풀 조적" ? "풀" : "하프") : null, tub:o.욕조 ? (o.욕조 === "플라스틱" ? "일반 욕조" : "타일 욕조") : null, partition:part,
+    mosaic:!!o["모자이크 포인트"], tone:toneOf(COLORS[x.color][1]), tpat:x.tpat, tfin:x.tfin, basin:P.basin, cabinet:P.cabinet, finish:P.finish}; }
+const W8 = {size:5, tub:4, jendai:3, partition:3, tone:2, tpat:2, mosaic:2, tfin:1, basin:1, cabinet:1, finish:1};
+const TAGL = {size:v => `벽 ${v === "300×600" ? "36" : v}`, jendai:v => v ? `젠다이 ${v}` : "젠다이 없음", tub:v => v || "욕조 없음", partition:v => v ? `파티션 ${v}` : "파티션 없음",
+  mosaic:v => v ? "모자이크 포인트" : "모자이크 없음", tone:v => v, tpat:v => v, tfin:v => v, basin:v => `${v} 세면대`, cabinet:v => v, finish:v => `${v} 수전`};
+function matches(r){ const w = want(r), k = zoneKind(r);
+  return CASES.filter(c => c.zone === k).map(c => { let sc = 0; const diff = [];
+    for (const [t, wt] of Object.entries(W8)){ if (!(t in (c.tags || {}))) continue; const a = c.tags[t] ?? null, b = w[t] ?? null; if (a === b) sc += wt; else if (wt >= 2) diff.push(TAGL[t](a)); }
+    return {c, sc, diff}; }).sort((a, b) => b.sc - a.sc); }
+function renderCase(){
+  const el = $("#case"); if (!el) return; const r = S.active, m = matches(r);
+  const key = r + JSON.stringify(want(r)); if (key !== caseKey){ caseKey = key; caseIdx = 0; }
+  if (!m.length){ el.innerHTML = `<div class="empty"><div><b>비슷한 시공 사례 준비 중</b>${esc(r)} 사진을 모으고 있어요.<br>고르신 내용 그대로 견적을 보내 주시면<br>904가 비슷한 사례를 따로 보내 드려요.</div></div>`; $("#caseNote").textContent = "고른 내용과 가장 비슷한 904 실제 시공 사진을 보여드려요."; return; }
+  const i = Math.min(caseIdx, m.length - 1), it = m[i];
+  el.innerHTML = `<img src="${esc(it.c.src)}" alt="${esc(it.c.title || "904 시공 사례")}" loading="lazy">
+    <div class="cap">${it.diff.length ? it.diff.slice(0, 3).map(d => `<span class="diff">이 사진: ${esc(d)}</span>`).join("") : `<span>고른 내용과 거의 같아요</span>`}</div>
+    ${m.length > 1 ? `<div class="nav"><button type="button" class="ibtn" data-case="-1">‹</button><button type="button" class="ibtn" data-case="1">${i + 1}/${m.length} ›</button></div>` : ""}`;
+  $("#caseNote").textContent = it.c.title ? `904 시공 사례 · ${it.c.title}` : "904가 실제로 시공한 사진이에요.";
+}
+
 function renderMat(){ $("#matOpts").innerHTML = ob(`data-mat="904"`, S.mat === "904", "904가 골라서 준비", "추천해 드려요") + ob(`data-mat="own"`, S.mat === "own", "직접 고른 자재 있음", "적어 주세요"); $("#matNoteWrap").hidden = S.mat !== "own"; }
 function renderAll(three = true){
   for (const r of S.rooms) norm(r, S.spec[r]);
-  renderZones(); $("#specCard").innerHTML = specHTML(); $("#procCard").innerHTML = procHTML(); renderMat(); chips(); $("#sum").textContent = summary();
+  renderZones(); $("#specCard").innerHTML = specHTML(); $("#prodCard").innerHTML = prodHTML(); $("#procCard").innerHTML = procHTML(); renderCase(); renderMat(); chips(); $("#sum").textContent = summary();
   if (three) render3D(); save();
 }
 
@@ -793,6 +870,11 @@ document.addEventListener("click", e => {
   else if (d.pv){ const [k, f, v] = d.pv.split("|"), p = S.proc[k]; if (f === "done") p.done = v === "1"; else if (f === "환풍기") p.환풍기 = !p.환풍기; else p[f] = v; }
   else if (d.plumb){ const [rr, v] = d.plumb.split("|"), a = S.proc.plumb.by[rr] || []; S.proc.plumb.by[rr] = a.includes(v) ? a.filter(z => z !== v) : [...a, v]; }
   else if (d.sani){ const a = S.proc.sani.항목; S.proc.sani.항목 = a.includes(d.sani) ? a.filter(v => v !== d.sani) : [...a, d.sani]; }
+  else if (d.prod){ const [k, v] = d.prod.split("|"); x.prod[k] = v; msg = v; }
+  else if (d.acc){ const a = x.prod.acc; x.prod.acc = a.includes(d.acc) ? a.filter(v => v !== d.acc) : [...a, d.acc]; }
+  else if (d.tf){ x.tfin = d.tf; msg = `타일 ${d.tf}`; }
+  else if (d.tp){ x.tpat = d.tp; msg = `타일 ${d.tp}`; }
+  else if (d.case){ caseIdx = (caseIdx + Number(d.case) + 999) % Math.max(1, matches(r).length); renderCase(); return; }
   else if (d.mat){ S.mat = d.mat; }
   else return;
   const sy = window.scrollY; renderAll(); window.scrollTo(0, sy); if (msg) pop(msg); $("#hint").style.opacity = 0;
@@ -821,7 +903,7 @@ $("#send").addEventListener("click", async () => {
     if (x.dim?.w) o.dim = x.dim; if (x.qty) o.qty = x.qty;
     if (hasWork(r) && x.work){ o.work = x.work; if (isBath(r) && x.work === "철거 후 시공"){ const it = dmIt(x.demo), w = it.includes("벽 철거"), f = it.includes("바닥 철거"); o.demo = w && f ? "올철거" : f ? "바닥만 철거" : w ? "벽만 철거" : it.includes("욕조 철거") ? "욕조 자리만" : it.includes("도기 철거") ? "도기만 철거" : ""; } }
     o.size = x.size; if (x.method) o.method = x.method; if (x.heat) o.heat = x.heat; if (x.scope?.length) o.scope = x.scope; if (x.scopeNote) o.scopeNote = x.scopeNote;
-    if (Object.keys(x.opts).length) o.opts = x.opts; if (x.opts["모자이크 포인트"]) o.mosaicColor = COLORS[x.mcolor || "charcoal"][0]; o.color = COLORS[x.color][0]; if (isBath(r)){ o.floorSize = x.fsize; o.floorColor = COLORS[x.fcolor][0]; }
+    if (Object.keys(x.opts).length) o.opts = x.opts; if (x.opts["모자이크 포인트"]) o.mosaicColor = COLORS[x.mcolor || "charcoal"][0]; o.color = COLORS[x.color][0]; o.tileFinish = x.tfin; o.tilePattern = x.tpat; if (x.prod) o.products = x.prod; if (isBath(r)){ o.floorSize = x.fsize; o.floorColor = COLORS[x.fcolor][0]; }
     return [r, o]; }));
   try {
     const res = await fetch(SEND_TO, {method:"POST", headers:{"Content-Type":"application/json", "Accept":"application/json"},
