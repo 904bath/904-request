@@ -61,6 +61,10 @@ button,input,textarea,select{font:inherit;color:inherit}
 .pcard{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:8px}
 .pcard .opt{min-height:74px}
 .pcard .opt .ph{display:block;width:100%;aspect-ratio:4/3;border-radius:10px;background:var(--surface);margin-bottom:7px;object-fit:cover;border:1px solid var(--line)}
+.mlist{display:flex;flex-direction:column;gap:6px}
+.mrow{display:flex;gap:6px;align-items:stretch}
+.mrow .opt{flex:1}
+.mlink{display:grid;place-items:center;width:44px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--accent);font-weight:900;text-decoration:none;font-size:16px}
 .fin{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:6px;border:1px solid rgba(0,0,0,.15)}
 .nogl{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;color:var(--muted);font-size:14px;line-height:1.6}
 .note{font-size:11.5px;color:var(--muted);margin:6px 2px 4px;line-height:1.5}
@@ -784,12 +788,28 @@ const PROD = [
   ["shower","샤워 수전",[["해바라기","레인샤워 + 핸드샤워"],["슬라이드바","핸드샤워만"],["매립 레인샤워","벽·천장 매립"]]],
   ["cabinet","욕실장·거울",[["여닫이 거울장","거울 문 수납"],["슬라이드장","옆으로 미는 문"],["플랩장","위로 여는 문"],["원형 거울","수납 없이 거울만"],["LED 거울","조명 달린 거울"]]],
 ];
+// 실제 판매 중인 모델 (검색해서 확인) · [브랜드, 모델, 링크] · 사진은 링크에서
+const CATALOG = {
+  "toilet|원피스": [["대림바스","원피스 양변기 CC-251","https://prod.danawa.com/info/?pcode=2155380"],["대림바스","원피스 양변기 CC-260","https://prod.danawa.com/info/?pcode=3353038"],["대림바스","원피스 양변기 CC-263","https://prod.danawa.com/info/?pcode=4976422"],
+    ["아메리칸스탠다드","웨이브 스퀘어 원피스 C209600C","https://prod.danawa.com/info/?pcode=14969393"],["아메리칸스탠다드","웨이브 R 라운드 원피스 C209500C","https://yes365mall.com/product/%EC%95%84%EB%A9%94%EB%A6%AC%EC%B9%B8%EC%8A%A4%ED%83%A0%EB%8B%A4%EB%93%9C-%EC%9B%A8%EC%9D%B4%EB%B8%8C-r-%EB%9D%BC%EC%9A%B4%EB%93%9C-%EC%9B%90%ED%94%BC%EC%8A%A4-%EC%96%91%EB%B3%80%EA%B8%B0-c209500c-6dakhs59s/2949/"],
+    ["아메리칸스탠다드","초이스 림리스 원피스 C210000C","https://yes365mall.com/product/%EC%95%84%EB%A9%94%EB%A6%AC%EC%B9%B8%EC%8A%A4%ED%83%A0%EB%8B%A4%EB%93%9C-%EC%B4%88%EC%9D%B4%EC%8A%A4-%EB%A6%BC%EB%A6%AC%EC%8A%A4-%EC%9B%90%ED%94%BC%EC%8A%A4-%EC%96%91%EB%B3%80%EA%B8%B0-c210000c/11228"]],
+  "toilet|투피스": [["대림바스","투피스 양변기 CC-720","https://prod.danawa.com/info/?pcode=2874261"]],
+  "toilet|비데 일체형": [["대림바스","스마트렛 비데일체형 DST-670","https://www.11st.co.kr/products/8394696497"],["대림바스","스마트렛 비데일체형 DST-4501 (림리스)","https://bathnmore.co.kr/product/%EB%8C%80%EB%A6%BC%EB%B0%94%EC%8A%A4-dst-4501-%EB%B9%84%EB%8D%B0%EC%9D%BC%EC%B2%B4%ED%98%95-%EC%96%91%EB%B3%80%EA%B8%B0-%EC%8A%A4%EB%A7%88%ED%8A%B8%EB%A0%9B-%EC%96%91%EB%B3%80%EA%B8%B0-%EC%88%98%EB%8F%99%EA%B0%9C%ED%8F%90-%EC%9E%90%EB%8F%99%EB%AC%BC%EB%82%B4%EB%A6%BC-%EB%B9%84%EB%8D%B0-%EC%9A%95%EC%8B%A4-%ED%99%94%EC%9E%A5%EC%8B%A4-%EB%8C%80%EB%A6%BC-dst4501/8441/"]],
+  "toilet|벽걸이": [["대림바스","벽걸이 치마형 CC-410P","https://bathnmore.co.kr/product/%EB%8C%80%EB%A6%BC%EB%B0%94%EC%8A%A4-cc-410p-%EB%B2%BD%EA%B1%B8%EC%9D%B4%ED%98%95-%EB%B2%BD%EB%B0%B0%EC%88%98-%EC%96%91%EB%B3%80%EA%B8%B0-%EC%B9%98%EB%A7%88%ED%98%95-%EC%96%91%EB%B3%80%EA%B8%B0-cc410p-%EB%A7%A4%EB%A6%BD%EC%8B%9C%EC%8A%A4%ED%85%9C%EA%B5%AC%EB%A7%A4-%EB%B3%84%EB%8F%84%EB%AC%B8%EC%9D%98-cc406p%EB%8C%80%EC%B2%B4%ED%92%88/459/"],
+    ["대림바스","벽걸이 치마형 CC-420P","https://bathnmore.co.kr/product/%EB%8C%80%EB%A6%BC%EB%B0%94%EC%8A%A4-cc-420p-%EB%B2%BD%EA%B1%B8%EC%9D%B4%ED%98%95-%EB%B2%BD%EB%B0%B0%EC%88%98-%EC%96%91%EB%B3%80%EA%B8%B0-%EC%B9%98%EB%A7%88%ED%98%95-cc420p-%EB%A7%A4%EB%A6%BD%EC%8B%9C%EC%8A%A4%ED%85%9C%EA%B5%AC%EB%A7%A4-%EB%B3%84%EB%8F%84%EB%AC%B8%EC%9D%98-406p%ED%9B%84%EC%86%8D%ED%92%88/7314/"],
+    ["아메리칸스탠다드","스탠리 탱크리스 벽걸이 C337000B","https://bathnmore.co.kr/product/%EC%8A%A4%ED%83%A0%EB%A6%AC%ED%83%B1%ED%81%AC%EB%A6%AC%EC%8A%A4%EB%B2%BD%EA%B1%B8%EC%9D%B4%EC%96%91%EB%B3%80%EA%B8%B0c337000b-6dakjs50d%EC%95%84%EB%A9%94%EB%A6%AC%EC%B9%B8%EC%8A%A4%ED%83%A0%EB%8B%A4%EB%93%9C%EB%B2%BD%EB%B0%B0%EC%88%98%EC%96%91%EB%B3%80%EA%B8%B0%ED%83%B1%ED%81%AC%EB%A6%AC%EC%8A%A4%EC%96%91%EB%B3%80%EA%B8%B0%EC%9A%95%EC%8B%A4%EB%B3%80%EA%B8%B0%ED%99%94%EC%9E%A5%EC%8B%A4%EB%B3%80%EA%B8%B0%EC%8B%A0%EC%A0%9C%ED%92%88/7559/"]],
+  "basin|반다리": [["아메리칸스탠다드","플랫 내추럴R 반다리 일체형 C1355","https://prod.danawa.com/info/?pcode=13751024"]],
+  "faucet|원홀": [["대림바스","원홀 세면 수전 DL-YL6A10","https://www.navimro.com/g/351546/"],["대림바스","리델 원홀 수전 DSHL-9013 (브러쉬 골드)","https://prod.danawa.com/info/?pcode=10446183"],["대림바스","원홀 자동센서 수전 DL-L8410","https://prod.danawa.com/info/?pcode=16649303"]],
+  "shower|해바라기": [["대림바스","선반형 해바라기 샤워기 DL-B7010","https://mall.housemo.co.kr/product/%EB%8C%80%EB%A6%BC%EB%B0%94%EC%8A%A4-%EC%84%A0%EB%B0%98%ED%98%95-%ED%95%B4%EB%B0%94%EB%9D%BC%EA%B8%B0-%EC%83%A4%EC%9B%8C%EA%B8%B0-dl-b7010/279/"]],
+  "cabinet|슬라이드장": [["로피크(로얄)","S202 유니프 슬라이드장","https://ropicc.com/product/s202-%EB%A1%9C%ED%94%BC%ED%81%AC-%EC%9C%A0%EB%8B%88%ED%94%84%EC%8A%AC%EB%9D%BC%EC%9D%B4%EB%93%9C%EC%9E%A5-%EC%9A%95%EC%8B%A4%EC%9E%A5-%EC%88%98%EA%B1%B4%EC%9E%A5-%EA%B1%B0%EC%9A%B8%EC%9E%A5/137/"]],
+  "cabinet|플랩장": [["로피크(로얄)","U306 홀든 누드 플랩장","https://ropicc.com/product/u306-%ED%99%80%EB%93%A0-%EB%88%84%EB%93%9C-%ED%94%8C%EB%9E%A9%EC%9E%A5-%EC%9A%95%EC%8B%A4%EC%9E%A5-%EC%88%98%EA%B1%B4%EC%9E%A5-%EA%B1%B0%EC%9A%B8%EC%9E%A5/594/"]],
+};
 const FINISH = [["크롬","#D9DDE1"],["무광 블랙","#2A2A2C"],["건메탈","#5D6166"],["브러시드 골드","#C8A66A"]];
 const BRANDS = ["상관없음","대림바스","아메리칸스탠다드","이누스","로얄앤컴퍼니","계림","그로헤"];
 const ACC = ["수건걸이","휴지걸이","샤워 선반","칫솔꽂이","비누대","로브 후크"];
 const TFIN = [["유광","반짝 · 청소 쉬움"],["무광","차분 · 덜 미끄러움"],["폴리싱","대리석 광택"]];
 const TPAT = [["단색","깔끔한 기본"],["대리석","결무늬"],["테라조","알갱이 무늬"],["콘크리트","시멘트 느낌"],["우드","나무결"]];
-function blankProd(){ return {toilet:"원피스", basin:"긴다리", faucet:"원홀", shower:"해바라기", cabinet:"여닫이 거울장", finish:"크롬", brand:"상관없음", acc:[]}; }
+function blankProd(){ return {toilet:"원피스", basin:"긴다리", faucet:"원홀", shower:"해바라기", cabinet:"여닫이 거울장", finish:"크롬", brand:"상관없음", acc:[], model:{}}; }
 function prodHTML(){
   const r = S.active, x = X();
   let h = `<h2><span class="n">3</span>${esc(r)} 제품 고르기</h2><p class="sub">${isBath(r) ? "타일 느낌부터 변기·세면대·수전·욕실장까지 골라 주세요. 모르는 건 그대로 두시면 904가 맞춰 드려요." : "타일 느낌을 골라 주세요."}</p>`;
@@ -798,13 +818,16 @@ function prodHTML(){
   h += q("타일 무늬", `<div class="opts">${TPAT.map(([v, n]) => ob(`data-tp="${v}"`, x.tpat === v, v, n)).join("")}</div>`);
   if (!isBath(r)) return h;
   const P = x.prod;
-  for (const [k, l, list] of PROD) h += q(l, `<div class="pcard">${list.map(([v, n]) => ob(`data-prod="${k}|${v}"`, P[k] === v, v, n)).join("")}</div>`);
+  for (const [k, l, list] of PROD){
+    const cat = (CATALOG[k + "|" + P[k]] || []).filter(([b]) => P.brand === "상관없음" || b.startsWith(P.brand) || (P.brand === "로얄앤컴퍼니" && b.includes("로얄"))), cur = (P.model || {})[k] || "";
+    const mod = cat.length ? `<div class="qs"><div class="ql">모델<small>누르면 고르고, ↗는 사진·상세 보기</small></div><div class="mlist">${ob(`data-model="${k}|"`, !cur, "904 추천", "현장에 맞춰 골라 드려요")}${cat.map(([b, n, u]) => `<div class="mrow">${ob(`data-model="${k}|${esc(b + " " + n)}"`, cur === b + " " + n, esc(n), esc(b))}<a class="mlink" href="${esc(u)}" target="_blank" rel="noopener" aria-label="${esc(n)} 상세 보기">↗</a></div>`).join("")}</div></div>` : "";
+    h += q(l, `<div class="pcard">${list.map(([v, n]) => ob(`data-prod="${k}|${v}"`, P[k] === v, v, n)).join("")}</div>${mod}`); }
   h += q("수전·악세사리 색", `<div class="opts">${FINISH.map(([v, c]) => ob(`data-prod="finish|${v}"`, P.finish === v, `<span class="fin" style="background:${c}"></span>${v}`)).join("")}</div>`, "수전·샤워기·악세사리 다 같이");
   h += q("악세사리", `<div class="opts">${ACC.map(v => ob(`data-acc="${v}"`, P.acc.includes(v), v, "", false, "opt add")).join("")}</div>`, "여러 개");
   h += q("원하는 브랜드", `<div class="opts">${BRANDS.map(v => ob(`data-prod="brand|${v}"`, P.brand === v, v)).join("")}</div>`, "도기·수전");
   return h;
 }
-const prodText = x => { const P = x.prod; if (!P) return ""; return [PROD.map(([k, l]) => `${l} ${P[k]}`).join(" · "), `${P.finish}`, P.acc.length ? `악세사리 ${P.acc.join("·")}` : "", P.brand !== "상관없음" ? `브랜드 ${P.brand}` : ""].filter(Boolean).join(" · "); };
+const prodText = x => { const P = x.prod; if (!P) return ""; return [PROD.map(([k, l]) => `${l} ${P[k]}${P.model?.[k] ? `(${P.model[k]})` : ""}`).join(" · "), `${P.finish}`, P.acc.length ? `악세사리 ${P.acc.join("·")}` : "", P.brand !== "상관없음" ? `브랜드 ${P.brand}` : ""].filter(Boolean).join(" · "); };
 
 /* ═══════════ 실제 시공 사례 사진 (cases.json) ═══════════
    사진마다 꼬리표: {src, zone:"욕실|주방|현관|베란다|세탁실", tags:{size, jendai, tub, partition, mosaic, tone, tpat, tfin, basin, cabinet, finish}}
@@ -870,7 +893,8 @@ document.addEventListener("click", e => {
   else if (d.pv){ const [k, f, v] = d.pv.split("|"), p = S.proc[k]; if (f === "done") p.done = v === "1"; else if (f === "환풍기") p.환풍기 = !p.환풍기; else p[f] = v; }
   else if (d.plumb){ const [rr, v] = d.plumb.split("|"), a = S.proc.plumb.by[rr] || []; S.proc.plumb.by[rr] = a.includes(v) ? a.filter(z => z !== v) : [...a, v]; }
   else if (d.sani){ const a = S.proc.sani.항목; S.proc.sani.항목 = a.includes(d.sani) ? a.filter(v => v !== d.sani) : [...a, d.sani]; }
-  else if (d.prod){ const [k, v] = d.prod.split("|"); x.prod[k] = v; msg = v; }
+  else if (d.prod){ const [k, v] = d.prod.split("|"); if (x.prod[k] !== v && x.prod.model) delete x.prod.model[k]; x.prod[k] = v; if (k === "brand") x.prod.model = {}; msg = v; }
+  else if (d.model !== undefined){ const i = d.model.indexOf("|"), k = d.model.slice(0, i), v = d.model.slice(i + 1); x.prod.model = x.prod.model || {}; if (v) x.prod.model[k] = v; else delete x.prod.model[k]; msg = v || "904 추천"; }
   else if (d.acc){ const a = x.prod.acc; x.prod.acc = a.includes(d.acc) ? a.filter(v => v !== d.acc) : [...a, d.acc]; }
   else if (d.tf){ x.tfin = d.tf; msg = `타일 ${d.tf}`; }
   else if (d.tp){ x.tpat = d.tp; msg = `타일 ${d.tp}`; }
