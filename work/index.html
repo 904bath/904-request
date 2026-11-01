@@ -390,14 +390,21 @@ function thread(posts, meFrom, names) {
 }
 
 /* 완성도 링: 완료 공정 / 전체 공정 */
-function ring(done, total, size = 150, sw = 14, cap = "") {
-  const pct = total ? Math.round(done / total * 100) : 0;
+function today() { const t = new Date(); return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`; }
+const prog = jobs => Core.progress(jobs, today());
+const dayTxt = n => (Math.round(n * 10) / 10) + "일";
+function partial(j) { const d = Core.jobDays(j); if (j.done || (j.status && j.status !== "예정") || d <= 1 || !j.date) return 0; return Math.max(0, Math.min(d - 1, Math.floor((Date.parse(today()) - Date.parse(j.date)) / 864e5))); }
+function ring(pct, size = 150, sw = 14, cap = "") {
   const r = (size - sw) / 2, c = 2 * Math.PI * r;
   const sm = size < 60;
   return `<div class="ring ${pct === 100 ? "full" : ""} ${sm ? "sm" : ""}" style="width:${size}px;height:${size}px" role="img" aria-label="완성도 ${pct}%">
     <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><circle class="bg" cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke-width="${sw}"/>
     <circle class="fg" cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke-width="${sw}" stroke-dasharray="${c}" stroke-dashoffset="${c}" data-off="${c * (1 - pct / 100)}"/></svg>
     <div class="lbl"><div class="pc">${pct}<small>%</small></div>${cap && !sm ? `<div class="cap">${esc(cap)}</div>` : ""}</div></div>`;
+}
+function stepBar(jobs) {
+  return `<div class="steps">${jobs.map(j => { const d = Core.jobDays(j), on = j.done || (j.status && j.status !== "예정"), p = on ? 1 : partial(j) / d;
+    return `<i style="flex:${d};background:linear-gradient(90deg,var(--green) ${p * 100}%,var(--line) ${p * 100}%)" title="${esc(j.proc)} ${dayTxt(d)}"></i>`; }).join("")}</div>`;
 }
 function animRings() { requestAnimationFrame(() => requestAnimationFrame(() => $$(".ring .fg").forEach(c => c.style.strokeDashoffset = c.dataset.off))); }
 function busy(btn, on, label) {
@@ -508,18 +515,18 @@ async function loadCustomer() { try { C = await api("c"); renderCustomer(); } ca
 function renderCustomer() {
   LB = [];
   const { site: s, jobs, posts } = C;
-  const doneN = jobs.filter(j => j.done).length;
+  const P = prog(jobs);
   $("#app").innerHTML = topbar("공사 진행 안내", "90.4 BATH INTERIOR DESIGN") + `<div class="wrap">
     ${demoBanner()}
     <div class="card hero">
       <div class="proc" style="margin-top:0">${esc(s.cname ? s.cname + "님 댁" : s.name)}</div>
       <div class="meta">${esc(s.name || "")} · 저희 90.4 BATH가 꼼꼼히 진행하겠습니다</div>
       <div class="gauge" style="margin-top:18px">
-        ${ring(doneN, jobs.length, 150, 14, "공사 완성도")}
+        ${ring(P.pct, 150, 14, "공사 완성도")}
         <div class="gi">
-          <div style="font:800 18px var(--font)">${!jobs.length ? "일정 준비 중" : doneN === jobs.length ? "공사 완료!" : `${jobs.length}개 공정 중 ${doneN}개 완료`}</div>
-          <div class="small muted" style="margin-top:4px">${(() => { const nx = jobs.find(j => !j.done); return nx ? `다음 공정: ${esc(nx.proc)} · ${esc(fdate(nx.date))}` : jobs.length ? "모든 공정이 끝났어요" : "일정이 정해지면 알려 드릴게요"; })()}</div>
-          ${jobs.length ? `<div class="steps">${jobs.map(j => `<i class="${j.done ? "on" : ""}" title="${esc(j.proc)}"></i>`).join("")}</div>` : ""}
+          <div style="font:800 18px var(--font)">${!jobs.length ? "일정 준비 중" : P.pct === 100 ? "공사 완료!" : `총 ${dayTxt(P.total)} 중 ${dayTxt(P.done)} 진행`}</div>
+          <div class="small muted" style="margin-top:4px">${(() => { const nx = jobs.find(j => !j.done); return nx ? (partial(nx) ? `지금 진행 중: ${esc(nx.proc)} (${partial(nx)}/${nx.days}일)` : `다음 공정: ${esc(nx.proc)} · ${esc(fdate(nx.date))}`) : jobs.length ? "모든 공정이 끝났어요" : "일정이 정해지면 알려 드릴게요"; })()}</div>
+          ${jobs.length ? stepBar(jobs) : ""}
         </div>
       </div>
     </div>
@@ -527,7 +534,7 @@ function renderCustomer() {
       <h2>공정 일정</h2>
       ${jobs.length ? `<ul class="tl">${jobs.map(j => `<li class="${j.done ? "ok" : ""}"><span class="pt"></span>
         <div class="t">${esc(j.proc)}${j.loc ? ` <span class="muted" style="font-weight:500;font-size:14px">${esc(j.loc)}</span>` : ""}</div>
-        <div class="d">${esc(fdate(j.date))} · ${j.done ? "완료" : "예정"}</div>${mediaGrid(j.files)}</li>`).join("")}</ul>` : `<div class="empty">일정이 정해지면 여기에 보여 드릴게요</div>`}
+        <div class="d">${esc(fdate(j.date))} · ${dayTxt(j.days)} · ${j.done ? "완료" : partial(j) ? `진행 중 (${partial(j)}/${j.days}일)` : "예정"}</div>${mediaGrid(j.files)}</li>`).join("")}</ul>` : `<div class="empty">일정이 정해지면 여기에 보여 드릴게요</div>`}
     </div>
     <div class="card">
       <h2>문의 남기기</h2>
@@ -553,7 +560,7 @@ function renderCustomer() {
 
 /* ================= 관리자 ================= */
 let S = null, VIEW = { tab: "sites", site: null, q: "" };
-const PROCS = ["철거", "설비", "액방", "도막 1차", "도막 2차", "타일", "줄눈", "실리콘", "도기 세팅", "청소"];
+const PROCS = ["철거", "액방", "도막 1차", "도막 2차", "타일", "도기", "돔", "설비", "줄눈", "실리콘", "청소"];
 const LOCS = ["내욕실", "외욕실", "내욕실·외욕실", "베란다", "현관"];
 function loginView(msg) {
   $("#app").innerHTML = `<div class="wrap"><div class="center">
@@ -596,7 +603,7 @@ function renderAdmin() {
       <input class="search" id="q" placeholder="현장·주소·소비자·업체 검색" value="${esc(VIEW.q)}">
       <div class="btns"><button class="btn" id="addSite">+ 현장 추가</button></div>
       ${sites.length ? sites.map(s => { const js = jobsOf(s.id), u = unreadOf(s.id).length; return `<button class="site" data-site="${s.id}">
-        <div class="nm">${esc(s.name)} ${u ? `<span class="badge">${u}</span>` : ""}${js.length ? ring(js.filter(j => j.status !== "예정").length, js.length, 46, 5) : ""}</div>
+        <div class="nm">${esc(s.name)} ${u ? `<span class="badge">${u}</span>` : ""}${js.length ? ring(prog(js).pct, 46, 5) : ""}</div>
         <div class="ad">${esc([s.addr, s.unit].filter(Boolean).join(" ") || "주소 없음")}${s.cname ? " · " + esc(s.cname) : ""}</div>
         <div class="chips">${js.length ? js.map(j => `<span class="chip ${({ "완료보고": "green", "결제요청": "orange", "정산완료": "blue" })[j.status] || ""}">${esc(j.proc)} ${esc(fdate(j.date))}</span>`).join("") : `<span class="chip">작업 없음</span>`}</div></button>`; }).join("") : `<div class="empty">${q ? "찾는 현장이 없어요" : "현장을 추가해 보세요"}</div>`}
     ` : unread.length ? unread.sort((a, b) => a.at < b.at ? 1 : -1).map(p => { const s = siteOf(p.siteId) || {}, j = jobOf(p.jobId); return `<button class="inbox-it" data-site="${p.siteId}">
@@ -630,10 +637,10 @@ function renderSite() {
 
     <div class="card">
       <h2>외주 작업 <span class="sub">${js.length}건</span></h2>
-      ${js.length ? `<div class="gauge" style="margin-bottom:6px">${ring(js.filter(j => j.status !== "예정").length, js.length, 110, 11, "완성도")}<div class="gi"><div style="font:800 16px var(--font)">${js.length}개 공정 중 ${js.filter(j => j.status !== "예정").length}개 완료</div><div class="small muted" style="margin-top:4px">작업자가 완료 보고를 올리면 자동으로 올라가요</div><div class="steps">${js.map(j => `<i class="${j.status !== "예정" ? "on" : ""}" title="${esc(j.proc)}"></i>`).join("")}</div></div></div>` : ""}
+      ${js.length ? (P => `<div class="gauge" style="margin-bottom:6px">${ring(P.pct, 110, 11, "완성도")}<div class="gi"><div style="font:800 16px var(--font)">총 ${dayTxt(P.total)} 중 ${dayTxt(P.done)} 진행</div><div class="small muted" style="margin-top:4px">완료 보고가 오면 그 공정 일수만큼 올라가요. 여러 날 공정은 지난 날만큼 먼저 올라가요</div>${stepBar(js)}</div></div>`)(prog(js)) : ""}
       ${js.map(j => { const ps = S.posts.filter(p => p.jobId === j.id), nu = ps.filter(p => unreadIds.has(p.id)).length; const photos = ps.filter(p => p.from === "worker" && p.kind === "done").reduce((a, p) => a.concat(p.files), []); return `<div class="job">
         <div class="jt"><b>${esc(j.proc)}${j.loc ? ` <span class="muted" style="font-weight:600;font-size:14px">${esc(j.loc)}</span>` : ""}</b>${statusChip(j.status)}</div>
-        <div class="jm">${esc(fdate(j.date, j.time))} · ${esc(j.vendor || "업체 미정")}${j.vphone ? " " + esc(j.vphone) : ""}</div>
+        <div class="jm">${esc(fdate(j.date, j.time))} · ${dayTxt(Core.jobDays(j))} · ${esc(j.vendor || "업체 미정")}${j.vphone ? " " + esc(j.vphone) : ""}</div>
         <div class="money"><span class="muted">예상 <b style="color:var(--fg)">${won(j.est) || "-"}</b></span><span class="muted">최종 <b style="color:${j.final ? "var(--orange)" : "var(--fg)"}">${won(j.final) || "-"}</b></span></div>
         ${photos.length ? `<div class="small muted" style="margin-top:10px">완료 사진 ${photos.length}개</div>${mediaGrid(photos)}` : ""}
         <label class="tog"><input type="checkbox" data-showc="${j.id}" ${j.showC ? "checked" : ""}> 완료 사진을 소비자에게 보여주기</label>
@@ -714,16 +721,18 @@ function jobForm(j = {}) {
     <datalist id="dlP">${PROCS.map(p => `<option value="${p}">`).join("")}</datalist>
     <datalist id="dlL">${LOCS.map(p => `<option value="${p}">`).join("")}</datalist>
     <div class="grid2">${fld("jProc", "공정 *", j.proc, 'list="dlP" placeholder="도막 1차"')}${fld("jLoc", "시공 위치", j.loc, 'list="dlL" placeholder="외욕실"')}</div>
-    <div class="grid2">${fld("jDate", "날짜", j.date, 'type="date"')}${fld("jTime", "시간", j.time, 'placeholder="08:30"')}</div>
+    <div class="grid2">${fld("jDate", "시작 날짜", j.date, 'type="date"')}${fld("jTime", "시간", j.time, 'placeholder="08:30"')}</div>
+    ${fld("jDays", "작업 일수 (완성도 계산용)", j.days || "", `inputmode="decimal" placeholder="기본 ${Core.jobDays({ proc: j.proc })}일"`)}
     <label class="f"><span>작업 내용 (작업자에게 보여요)</span><textarea class="in-t" id="jContent">${esc(j.content || "")}</textarea></label>
     <div class="grid2">${fld("jVendor", "업체·작업자", j.vendor)}${fld("jVphone", "연락처", j.vphone, 'inputmode="tel"')}</div>
     <label class="f"><span>예상 견적</span><div class="won"><input class="in-t" id="jEst" inputmode="numeric" value="${j.est ? Number(j.est).toLocaleString("ko-KR") : ""}" placeholder="0"></div></label>
     <label class="f"><span>메모 (관리자만 봐요)</span><textarea class="in-t" id="jMemo" style="min-height:64px">${esc(j.memo || "")}</textarea></label>
     <div class="btns">${j.id ? `<button class="btn red" id="jDel">삭제</button>` : `<button class="btn ghost" data-close>취소</button>`}<button class="btn" id="jSave">저장</button></div>`, sc => {
     $("#jProc", sc).focus();
+    $("#jProc", sc).oninput = e => { $("#jDays", sc).placeholder = `기본 ${Core.jobDays({ proc: e.target.value })}일`; };
     $("#jEst", sc).oninput = e => { const d = digits(e.target.value); e.target.value = d ? Number(d).toLocaleString("ko-KR") : ""; };
     $("#jSave", sc).onclick = async e => {
-      const job = { id: j.id, siteId: j.siteId, proc: $("#jProc", sc).value.trim(), loc: $("#jLoc", sc).value.trim(), date: $("#jDate", sc).value, time: $("#jTime", sc).value.trim(), content: $("#jContent", sc).value, vendor: $("#jVendor", sc).value.trim(), vphone: $("#jVphone", sc).value.trim(), est: digits($("#jEst", sc).value), memo: $("#jMemo", sc).value };
+      const job = { id: j.id, siteId: j.siteId, proc: $("#jProc", sc).value.trim(), loc: $("#jLoc", sc).value.trim(), date: $("#jDate", sc).value, time: $("#jTime", sc).value.trim(), content: $("#jContent", sc).value, vendor: $("#jVendor", sc).value.trim(), vphone: $("#jVphone", sc).value.trim(), est: digits($("#jEst", sc).value), days: $("#jDays", sc).value.replace(/[^0-9.]/g, ""), memo: $("#jMemo", sc).value };
       if (!job.proc) return toast("공정을 적어 주세요");
       busy(e.currentTarget, true, "저장 중…");
       try {

@@ -11,8 +11,24 @@ var Core = (function () {
   function str(v, n) { return String(v == null ? '' : v).slice(0, n || 2000); }
 
   var SITE_F = ['name', 'addr', 'unit', 'pw', 'cname', 'cphone', 'memo'];
-  var JOB_F = ['siteId', 'proc', 'loc', 'date', 'time', 'content', 'vendor', 'vphone', 'est', 'final', 'showC', 'status', 'memo'];
+  var JOB_F = ['siteId', 'proc', 'loc', 'date', 'time', 'content', 'vendor', 'vphone', 'est', 'final', 'showC', 'status', 'memo', 'days'];
   var STATUSES = ['예정', '완료보고', '결제요청', '정산완료'];
+  /* 공정별 기본 일수 (완성도 계산용). 작업마다 따로 고칠 수 있음 */
+  var DAYS = { '철거': 1, '액방': 1, '액체방수': 1, '도막': 1, '도막 1차': 1, '도막 2차': 1, '타일': 4, '도기': 1, '도기 세팅': 1, '돔': 1, '돔천장': 1 };
+  function jobDays(j) { var d = parseFloat(j.days); if (d > 0) return d; return DAYS[String(j.proc || '').trim()] || 1; }
+  /* 완성도: 완료 공정은 일수 전부, 여러 날 공정은 지난 날만큼 (보고 전까지 마지막 날은 안 셈) */
+  function progress(jobs, today) {
+    var total = 0, done = 0;
+    jobs.forEach(function (j) {
+      var d = jobDays(j); total += d;
+      if (j.done || (j.status && j.status !== '예정')) { done += d; return; }
+      if (d > 1 && j.date && today) {
+        var el = Math.floor((Date.parse(today) - Date.parse(j.date)) / 864e5);
+        done += Math.max(0, Math.min(d - 1, el));
+      }
+    });
+    return { total: total, done: done, pct: total ? Math.round(done / total * 100) : 0 };
+  }
 
   function files(list) {
     return (Array.isArray(list) ? list : []).slice(0, 40).filter(function (f) { return f && f.id; })
@@ -60,7 +76,7 @@ var Core = (function () {
       .map(function (j) {
         var ph = [];
         if (j.showC) S.posts.forEach(function (p) { if (p.jobId === j.id && p.from === 'worker' && p.kind === 'done') ph = ph.concat(p.files); });
-        return { proc: j.proc, loc: j.loc, date: j.date, done: j.status !== '예정', files: ph };
+        return { proc: j.proc, loc: j.loc, date: j.date, days: jobDays(j), done: j.status !== '예정', files: ph };
       });
     return {
       site: { name: s.name, cname: s.cname }, jobs: jobs,
@@ -147,6 +163,6 @@ var Core = (function () {
     return admin(S, q);
   }
 
-  return { handle: handle, STATUSES: STATUSES, KIND: KIND };
+  return { handle: handle, STATUSES: STATUSES, KIND: KIND, DAYS: DAYS, jobDays: jobDays, progress: progress };
 })();
 if (typeof module !== 'undefined') module.exports = Core;
