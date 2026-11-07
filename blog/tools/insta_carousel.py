@@ -36,7 +36,7 @@ ba('20261014_104147','20261020_094941',9,'현관','center 70%','center 60%'),
 f'''<div class="s" style="display:flex;flex-direction:column;justify-content:center;padding:0 90px;gap:40px">
 <div style="position:relative;width:900px;height:506px"><svg width="900" height="506" style="position:absolute;inset:0" aria-hidden="true"><defs><pattern id="tp900" width="213" height="213" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0H213" stroke="#fff" stroke-width="3"/><path d="M0 0V213" stroke="#fff" stroke-width="3" stroke-dasharray="9 9"/></pattern></defs><rect width="900" height="506" fill="url(#tp900)" opacity=".35"/></svg><img src="src/logo_line.png" style="position:absolute;left:126px;top:30px;width:648px;"></div>
 <div style="height:4px;background:#fff;width:100%"></div>
-<div style="font-size:84px;font-weight:900;line-height:1.2">현장 사진만<br>보내주세요</div>
+<div style="font-size:84px;font-weight:900;line-height:1.2">상담은 편하게,<br>시공은 확실하게</div>
 <div style="font-size:38px;font-weight:500;line-height:1.6;color:#ddd">욕실 리모델링 · 대형타일 · 방수<br>베란다 · 현관 · 주방 타일</div>
 <div style="background:#fff;color:#111;padding:30px 36px;font-size:44px;font-weight:900">DM · 010-9459-9904</div>
 <div style="font-size:32px;font-weight:500;color:#bbb">대구 · 구공사(90.4 BATH)</div></div>''',
