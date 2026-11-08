@@ -24,7 +24,7 @@ def build(segs,out,endcard,tmp):
             d=s['d']; n=int(round(d*30)); o=f'{tmp}/{i:02d}.mp4'
             if s['t']=='logo':
                 lp=f'{tmp}/logo.png'; logo_png(lp,s['logo'])
-                run(['ffmpeg','-y','-loglevel','error','-loop','1','-framerate','30','-t',str(d),'-i',lp,'-vf',f"scale=1080:1920,zoompan=z='1+0.03*on/{n}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=30,format=yuv420p",'-frames:v',str(n)]+enc+[o])
+                run(['ffmpeg','-y','-loglevel','error','-loop','1','-framerate','30','-t',str(d),'-i',lp,'-vf',"scale=1080:1920,format=yuv420p",'-frames:v',str(n)]+enc+[o])
             else:
                 lab=s.get('label','')
                 if lab not in labels:
@@ -40,7 +40,7 @@ def build(segs,out,endcard,tmp):
                     run(['ffmpeg','-y','-loglevel','error','-i',s['src'],'-loop','1','-framerate','30','-t',str(d),'-i',lp,'-filter_complex',fc,'-frames:v',str(n)]+enc+[o])
             files.append(o)
         br.close()
-    run(['ffmpeg','-y','-loglevel','error','-loop','1','-framerate','30','-t','3.2','-i',endcard,'-vf',"scale=1080:1920,zoompan=z='1+0.025*on/96':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=30,format=yuv420p",'-frames:v','96']+enc+[f'{tmp}/end.mp4'])
+    run(['ffmpeg','-y','-loglevel','error','-loop','1','-framerate','30','-t','3.2','-i',endcard,'-vf',"scale=1080:1920,format=yuv420p",'-frames:v','96']+enc+[f'{tmp}/end.mp4'])
     files.append(f'{tmp}/end.mp4')
     open(f'{tmp}/list.txt','w').write(''.join(f"file '{os.path.basename(f)}'\n" for f in files))
     run(['ffmpeg','-y','-loglevel','error','-f','concat','-safe','0','-i',f'{tmp}/list.txt','-c','copy',f'{tmp}/v.mp4'])
