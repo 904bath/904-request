@@ -15,7 +15,7 @@ for i,(f,box,alt) in enumerate(seq,1):
     im=Image.open(W+f+'.jpg')
     if box: w,h=im.size; im=im.crop((int(box[0]*w),int(box[1]*h),int(box[2]*w),int(box[3]*h)))
     im.thumbnail((1600,1600)); im.save(f'{D}{i:02d}.jpg',quality=88)
-U=lambda n,a:f'<p style="text-align:center"><img src="https://904bath.github.io/904-request/blog/{SL}/11192148/{n:02d}.jpg" alt="{a}" style="max-width:100%"></p>'
+U=lambda n,a:f'<p style="text-align:center"><img src="https://904bath.github.io/904-request/blog/{SL}/11192155/{n:02d}.jpg" alt="{a}" style="max-width:100%"></p>'
 P=lambda t:f'<p>{t}</p>'; H=lambda t:f'<h3><b>{t}</b></h3>'; E='<p><br></p>'
 I=lambda *ns:''.join(U(n,seq[n-1][2]) for n in ns)
 tags='#대구욕실리모델링 #대구욕실타일 #대구화장실리모델링 #동일하이빌 #동일하이빌욕실 #욕실리모델링 #화장실리모델링 #600각타일 #욕실타일 #욕실방수 #젠다이 #욕실파티션 #욕조 #대구타일시공 #구공사 #904BATH'
@@ -61,9 +61,9 @@ P('철거부터 마감까지 한 팀이 끝까지 책임지고 있어요.'),E,
 P('<b>상담은 편하게, 시공은 확실하게.</b>'),E,
 P('<b>90.4 BATH INTERIOR DESIGN</b> · 대구 욕실리모델링 · 타일 시공'),P('문의 010-9459-9904'),
 P('네이버 플레이스 <a href="https://map.naver.com/p/entry/place/2018592692">https://map.naver.com/p/entry/place/2018592692</a>'),E,P(tags)]
-title='대구 욕실리모델링 | 동일하이빌 욕실 2칸 600각 타일 시공 (욕조·젠다이·파티션)'
+title='대구 동일하이빌 욕실리모델링 | 욕실 2칸 3일, 600각 타일 (욕조·젠다이·파티션)'
 tpl=open(R+'blog/daon-cafe/index.html').read()
 head=tpl[:tpl.index('<div class="paper">')].replace('구미 카페 현장','대구 동일하이빌').replace('안 붙으면 아래 본문을 마우스로 드래그해서 복사해 보세요.','안 붙으면 아래 본문을 마우스로 드래그해서 복사해 보세요. <b>④ 완성 사진 바로 위에 「블로그용 영상」을 동영상으로 올려주세요</b> (네이버 동영상 검색에도 같이 떠요).')
 tail=tpl[tpl.index('<script>'):]
 page=head+f'<div class="paper"><div class="ttl" id="title">{html.escape(title)}</div><div id="post">{"".join(body)}</div>\n<div id="tags" style="display:none">{html.escape(tags)}</div></div>\n'+tail
-open(R+'blog/'+SL+'/index.html','w').write(page.replace('</head>','<script>(function(){var PV="'+'11192148'+'";fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j.v&&j.v!==PV){location.replace(location.pathname+"?v="+j.v+location.hash)}}).catch(function(){})})();</script></head>',1)); print('ok',len(page))
+open(R+'blog/'+SL+'/index.html','w').write(page.replace('</head>','<script>(function(){var PV="'+'11192155'+'";fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j.v&&j.v!==PV){location.replace(location.pathname+"?v="+j.v+location.hash)}}).catch(function(){})})();</script></head>',1)); print('ok',len(page))

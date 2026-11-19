@@ -2,7 +2,7 @@ import sys, os, shutil, zipfile
 sys.path.insert(0,'/home/claude/904-request/blog/tools')
 from playwright.sync_api import sync_playwright
 import insta_minimal as IM
-R='/home/claude/904-request/'; M=R+'media/dongil-hibill/11192148/'; os.makedirs(M,exist_ok=True)
+R='/home/claude/904-request/'; M=R+'media/dongil-hibill/11192155/'; os.makedirs(M,exist_ok=True)
 W='file:///home/claude/dong/work/'
 LOGO='file://'+R+'blog/assets/logo-line-white.png'
 def cover_html(src,pos,name):
