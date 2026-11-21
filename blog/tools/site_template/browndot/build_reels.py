@@ -1,9 +1,9 @@
 import sys; sys.path.insert(0,'/home/claude/904-request/blog/tools')
 import reel_minimal as RM
 RM.V='/home/claude/brown/vids/'
-R='/home/claude/904-request/'; W='/home/claude/brown/work/'; M=R+'media/browndot-jukdo/11211300/'
+R='/home/claude/904-request/'; W='/home/claude/brown/work/'; M=R+'media/browndot-jukdo/11211400/'
 K="font-family:'Noto Sans CJK KR';font-weight:700"
-hook=f'<div style="{K};font-size:92px;line-height:1.2">브라운도트 죽도점</div><div style="{K};font-size:76px;margin-top:14px">촬영 D-3, 영업 중</div><div style="font-family:\'Noto Sans CJK KR\';font-weight:500;font-size:50px;margin-top:22px">600각 바닥 시공</div>'
+hook=f'<div style="font-family:\'Noto Sans CJK KR\';font-weight:500;font-size:54px">영업 중인 호텔 로비</div><div style="{K};font-size:100px;line-height:1.2;margin-top:18px">문 안 닫고<br>바닥 교체</div><div style="font-family:\'Noto Sans CJK KR\';font-weight:500;font-size:50px;margin-top:26px">600각 타일 · 브라운도트 죽도점</div>'
 aft='<div style="font-family:Lora,serif;font-size:118px">after ..</div><div style="font-family:\'Noto Sans CJK KR\';font-weight:500;font-size:44px;margin-top:18px">로비 · 조식 공간 · 엘리베이터 · 600각 타일</div>'
 ph=lambda f,d,l='',z=0.06:{'t':'photo','src':W+f+'.jpg','d':d,'label':l,'zoom':z}
 logo={'t':'logo','d':1.0,'logo':'file://'+R+'blog/assets/90.4BATH_로고_투명_검정선(밝은배경용).png'}
