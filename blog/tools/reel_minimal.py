@@ -1,7 +1,7 @@
 import subprocess, os
 from playwright.sync_api import sync_playwright
 V='/mnt/user-data/uploads/Downloads/'
-enc=['-c:v','libx264','-preset','veryfast','-crf','19','-pix_fmt','yuv420p','-r','30']
+enc=['-c:v','libx264','-preset','slow','-crf','15','-pix_fmt','yuv420p','-r','30']
 def run(c): subprocess.run(c,check=True)
 CSS="body{margin:0;background:transparent}*{box-sizing:border-box}"
 def label_png(path,text):
@@ -15,18 +15,21 @@ def logo_png(path,logo):
     open('/tmp/m.html','w').write(f'<html><head><meta charset="utf-8"><style>body{{margin:0}}</style></head><body>{h}</body></html>')
     PG.goto('file:///tmp/m.html'); PG.wait_for_timeout(150); PG.screenshot(path=path)
 def smooth_photo(src,lp,n,zoom,o):
-    # 서브픽셀 줌: 프레임마다 소수점 위치로 잘라서 그림 (zoompan 정수 반올림 떨림 없음, 비율 왜곡 없음)
-    from PIL import Image, ImageOps, ImageEnhance
-    W,H=1080,1920; S=2
+    # 서브픽셀 줌 (떨림 없음) + 화질 우선: 원본 해상도에서 바로 LANCZOS로 한 번만 리샘플, 약한 샤픈, 고화질 인코딩
+    from PIL import Image, ImageOps, ImageEnhance, ImageFilter
+    W,H=1080,1920
     im=ImageOps.exif_transpose(Image.open(src)).convert('RGB')
-    im=ImageOps.fit(im,(W*S,H*S),Image.LANCZOS)
-    im=ImageEnhance.Color(im).enhance(0.85)
+    iw,ih=im.size; r=W/H
+    if iw/ih>r: cw,ch=ih*r,ih
+    else: cw,ch=iw,iw/r
+    ox,oy=(iw-cw)/2,(ih-ch)/2
+    im=ImageEnhance.Color(im).enhance(0.9)
     lab=Image.open(lp).convert('RGBA').resize((W,H))
-    p=subprocess.Popen(['ffmpeg','-y','-loglevel','error','-f','rawvideo','-pix_fmt','rgb24','-s',f'{W}x{H}','-r','30','-i','-']+enc+[o],stdin=subprocess.PIPE)
-    cw,ch=W*S,H*S
+    p=subprocess.Popen(['ffmpeg','-y','-loglevel','error','-f','rawvideo','-pix_fmt','rgb24','-s',f'{W}x{H}','-r','30','-i','-',
+        '-c:v','libx264','-preset','slow','-crf','15','-tune','film','-pix_fmt','yuv420p','-r','30',o],stdin=subprocess.PIPE)
     for k in range(n):
-        z=1+zoom*k/max(n-1,1); w,h=cw/z,ch/z; x0,y0=(cw-w)/2,(ch-h)/2
-        f=im.resize((W,H),Image.BICUBIC,box=(x0,y0,x0+w,y0+h)).convert('RGBA')
+        z=1+zoom*k/max(n-1,1); w,h=cw/z,ch/z; x0,y0=ox+(cw-w)/2,oy+(ch-h)/2
+        f=im.resize((W,H),Image.LANCZOS,box=(x0,y0,x0+w,y0+h)).filter(ImageFilter.UnsharpMask(radius=1.2,percent=45,threshold=2)).convert('RGBA')
         f.alpha_composite(lab); p.stdin.write(f.convert('RGB').tobytes())
     p.stdin.close(); p.wait()
 def build(segs,out,endcard,tmp):
