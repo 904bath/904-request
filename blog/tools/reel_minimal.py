@@ -14,6 +14,21 @@ def logo_png(path,logo):
     h=f'<div style="width:1080px;height:1920px;background:#dcd6cd;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px"><img src="{logo}" style="width:720px"><div style="font-family:Lora,serif;font-size:46px;color:#3a3631;letter-spacing:6px">daegu tile &amp; bath</div></div>'
     open('/tmp/m.html','w').write(f'<html><head><meta charset="utf-8"><style>body{{margin:0}}</style></head><body>{h}</body></html>')
     PG.goto('file:///tmp/m.html'); PG.wait_for_timeout(150); PG.screenshot(path=path)
+def smooth_photo(src,lp,n,zoom,o):
+    # 서브픽셀 줌: 프레임마다 소수점 위치로 잘라서 그림 (zoompan 정수 반올림 떨림 없음, 비율 왜곡 없음)
+    from PIL import Image, ImageOps, ImageEnhance
+    W,H=1080,1920; S=2
+    im=ImageOps.exif_transpose(Image.open(src)).convert('RGB')
+    im=ImageOps.fit(im,(W*S,H*S),Image.LANCZOS)
+    im=ImageEnhance.Color(im).enhance(0.85)
+    lab=Image.open(lp).convert('RGBA').resize((W,H))
+    p=subprocess.Popen(['ffmpeg','-y','-loglevel','error','-f','rawvideo','-pix_fmt','rgb24','-s',f'{W}x{H}','-r','30','-i','-']+enc+[o],stdin=subprocess.PIPE)
+    cw,ch=W*S,H*S
+    for k in range(n):
+        z=1+zoom*k/max(n-1,1); w,h=cw/z,ch/z; x0,y0=(cw-w)/2,(ch-h)/2
+        f=im.resize((W,H),Image.BICUBIC,box=(x0,y0,x0+w,y0+h)).convert('RGBA')
+        f.alpha_composite(lab); p.stdin.write(f.convert('RGB').tobytes())
+    p.stdin.close(); p.wait()
 def build(segs,out,endcard,tmp):
     global PG
     os.makedirs(tmp,exist_ok=True); files=[]
@@ -35,9 +50,7 @@ def build(segs,out,endcard,tmp):
                     fc=f"[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setpts=PTS/{sp},fps=30,eq=saturation=0.85,format=yuv420p[b];[1:v]format=rgba[o];[b][o]overlay=0:0:format=auto,format=yuv420p"
                     run(['ffmpeg','-y','-loglevel','error','-ss',str(s.get('ss',0)),'-t',f'{d*sp+0.3:.2f}','-i',V+s['src'],'-loop','1','-framerate','30','-t',str(d),'-i',lp,'-filter_complex',fc,'-an','-frames:v',str(n)]+enc+[o])
                 else:
-                    z=f"zoompan=z='1+{s.get('zoom',0.06)}*on/{n}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d={n}:s=1080x1920:fps=30"
-                    fc=f"[0:v]scale=2160:-1,{z},eq=saturation=0.85,format=yuv420p[b];[1:v]format=rgba[o];[b][o]overlay=0:0:format=auto,format=yuv420p"
-                    run(['ffmpeg','-y','-loglevel','error','-i',s['src'],'-loop','1','-framerate','30','-t',str(d),'-i',lp,'-filter_complex',fc,'-frames:v',str(n)]+enc+[o])
+                    smooth_photo(s['src'],lp,n,s.get('zoom',0.04),o)
             files.append(o)
         br.close()
     run(['ffmpeg','-y','-loglevel','error','-loop','1','-framerate','30','-t','3.2','-i',endcard,'-vf',"scale=1080:1920,format=yuv420p",'-frames:v','96']+enc+[f'{tmp}/end.mp4'])
