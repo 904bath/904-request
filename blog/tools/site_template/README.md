@@ -15,4 +15,4 @@
 ## 2026-11-22 변경 (사장님 확정)
 - 줌은 reel_minimal.py smooth_photo(서브픽셀, 떨림 없음, 줌 4%). zoompan 쓰지 않음
 - 영상은 하나로 통일: 릴스도 블로그용 긴 버전 타이밍(공정 0.8초, 25초 안팎)으로 만들어 reel.mp4 하나만 올림
-- 블로그 글 끝에 인스타 링크, 인스타 본문에 블로그 링크(blog.naver.com/904bath) 넣기
+- 블로그 글 끝(플레이스 아래)에 인스타 링크 https://www.instagram.com/904bath/ (@904bath), 인스타 본문에 블로그 링크(blog.naver.com/904bath) 넣기
